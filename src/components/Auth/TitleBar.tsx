@@ -1,5 +1,5 @@
-import { IonAvatar, IonCol, IonRow } from "@ionic/react";
-import "./TitleBar.css"
+import { IonAvatar, IonCol, IonRow, IonText } from "@ionic/react";
+import "./TitleBar.css";
 
 export default function TitleBar() {
   return (
@@ -10,7 +10,11 @@ export default function TitleBar() {
         </IonAvatar>
       </IonCol>
       <IonCol size="12">
-        <h1 className="title">ChaturMates</h1>
+        <IonText>
+          {/* change the color of this title to primary */}
+          {/* for reference: see https://ionicframework.com/docs/api/text#theming */}
+          <h1 className="title">ChaturMates</h1>
+        </IonText>
       </IonCol>
     </IonRow>
   );

@@ -1,76 +1,122 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+  setupIonicReact,
+} from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+import {
+  chatboxEllipsesOutline,
+  gridOutline,
+  notificationsOutline,
+  personCircleOutline,
+} from "ionicons/icons";
+import Discover from "./pages/Discover";
+import Notifications from "./pages/Notifications";
+import Profile from "./pages/Profile";
 
 /* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+import "@ionic/react/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+import "@ionic/react/css/normalize.css";
+import "@ionic/react/css/structure.css";
+import "@ionic/react/css/typography.css";
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+import "@ionic/react/css/padding.css";
+import "@ionic/react/css/float-elements.css";
+import "@ionic/react/css/text-alignment.css";
+import "@ionic/react/css/text-transformation.css";
+import "@ionic/react/css/flex-utils.css";
+import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import './theme/variables.css';
+import "./theme/variables.css";
 
-setupIonicReact();
+/* Our custom CSS */
+import "./theme/main.css"; // global custom styles
+import "./theme/inputs.css"; // global input styles
+import "./theme/tabs.css"; // bottom tabs styles
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+import Login from "./pages/Login";
+import { useEffect } from "react";
+import ForgotMyPassword from "./pages/ForgotMyPassword";
+import ForgotMyPassConfirm from "./pages/ForgotMyPassConfirm";
+import { hideTabBar, showTabBar } from "./utils/auth";
+import Messages from "./pages/Messages";
+
+setupIonicReact({
+  mode: "ios",
+});
+
+function App() {
+  const loc = location.pathname;
+
+  useEffect(() => {
+    if (
+      loc == "/login" ||
+      loc == "/forgotmypass" ||
+      loc == "/forgotmypassconfirm"
+    ) {
+      hideTabBar();
+    } else {
+      showTabBar();
+    }
+  }, [loc]);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/discover">
+              <Discover />
+            </Route>
+            <Route exact path="/messages">
+              <Messages />
+            </Route>
+            <Route exact path="/notifications">
+              <Notifications />
+            </Route>
+            <Route exact path="/me">
+              <Profile />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/discover" />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/forgotmypass">
+              <ForgotMyPassword />
+            </Route>
+            <Route exact path="/forgotmypassconfirm">
+              <ForgotMyPassConfirm />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="discover" href="/discover">
+              <IonIcon aria-hidden="true" icon={gridOutline} />
+            </IonTabButton>
+            <IonTabButton tab="messages" href="/messages">
+              <IonIcon aria-hidden="true" icon={chatboxEllipsesOutline} />
+            </IonTabButton>
+            <IonTabButton tab="notifications" href="/notifications">
+              <IonIcon aria-hidden="true" icon={notificationsOutline} />
+            </IonTabButton>
+            <IonTabButton tab="me" href="/me">
+              <IonIcon aria-hidden="true" icon={personCircleOutline} />
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+}
 
 export default App;

@@ -1,0 +1,19 @@
+/* TODO: Increase the size of logo */
+
+.titleBar {
+  background-image: url("/adu_bg_portrait_blurred.png");
+  background-position: 50% 10%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 20%;
+  padding-bottom: 20%;
+}
+
+.title {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.logo {
+  margin: auto
+}

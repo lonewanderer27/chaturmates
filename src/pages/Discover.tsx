@@ -18,15 +18,15 @@ import BtnSearch from "../components/Discover/BtnSearch";
 function Discover() {
   return (
     <IonPage>
-      <IonHeader>
+      {/* <IonHeader>
         <IonToolbar>
           <IonTitle>Discover</IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonText slot="start">Welcome, Joe Doe</IonText>
+            <IonText slot="start" className="pageTitle">Welcome, Joe Doe</IonText>
             <IonButtons slot="end">
               <BtnSearch />
             </IonButtons>

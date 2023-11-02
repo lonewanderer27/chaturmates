@@ -1,19 +1,28 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Profile.css';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import ExploreContainer from "../components/ExploreContainer";
+import "./Profile.css";
 
 function Profile() {
   return (
     <IonPage>
-      <IonHeader>
+      {/* <IonHeader>
         <IonToolbar>
           <IonTitle>Profile</IonTitle>
         </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
+      </IonHeader> */}
+      <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Profile</IonTitle>
+            <IonText slot="start" className="pageTitle">
+              Profile
+            </IonText>
           </IonToolbar>
         </IonHeader>
         <ExploreContainer name="Profile page" />

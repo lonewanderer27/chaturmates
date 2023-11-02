@@ -88,7 +88,7 @@ function App() {
               <Profile />
             </Route>
             <Route exact path="/">
-              <Redirect to="/discover" />
+              <Redirect to="/login" />
             </Route>
             <Route exact path="/login">
               <Login />

@@ -60,6 +60,7 @@ function App() {
 
   useEffect(() => {
     if (
+      loc == "/" ||
       loc == "/login" ||
       loc == "/forgotmypass" ||
       loc == "/forgotmypassconfirm"

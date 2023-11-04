@@ -12,13 +12,14 @@ import TitleBar from "../components/Auth/TitleBar";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
 import { useHistory } from "react-router";
 import { close } from "ionicons/icons";
+import SignupModal from "../components/Auth/SignupModal";
+import { useSignupModal } from "../hooks/auth/useSignupModal";
 
 export default function ForgotMyPassConfirm() {
   const hst = useHistory();
 
-  // TODO: implement this so that signup modal is shown
-  // refer to src/pages/Login.tsx
-  const toggleShowSignup = () => {};
+  // signup modal related functionalities
+  const { page, modal, presentingElement, toggleShowSignup } = useSignupModal();
 
   const handleReturnToLogin = () => {
     hst.push("/login", {
@@ -27,7 +28,7 @@ export default function ForgotMyPassConfirm() {
   };
 
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonContent fullscreen>
         <TitleBar />
         <IonGrid className="ion-padding">
@@ -56,6 +57,11 @@ export default function ForgotMyPassConfirm() {
           </IonRow>
           <DontHaveAnAccount handleClick={toggleShowSignup} />
         </IonGrid>
+        <SignupModal
+          handleToggle={toggleShowSignup}
+          presentingElementRef={presentingElement}
+          modalRef={modal}
+        />
       </IonContent>
     </IonPage>
   );

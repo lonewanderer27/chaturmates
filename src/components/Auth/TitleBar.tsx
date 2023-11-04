@@ -4,18 +4,19 @@ import "./TitleBar.css";
 export default function TitleBar() {
   return (
     <IonRow className="ion-text-center ion-align-items-center titleBar ion-padding">
-      <IonCol size="12" className="ion-justify-content-center">
+      <IonCol size="12">
         <IonAvatar className="logo">
           <img alt="Chaturmates Logo" src="/logo.png" />
         </IonAvatar>
       </IonCol>
-      <IonCol size="12">
-        <IonText>
-          {/* change the color of this title to primary */}
-          {/* for reference: see https://ionicframework.com/docs/api/text#theming */}
-          <h1 className="title">ChaturMates</h1>
+      <div className="backgroundBox">
+        <IonText color="light">
+          <h1 className="chatur">Chatur</h1>
         </IonText>
-      </IonCol>
+        <IonText color="light">
+          <h1 className="meyts">Meyts</h1>
+        </IonText>
+      </div>
     </IonRow>
   );
 }

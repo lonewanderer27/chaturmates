@@ -1,0 +1,26 @@
+.ion-row {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.rememberMe {
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.ion-text-start {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.forgotPassword {
+    display: flex;
+    height: 100%;
+    margin-top: 10%;
+}

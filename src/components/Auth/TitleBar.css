@@ -9,11 +9,40 @@
   padding-bottom: 15%;
 }
 
-.title {
-  font-size: xx-large;
-  font-weight: bold;
+.ion-text-center {
+  position: relative;
 }
 
 .logo {
-  margin: auto
+  width: 100px;
+  height: auto;
+  margin: auto;
+  z-index: 1;
+}
+
+.backgroundBox {
+  margin: auto;
+  background-color: #7BC5F0;
+  padding-inline: 8px;
+  padding-block: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.chatur {
+  font-size: xx-large;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.meyts {
+  font-size: xx-large;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 5px;
+  margin: 0;
 }

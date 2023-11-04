@@ -1,0 +1,8 @@
+.ion-row {
+    display: flex;
+    align-items: center;
+}
+
+.agreeToTerms {
+    white-space: nowrap;
+}

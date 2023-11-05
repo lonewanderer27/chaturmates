@@ -1,4 +1,4 @@
-export default function RecentContacts(props) {
+export default function RecentContacts() {
   return (
     <div>RecentContacts</div>
   )

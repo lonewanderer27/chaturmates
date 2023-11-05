@@ -1,32 +1,27 @@
 import {
-  IonButton,
   IonButtons,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonPage,
-  IonRow,
   IonText,
-  IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Discover.css";
 import BtnSearch from "../components/Discover/BtnSearch";
+import useSession from "../hooks/auth/useSession";
 
 function Discover() {
+  const { session, nickname } = useSession();
+
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Discover</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonText slot="start" className="pageTitle">Welcome, Joe Doe</IonText>
+            <IonText slot="start" className="pageTitle">
+              Welcome, {nickname}
+            </IonText>
             <IonButtons slot="end">
               <BtnSearch />
             </IonButtons>

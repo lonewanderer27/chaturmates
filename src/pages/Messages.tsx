@@ -12,11 +12,6 @@ import "./Messages.css";
 function Messages() {
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Messages</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
@@ -25,7 +20,7 @@ function Messages() {
             </IonText>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Messages page" />
+        
       </IonContent>
     </IonPage>
   );

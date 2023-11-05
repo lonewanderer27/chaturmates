@@ -18,6 +18,8 @@ import { Ref, useState } from "react";
 import "./SignupModal.css";
 import BtnGoogleSignin from "./BtnGoogleSignin";
 import AgreeToTerms from "./AgreeToTerms";
+import useGoogle from "../../hooks/auth/useGoogle";
+import useSignup from "../../hooks/auth/useSignup";
 
 type IonModalProps = React.ComponentProps<typeof IonModal>;
 
@@ -37,6 +39,10 @@ export default function SignupModal(
   const toggleAgree = () => {
     setAgree((agree) => !agree);
   };
+
+  const { handleGoogle, googleRes } = useGoogle();
+  
+  console.log(googleRes);
 
   return (
     <IonModal
@@ -119,7 +125,7 @@ export default function SignupModal(
               <IonText>or</IonText>
             </IonCol>
             <IonCol size="12">
-              <BtnGoogleSignin />
+              <BtnGoogleSignin onClick={handleGoogle} />
             </IonCol>
           </IonRow>
         </IonGrid>

@@ -26,8 +26,10 @@
     "jotai": "^2.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
+    "react-supabase": "^0.2.0",
     "supabase": "^1.110.1"
   },
   "devDependencies": {

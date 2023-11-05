@@ -2,13 +2,13 @@ import {
   IonPage,
   IonContent,
   IonButton,
-  IonCheckbox,
   IonCol,
   IonGrid,
   IonIcon,
   IonInput,
   IonRow,
   IonText,
+  useIonRouter,
 } from "@ionic/react";
 import "./Login.css";
 import TitleBar from "../components/Auth/TitleBar";
@@ -16,16 +16,15 @@ import { eye, eyeOff } from "ionicons/icons";
 import BtnGoogleSignin from "../components/Auth/BtnGoogleSignin";
 import { useState } from "react";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
-import { useHistory } from "react-router";
 import SignupModal from "../components/Auth/SignupModal";
 import RememberMe from "../components/Auth/RememberMe";
 import { useSignupModal } from "../hooks/auth/useSignupModal";
 import { useLogin } from "../hooks/auth/useLogin";
 
 export default function Login() {
-  const hst = useHistory();
+  const hst = useIonRouter();
 
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(true);
   const togglePass = () => {
     setShowPass((show) => !show);
   };
@@ -43,7 +42,7 @@ export default function Login() {
   const { page, modal, presentingElement, toggleShowSignup } = useSignupModal();
 
   // login related functionalities
-  const { handleLogin } = useLogin();
+  const { handleLogin, register, handleSubmit, getFieldState } = useLogin();
 
   return (
     <IonPage ref={page}>
@@ -56,24 +55,28 @@ export default function Login() {
             </IonText>
             <IonCol size="12">
               <IonInput
-                className="custom"
+                className={"custom " + `${getFieldState("email").error?.message && "ion-invalid"}`}
                 label="Email or username"
                 labelPlacement="stacked"
+                {...register("email", { required: true })}
+                errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
             <IonCol size="9">
               <IonInput
-                className="custom"
+                className={"custom"  + `${getFieldState("password").error?.message && "ion-invalid"}`}
                 label="Password"
                 labelPlacement="stacked"
                 type={showPass ? "password" : "text"}
+                {...register("password", { required: true })}
+                errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
             <IonCol
               size="3"
               className="ion-justify-content-center ion-align-items-end"
             >
-              <IonButton size="large" fill="clear" onClick={togglePass}>
+              <IonButton size="large" fill="clear" onClick={() => togglePass()}>
                 <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
               </IonButton>
             </IonCol>
@@ -85,7 +88,9 @@ export default function Login() {
           />
           <IonRow>
             <IonCol size="12">
-              <IonButton expand="block" onClick={handleLogin}>Log In</IonButton>
+              <IonButton expand="block" onClick={handleSubmit(handleLogin)}>
+                Log In
+              </IonButton>
             </IonCol>
             <IonCol size="12" className="ion-text-center">
               <IonText>or</IonText>

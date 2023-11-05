@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
@@ -7,6 +7,7 @@ import {
   IonTabButton,
   IonTabs,
   setupIonicReact,
+  useIonRouter,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -45,52 +46,39 @@ import "./theme/inputs.css"; // global input styles
 import "./theme/tabs.css"; // bottom tabs styles
 
 import Login from "./pages/Login";
-import { useEffect } from "react";
 import ForgotMyPassword from "./pages/ForgotMyPassword";
 import ForgotMyPassConfirm from "./pages/ForgotMyPassConfirm";
-import { hideTabBar, showTabBar } from "./utils/auth";
 import Messages from "./pages/Messages";
+import AuthWrapper from "./components/Auth/AuthWrapper";
+import NonAuthdWrapper from "./components/Auth/NonAuthdWrapper";
 
 setupIonicReact({
   mode: "ios",
 });
 
 function App() {
-  const loc = location.pathname;
-
-  useEffect(() => {
-    if (
-      loc == "/" ||
-      loc == "/login" ||
-      loc == "/forgotmypass" ||
-      loc == "/forgotmypassconfirm"
-    ) {
-      hideTabBar();
-    } else {
-      showTabBar();
-    }
-  }, [loc]);
-
   return (
     <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/discover">
-              <Discover />
-            </Route>
-            <Route exact path="/messages">
-              <Messages />
-            </Route>
-            <Route exact path="/notifications">
-              <Notifications />
-            </Route>
-            <Route exact path="/me">
-              <Profile />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
+            <AuthWrapper>
+              <Route exact path="/discover">
+                <Discover />
+              </Route>
+              <Route exact path="/messages">
+                <Messages />
+              </Route>
+              <Route exact path="/notifications">
+                <Notifications />
+              </Route>
+              <Route exact path="/me">
+                <Profile />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/discover" />
+              </Route>
+            </AuthWrapper>
             <Route exact path="/login">
               <Login />
             </Route>

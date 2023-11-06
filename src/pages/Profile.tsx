@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonContent,
   IonHeader,
   IonPage,
@@ -8,8 +9,14 @@ import {
 } from "@ionic/react";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Profile.css";
+import { client } from "../client";
 
 function Profile() {
+
+  const handleLogout = () => {
+    client.auth.signOut();
+  }
+
   return (
     <IonPage>
       {/* <IonHeader>
@@ -25,7 +32,10 @@ function Profile() {
             </IonText>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Profile page" />
+        {/* <ExploreContainer name="Profile page" /> */}
+        <IonButton onClick={handleLogout}>
+          Logout
+        </IonButton>
       </IonContent>
     </IonPage>
   );

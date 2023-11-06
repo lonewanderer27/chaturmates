@@ -13,7 +13,7 @@ import {
 import "./Login.css";
 import TitleBar from "../components/Auth/TitleBar";
 import { eye, eyeOff } from "ionicons/icons";
-import BtnGoogleSignin from "../components/Auth/BtnGoogleSignin";
+import BtnContinueWithGoogle from "../components/Auth/BtnContinueWithGoogle";
 import { useState } from "react";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
 import SignupModal from "../components/Auth/SignupModal";
@@ -96,7 +96,7 @@ export default function Login() {
               <IonText>or</IonText>
             </IonCol>
             <IonCol size="12">
-              <BtnGoogleSignin />
+              <BtnContinueWithGoogle />
             </IonCol>
           </IonRow>
           <DontHaveAnAccount handleClick={toggleShowSignup} />

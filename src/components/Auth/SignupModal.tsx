@@ -16,7 +16,7 @@ import {
 import { close, eye, eyeOff } from "ionicons/icons";
 import { Ref, useState } from "react";
 import "./SignupModal.css";
-import BtnGoogleSignin from "./BtnGoogleSignin";
+import BtnContinueWithGoogle from "./BtnContinueWithGoogle";
 import AgreeToTerms from "./AgreeToTerms";
 import useGoogle from "../../hooks/auth/useGoogle";
 import useSignup from "../../hooks/auth/useSignup";
@@ -125,7 +125,7 @@ export default function SignupModal(
               <IonText>or</IonText>
             </IonCol>
             <IonCol size="12">
-              <BtnGoogleSignin onClick={handleGoogle} />
+              <BtnContinueWithGoogle onClick={handleGoogle} />
             </IonCol>
           </IonRow>
         </IonGrid>

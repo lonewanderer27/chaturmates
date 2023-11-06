@@ -75,7 +75,7 @@ function App() {
               <Route exact path="/me">
                 <Profile />
               </Route>
-              <Route exact path="/">
+              <Route path="/">
                 <Redirect to="/discover" />
               </Route>
             </AuthWrapper>

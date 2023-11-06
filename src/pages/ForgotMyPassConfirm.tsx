@@ -8,7 +8,7 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import TitleBar from "../components/Auth/TitleBar";
+import TitleBar from "../components/TitleBar";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
 import { useHistory } from "react-router";
 import { close } from "ionicons/icons";

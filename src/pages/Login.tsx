@@ -12,7 +12,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import "./Login.css";
-import TitleBar from "../components/Auth/TitleBar";
+import TitleBar from "../components/TitleBar";
 import { eye, eyeOff } from "ionicons/icons";
 import BtnContinueWithGoogle from "../components/Auth/BtnContinueWithGoogle";
 import { useState } from "react";

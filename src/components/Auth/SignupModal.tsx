@@ -7,6 +7,7 @@ import {
   IonHeader,
   IonIcon,
   IonInput,
+  IonLabel,
   IonModal,
   IonRow,
   IonText,
@@ -16,7 +17,7 @@ import {
 import { close, eye, eyeOff } from "ionicons/icons";
 import { Ref, useState } from "react";
 import "./SignupModal.css";
-import BtnGoogleSignin from "./BtnGoogleSignin";
+import BtnContinueWithGoogle from "./BtnContinueWithGoogle";
 import AgreeToTerms from "./AgreeToTerms";
 import useGoogle from "../../hooks/auth/useGoogle";
 import useSignup from "../../hooks/auth/useSignup";
@@ -41,7 +42,7 @@ export default function SignupModal(
   };
 
   const { handleGoogle, googleRes } = useGoogle();
-  
+
   console.log(googleRes);
 
   return (
@@ -64,57 +65,49 @@ export default function SignupModal(
         <IonGrid className="ion-padding">
           <IonRow>
             <IonCol>
-              <IonInput
-                name="email"
-                type="email"
-                label="Your Email Address"
-                labelPlacement="stacked"
-              ></IonInput>
+              <IonLabel>
+                <IonText>Your Email Address</IonText>
+              </IonLabel>
+              <IonInput className="custom" name="email" type="email"></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonInput label="Full Name" labelPlacement="stacked"></IonInput>
+              <IonLabel>
+                <IonText>Full Name</IonText>
+              </IonLabel>
+              <IonInput className="custom"></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonInput label="User Name" labelPlacement="stacked"></IonInput>
+              <IonLabel>User Name</IonLabel>
+              <IonInput className="custom"></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="9">
+            <IonCol>
+              <IonLabel>Password</IonLabel>
               <IonInput
-                label="Password"
-                labelPlacement="stacked"
+                className="custom"
                 type={showPass ? "password" : "text"}
               ></IonInput>
             </IonCol>
-            <IonCol
-              size="3"
-              className="ion-justify-content-center ion-align-items-end"
-            >
-              <IonButton size="large" fill="clear" onClick={togglePass}>
-                <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
-              </IonButton>
-            </IonCol>
+            <IonButton size="large" fill="clear" onClick={togglePass}>
+              <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
+            </IonButton>
           </IonRow>
           <IonRow>
-            <IonCol size="9">
+            <IonCol>
+              <IonLabel>Confirm Password</IonLabel>
               <IonInput
-                label="Confirm password"
-                labelPlacement="stacked"
+                className="custom"
                 type={showPass ? "password" : "text"}
               ></IonInput>
             </IonCol>
-            <IonCol
-              size="3"
-              className="ion-justify-content-center ion-align-items-end"
-            >
-              <IonButton size="large" fill="clear" onClick={togglePass}>
-                <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
-              </IonButton>
-            </IonCol>
+            <IonButton size="large" fill="clear" onClick={togglePass}>
+              <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
+            </IonButton>
           </IonRow>
           <AgreeToTerms agree={agree} toggleAgree={toggleAgree} />
           <IonRow>
@@ -125,7 +118,7 @@ export default function SignupModal(
               <IonText>or</IonText>
             </IonCol>
             <IonCol size="12">
-              <BtnGoogleSignin onClick={handleGoogle} />
+              <BtnContinueWithGoogle onClick={handleGoogle} />
             </IonCol>
           </IonRow>
         </IonGrid>

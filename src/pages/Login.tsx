@@ -9,11 +9,12 @@ import {
   IonRow,
   IonText,
   useIonRouter,
+  IonLabel,
 } from "@ionic/react";
 import "./Login.css";
 import TitleBar from "../components/Auth/TitleBar";
 import { eye, eyeOff } from "ionicons/icons";
-import BtnGoogleSignin from "../components/Auth/BtnGoogleSignin";
+import BtnContinueWithGoogle from "../components/Auth/BtnContinueWithGoogle";
 import { useState } from "react";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
 import SignupModal from "../components/Auth/SignupModal";
@@ -54,32 +55,31 @@ export default function Login() {
               <h1>Hi Klasmeyt!</h1>
             </IonText>
             <IonCol size="12">
+              <IonLabel>
+                <IonText>Email or Username</IonText>
+              </IonLabel>
               <IonInput
-                className={"custom " + `${getFieldState("email").error?.message && "ion-invalid"}`}
-                label="Email or username"
-                labelPlacement="stacked"
+                className="custom"
                 {...register("email", { required: true })}
                 errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
-            <IonCol size="9">
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonLabel>
+                <IonText>Password</IonText>
+              </IonLabel>
               <IonInput
-                className={"custom"  + `${getFieldState("password").error?.message && "ion-invalid"}`}
-                label="Password"
-                labelPlacement="stacked"
+                className="custom"
                 type={showPass ? "password" : "text"}
                 {...register("password", { required: true })}
                 errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
-            <IonCol
-              size="3"
-              className="ion-justify-content-center ion-align-items-end"
-            >
-              <IonButton size="large" fill="clear" onClick={() => togglePass()}>
-                <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
-              </IonButton>
-            </IonCol>
+            <IonButton size="large" fill="clear" onClick={() => togglePass()}>
+              <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
+            </IonButton>
           </IonRow>
           <RememberMe
             rememberMe={rememberMe}
@@ -96,7 +96,7 @@ export default function Login() {
               <IonText>or</IonText>
             </IonCol>
             <IonCol size="12">
-              <BtnGoogleSignin />
+              <BtnContinueWithGoogle />
             </IonCol>
           </IonRow>
           <DontHaveAnAccount handleClick={toggleShowSignup} />

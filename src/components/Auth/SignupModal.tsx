@@ -31,7 +31,7 @@ export default function SignupModal(
     modalRef: Ref<HTMLIonModalElement>;
   }
 ) {
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(true);
   const togglePass = () => {
     setShowPass((show) => !show);
   };
@@ -42,8 +42,10 @@ export default function SignupModal(
   };
 
   const { handleGoogle, googleRes } = useGoogle();
+  const { handleSignUp, signupRes, register, handleSubmit } = useSignup();
 
-  console.log(googleRes);
+  console.info("google response:", googleRes);
+  console.info("signup response:", signupRes);
 
   return (
     <IonModal
@@ -68,7 +70,11 @@ export default function SignupModal(
               <IonLabel>
                 <IonText>Your Email Address</IonText>
               </IonLabel>
-              <IonInput className="custom" name="email" type="email"></IonInput>
+              <IonInput
+                className="custom"
+                type="email"
+                {...register("email", { required: true })}
+              ></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -76,21 +82,25 @@ export default function SignupModal(
               <IonLabel>
                 <IonText>Full Name</IonText>
               </IonLabel>
-              <IonInput className="custom"></IonInput>
+              <IonInput
+                className="custom"
+                {...register("fullName", { required: true })}
+              ></IonInput>
             </IonCol>
           </IonRow>
-          <IonRow>
+          {/* <IonRow>
             <IonCol>
               <IonLabel>User Name</IonLabel>
               <IonInput className="custom"></IonInput>
             </IonCol>
-          </IonRow>
+          </IonRow> */}
           <IonRow>
             <IonCol>
               <IonLabel>Password</IonLabel>
               <IonInput
                 className="custom"
                 type={showPass ? "password" : "text"}
+                {...register("password", { required: true })}
               ></IonInput>
             </IonCol>
             <IonButton size="large" fill="clear" onClick={togglePass}>
@@ -103,6 +113,7 @@ export default function SignupModal(
               <IonInput
                 className="custom"
                 type={showPass ? "password" : "text"}
+                {...register("passwordConfirmation", { required: true })}
               ></IonInput>
             </IonCol>
             <IonButton size="large" fill="clear" onClick={togglePass}>
@@ -112,7 +123,9 @@ export default function SignupModal(
           <AgreeToTerms agree={agree} toggleAgree={toggleAgree} />
           <IonRow>
             <IonCol size="12">
-              <IonButton expand="block">Sign up</IonButton>
+              <IonButton expand="block" onClick={handleSubmit(handleSignUp)}>
+                Sign up
+              </IonButton>
             </IonCol>
             <IonCol size="12" className="ion-text-center">
               <IonText>or</IonText>

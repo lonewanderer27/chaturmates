@@ -1,7 +1,9 @@
 import { IonRow, IonCol, IonText, IonToggle } from "@ionic/react";
 import "./AgreeToTerms.css"
 
-export default function AgreeToTerms(props: {
+type IonToggleProps = React.ComponentProps<typeof IonToggle>;
+
+export default function AgreeToTerms(props: IonToggleProps & {
   agree: boolean;
   toggleAgree: () => void;
 }) {
@@ -12,6 +14,7 @@ export default function AgreeToTerms(props: {
       </IonCol>
       <IonCol size="4" className="ion-text-end">
         <IonToggle
+          {...props}
           labelPlacement="end"
           checked={props.agree}
           onClick={props.toggleAgree}

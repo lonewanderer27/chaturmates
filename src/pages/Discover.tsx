@@ -6,10 +6,11 @@ import {
   IonText,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Discover.css";
 import BtnSearch from "../components/Discover/BtnSearch";
 import useSession from "../hooks/auth/useSession";
+import GroupsGrid from "../components/Discover/GroupsGrid";
+import StudentsGrid from "../components/Discover/StudentsGrid";
 
 function Discover() {
   const { session, nickname } = useSession();
@@ -27,7 +28,8 @@ function Discover() {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Discover page" />
+        <StudentsGrid />
+        <GroupsGrid />
       </IonContent>
     </IonPage>
   );

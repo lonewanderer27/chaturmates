@@ -11,7 +11,7 @@ export default function useSession() {
       setSession(session)
       setNickname(
         session?.user.user_metadata.full_name.split(" ")[0]+
-        " "+session?.user.user_metadata.full_name.split(" ")[2]
+        " "+session?.user.user_metadata.full_name.split(" ").slice(-1)[0]
       )
     })
 
@@ -21,7 +21,7 @@ export default function useSession() {
       setSession(session)
       setNickname(
         session?.user.user_metadata.full_name.split(" ")[0]+
-        " "+session?.user.user_metadata.full_name.split(" ")[2]
+        " "+session?.user.user_metadata.full_name.split(" ").slice(-1)[0]
       )
     })
 

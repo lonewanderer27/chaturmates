@@ -84,21 +84,35 @@ export interface Database {
           created_at: string
           description: string | null
           id: number
+          profile_url: string | null
+          school: number | null
           title: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: number
+          profile_url?: string | null
+          school?: number | null
           title: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: number
+          profile_url?: string | null
+          school?: number | null
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "courses_school_fkey"
+            columns: ["school"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       group_chat_urls: {
         Row: {
@@ -189,30 +203,40 @@ export interface Database {
       }
       group_posts: {
         Row: {
+          author: number
           created_at: string
-          description: string
-          group_id: number | null
+          description: string | null
+          group_id: number
           id: number
           pinned: boolean
           title: string
         }
         Insert: {
+          author: number
           created_at?: string
-          description: string
-          group_id?: number | null
+          description?: string | null
+          group_id: number
           id?: number
           pinned?: boolean
           title: string
         }
         Update: {
+          author?: number
           created_at?: string
-          description?: string
-          group_id?: number | null
+          description?: string | null
+          group_id?: number
           id?: number
           pinned?: boolean
           title?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "group_posts_author_fkey"
+            columns: ["author"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "group_posts_group_id_fkey"
             columns: ["group_id"]
@@ -226,35 +250,38 @@ export interface Database {
         Row: {
           academic_year_id: number
           avatar_url: string | null
-          course: string | null
+          course: number
           cover_url: string | null
           created_at: string
           id: number
           name: string
           school: number
-          vanity_name: string | null
+          semester: number
+          vanity_name: string
         }
         Insert: {
           academic_year_id: number
           avatar_url?: string | null
-          course?: string | null
+          course: number
           cover_url?: string | null
           created_at?: string
           id?: number
           name: string
           school: number
-          vanity_name?: string | null
+          semester: number
+          vanity_name: string
         }
         Update: {
           academic_year_id?: number
           avatar_url?: string | null
-          course?: string | null
+          course?: number
           cover_url?: string | null
           created_at?: string
           id?: number
           name?: string
           school?: number
-          vanity_name?: string | null
+          semester?: number
+          vanity_name?: string
         }
         Relationships: [
           {
@@ -265,10 +292,24 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "groups_course_fkey"
+            columns: ["course"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "groups_school_fkey"
             columns: ["school"]
             isOneToOne: false
             referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "groups_semester_fkey"
+            columns: ["semester"]
+            isOneToOne: false
+            referencedRelation: "semesters"
             referencedColumns: ["id"]
           }
         ]
@@ -488,18 +529,21 @@ export interface Database {
           email: string
           id: number
           name: string
+          profile_url: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: number
           name: string
+          profile_url?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: number
           name?: string
+          profile_url?: string | null
         }
         Relationships: []
       }
@@ -540,60 +584,74 @@ export interface Database {
       }
       semesters: {
         Row: {
+          academic_year: number
           created_at: string
           end_date: string
           id: number
           name: string
           start_date: string
+          term: number
         }
         Insert: {
+          academic_year: number
           created_at?: string
           end_date: string
           id?: number
           name: string
           start_date: string
+          term: number
         }
         Update: {
+          academic_year?: number
           created_at?: string
           end_date?: string
           id?: number
           name?: string
           start_date?: string
+          term?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "semesters_academic_year_fkey"
+            columns: ["academic_year"]
+            isOneToOne: false
+            referencedRelation: "academic_years"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       students: {
         Row: {
-          academic_year_id: number
+          academic_year_id: number | null
           avatar_url: string | null
           created_at: string
           id: number
           profile_id: string
           school: number
           school_email: string
-          student_no: string
+          student_no: string | null
           verified: boolean
         }
         Insert: {
-          academic_year_id: number
+          academic_year_id?: number | null
           avatar_url?: string | null
           created_at?: string
           id?: number
           profile_id: string
           school: number
           school_email: string
-          student_no: string
+          student_no?: string | null
           verified?: boolean
         }
         Update: {
-          academic_year_id?: number
+          academic_year_id?: number | null
           avatar_url?: string | null
           created_at?: string
           id?: number
           profile_id?: string
           school?: number
           school_email?: string
-          student_no?: string
+          student_no?: string | null
           verified?: boolean
         }
         Relationships: [

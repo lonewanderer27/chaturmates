@@ -33,7 +33,7 @@ export default function useSignup() {
       password: data.password,
       options: {
         data: {
-          fullname: data.fullName,
+          full_name: data.fullName,
         },
       },
     }).then(response => {

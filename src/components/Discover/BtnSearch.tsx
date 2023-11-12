@@ -1,15 +1,14 @@
-import { IonButton, IonIcon } from "@ionic/react"
+import { IonButton, IonIcon, useIonRouter } from "@ionic/react"
 import { search } from "ionicons/icons"
 import { ComponentProps } from "react"
-import { useHistory } from "react-router"
 
 type BtnSearchProps = ComponentProps<typeof IonButton>
 
 export default function BtnSearch(props: BtnSearchProps) {
-  const hst = useHistory();
+  const hst = useIonRouter()
 
   const handleClick = () => {
-    hst.push("/search");
+    hst.push("/discover/search")
   }
 
   return (

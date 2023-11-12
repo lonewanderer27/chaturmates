@@ -10,6 +10,7 @@ import {
   IonText,
   useIonRouter,
   IonLabel,
+  IonItem,
 } from "@ionic/react";
 import "./Login.css";
 import TitleBar from "../components/TitleBar";
@@ -66,7 +67,7 @@ export default function Login() {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="9">
               <IonLabel>
                 <IonText>Password</IonText>
               </IonLabel>
@@ -77,9 +78,13 @@ export default function Login() {
                 errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
-            <IonButton size="large" fill="clear" onClick={() => togglePass()}>
-              <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
-            </IonButton>
+            <IonButton
+                size="large"
+                fill="clear"
+                onClick={() => togglePass()}
+              >
+                <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
+              </IonButton>
           </IonRow>
           <RememberMe
             rememberMe={rememberMe}

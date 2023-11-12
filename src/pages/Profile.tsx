@@ -33,7 +33,7 @@ function Profile() {
           </IonToolbar>
         </IonHeader>
         {/* <ExploreContainer name="Profile page" /> */}
-        <IonButton onClick={handleLogout}>
+        <IonButton onClick={handleLogout} expand="block">
           Logout
         </IonButton>
       </IonContent>

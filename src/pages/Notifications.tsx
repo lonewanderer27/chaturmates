@@ -17,11 +17,6 @@ function Notifications() {
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Notifications</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>

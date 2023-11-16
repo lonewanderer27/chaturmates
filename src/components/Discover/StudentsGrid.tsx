@@ -16,6 +16,7 @@ export default function StudentsGrid(props: {
             slug={student.id+""}
             key={student.id}
             studentName={student.full_name ?? ""}
+            studentDescription={student.description ?? ""}
             studentType={student.type ?? ""}
           />
         ))}

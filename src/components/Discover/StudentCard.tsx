@@ -11,6 +11,7 @@ import { personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import { SwiperSlide } from "swiper/react";
 import "./StudentCard.css";
+import S from "string";
 
 // TODO: design StudentCard
 type StudentCardProps = ComponentProps<typeof IonCard>;
@@ -52,7 +53,7 @@ export default function StudentCard(
             <IonText>
               <span className="studentName">{props.studentName}</span>
               <br />
-              <span className="studentType">{props.studentType}</span>
+              <span className="studentType">{S(props.studentType).capitalize().s}</span>
             </IonText>
           </IonCol>
         </IonRow>

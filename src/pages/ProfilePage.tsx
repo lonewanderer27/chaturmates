@@ -7,15 +7,13 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Profile.css";
 import { client } from "../client";
 
-function Profile() {
-
+function ProfilePage() {
   const handleLogout = () => {
     client.auth.signOut();
-  }
+  };
 
   return (
     <IonPage>
@@ -41,4 +39,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfilePage;

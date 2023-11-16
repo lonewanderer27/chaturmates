@@ -25,6 +25,7 @@ import { useLogin } from "../hooks/auth/useLogin";
 
 export default function Login() {
   const hst = useIonRouter();
+  console.log("login page")
 
   const [showPass, setShowPass] = useState(true);
   const togglePass = () => {
@@ -93,7 +94,7 @@ export default function Login() {
           />
           <IonRow>
             <IonCol size="12">
-              <IonButton expand="block" onClick={handleSubmit(handleLogin)}>
+              <IonButton expand="block" onClick={() => handleSubmit(handleLogin)}>
                 Log In
               </IonButton>
             </IonCol>

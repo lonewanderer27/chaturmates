@@ -151,29 +151,38 @@ export interface Database {
       }
       group_members: {
         Row: {
+          approved: boolean
           created_at: string
           creator: boolean
+          description: string | null
           group_id: number
           id: number
           is_admin: boolean
+          profile_id: string
           promoted_admin_by: number | null
           student_id: number
         }
         Insert: {
+          approved?: boolean
           created_at?: string
           creator?: boolean
+          description?: string | null
           group_id: number
           id?: number
           is_admin?: boolean
+          profile_id: string
           promoted_admin_by?: number | null
           student_id: number
         }
         Update: {
+          approved?: boolean
           created_at?: string
           creator?: boolean
+          description?: string | null
           group_id?: number
           id?: number
           is_admin?: boolean
+          profile_id?: string
           promoted_admin_by?: number | null
           student_id?: number
         }
@@ -183,6 +192,13 @@ export interface Database {
             columns: ["group_id"]
             isOneToOne: false
             referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_members_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -253,11 +269,12 @@ export interface Database {
           course: number
           cover_url: string | null
           created_at: string
+          description: string | null
           id: number
           name: string
           school: number
           semester: number
-          vanity_name: string
+          vanity_url: string
         }
         Insert: {
           academic_year_id: number
@@ -265,11 +282,12 @@ export interface Database {
           course: number
           cover_url?: string | null
           created_at?: string
+          description?: string | null
           id?: number
           name: string
           school: number
           semester: number
-          vanity_name: string
+          vanity_url: string
         }
         Update: {
           academic_year_id?: number
@@ -277,11 +295,12 @@ export interface Database {
           course?: number
           cover_url?: string | null
           created_at?: string
+          description?: string | null
           id?: number
           name?: string
           school?: number
           semester?: number
-          vanity_name?: string
+          vanity_url?: string
         }
         Relationships: [
           {
@@ -310,6 +329,38 @@ export interface Database {
             columns: ["semester"]
             isOneToOne: false
             referencedRelation: "semesters"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      otp_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          expiry_at: string | null
+          id: number
+          student_id: number
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          expiry_at?: string | null
+          id?: number
+          student_id: number
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          expiry_at?: string | null
+          id?: number
+          student_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "otp_codes_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
             referencedColumns: ["id"]
           }
         ]
@@ -530,6 +581,7 @@ export interface Database {
           id: number
           name: string
           profile_url: string | null
+          vanity_url: string
         }
         Insert: {
           created_at?: string
@@ -537,6 +589,7 @@ export interface Database {
           id?: number
           name: string
           profile_url?: string | null
+          vanity_url: string
         }
         Update: {
           created_at?: string
@@ -544,8 +597,51 @@ export interface Database {
           id?: number
           name?: string
           profile_url?: string | null
+          vanity_url?: string
         }
         Relationships: []
+      }
+      search_history: {
+        Row: {
+          created_at: string
+          hide: boolean
+          id: number
+          profile_id: string
+          query: string
+          student_id: number
+        }
+        Insert: {
+          created_at?: string
+          hide?: boolean
+          id?: number
+          profile_id: string
+          query: string
+          student_id: number
+        }
+        Update: {
+          created_at?: string
+          hide?: boolean
+          id?: number
+          profile_id?: string
+          query?: string
+          student_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "search_history_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "search_history_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       security_questions: {
         Row: {
@@ -625,33 +721,42 @@ export interface Database {
           academic_year_id: number | null
           avatar_url: string | null
           created_at: string
+          description: string | null
+          full_name: string | null
           id: number
           profile_id: string
           school: number
           school_email: string
           student_no: string | null
+          type: Database["public"]["Enums"]["student_type"] | null
           verified: boolean
         }
         Insert: {
           academic_year_id?: number | null
           avatar_url?: string | null
           created_at?: string
+          description?: string | null
+          full_name?: string | null
           id?: number
           profile_id: string
           school: number
           school_email: string
           student_no?: string | null
+          type?: Database["public"]["Enums"]["student_type"] | null
           verified?: boolean
         }
         Update: {
           academic_year_id?: number | null
           avatar_url?: string | null
           created_at?: string
+          description?: string | null
+          full_name?: string | null
           id?: number
           profile_id?: string
           school?: number
           school_email?: string
           student_no?: string | null
+          type?: Database["public"]["Enums"]["student_type"] | null
           verified?: boolean
         }
         Relationships: [
@@ -716,6 +821,48 @@ export interface Database {
           }
         ]
       }
+      threads: {
+        Row: {
+          created_at: string
+          deleted: boolean
+          id: number
+          receiver_student_id: number
+          sender_student_id: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          deleted?: boolean
+          id?: number
+          receiver_student_id: number
+          sender_student_id: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          deleted?: boolean
+          id?: number
+          receiver_student_id?: number
+          sender_student_id?: number
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "threads_receiver_student_id_fkey"
+            columns: ["receiver_student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "threads_sender_student_id_fkey"
+            columns: ["sender_student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -725,6 +872,7 @@ export interface Database {
     }
     Enums: {
       reaction: "like" | "love" | "celebrate" | "insightful" | "curious"
+      student_type: "regular" | "irregular"
     }
     CompositeTypes: {
       [_ in never]: never

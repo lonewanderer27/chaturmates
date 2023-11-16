@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 
-const emailAtom = atom("");
+export const emailAtom = atom("");
 const passwordAtom = atom("");
 const passwordConfirmationAtom = atom("");
+export const passwordResetEmailAtom = atom("");

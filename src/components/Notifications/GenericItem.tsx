@@ -1,12 +1,16 @@
 import {
   IonButton,
   IonCol,
+  IonGrid,
   IonIcon,
   IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
   IonLabel,
   IonRow,
 } from "@ionic/react";
-import { notificationsOutline } from "ionicons/icons";
+import { notificationsOutline, removeOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import "./GenericItem.css";
 
@@ -23,28 +27,45 @@ export default function GenericItem(
     date: Date;
     read?: boolean;
     icon?: string;
+    handleRemove: (id: string) => void;
   }
 ) {
   return (
-    <IonItem detail>
-      <IonIcon src={props.icon} size="large" slot="start" />
-      <IonLabel>
-        <span className="notifTitle">{props.title}</span>
-        <br />
-        <p className="notifDatetime">{props.date.toDateString()}</p>
-        {props.description && (
-          <>
-            <br />
-            <p className="notifDescription">{props.description}</p>
-          </>
-        )}
-      </IonLabel>
-        {props.buttons?.map((button, index) => (
-          <IonButton key={index} {...button}>
-            {button.title}
-          </IonButton>
-        ))}
-    </IonItem>
+    <IonItemSliding>
+      <IonItemOptions side="start">
+        <IonItemOption
+          color="danger"
+          onClick={() => props.handleRemove(props.id)}
+        >
+          Dismiss
+        </IonItemOption>
+      </IonItemOptions>
+      <IonItem detail>
+        <IonIcon src={props.icon} size="large" slot="start" />
+        <IonGrid>
+          <IonRow>
+            <IonLabel>
+              <span className="notifTitle">{props.title}</span>
+              <br />
+              <p className="notifDatetime">{props.date.toDateString()}</p>
+              {props.description && (
+                <>
+                  <br />
+                  <p className="notifDescription">{props.description}</p>
+                </>
+              )}
+            </IonLabel>
+          </IonRow>
+          <IonRow>
+            {props.buttons?.map((button, index) => (
+              <IonButton key={index} {...button} onClick={() => props.handleRemove(props.id)}>
+                {button.title}
+              </IonButton>
+            ))}
+          </IonRow>
+        </IonGrid>
+      </IonItem>
+    </IonItemSliding>
   );
 }
 

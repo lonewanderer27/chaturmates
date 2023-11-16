@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { client } from "../../client"
-import { OAuthResponse } from "@supabase/supabase-js"
+import { useState } from "react";
+import { client } from "../../client";
+import { OAuthResponse } from "@supabase/supabase-js";
 import { useIonRouter } from "@ionic/react";
 
 export default function useGoogle() {
@@ -9,15 +9,15 @@ export default function useGoogle() {
 
   const handleGoogle = async () => {
     const response = await client.auth.signInWithOAuth({
-      provider: 'google',
+      provider: "google",
       options: {
-        redirectTo: rt.routeInfo.pathname
-      }
-    })
+        redirectTo: rt.routeInfo.pathname,
+      },
+    });
     setRes(response);
 
     await createStudent();
-  }
+  };
 
   const createStudent = async () => {
     // only gets triggered by handleGoogle which is only called
@@ -27,11 +27,11 @@ export default function useGoogle() {
     const user = await client.auth.getUser();
 
     // check if we already have a student record for this user
-    console.log("Checking if student record exists...")
+    console.log("Checking if student record exists...");
     const response3 = await client
-      .from('students')
+      .from("students")
       .select()
-      .eq('profile_id', user.data.user!.id)
+      .eq("profile_id", user.data.user!.id);
     console.log(response3);
 
     if (response3 && response3.data?.length! > 0) {
@@ -40,23 +40,24 @@ export default function useGoogle() {
     }
 
     // create a student record
-    console.log("Creating student record...")
+    console.log("Creating student record...");
     const response2 = await client
-      .from('students')
+      .from("students")
       .insert([
         {
           school: 1,
           profile_id: user.data.user!.id,
           school_email: user.data.user!.email!,
-          verified: true
-        }
+          full_name: user.data.user!.user_metadata!.full_name!,
+          verified: true,
+        },
       ])
-      .select()
+      .select();
     console.log(response2);
-  }
+  };
 
   return {
     handleGoogle,
-    googleRes: res
-  }
+    googleRes: res,
+  };
 }

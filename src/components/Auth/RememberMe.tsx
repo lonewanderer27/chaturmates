@@ -17,7 +17,7 @@ export default function RememberMe(props: {
         <IonText className="rememberMe">Remember Me</IonText>
       </IonCol>
       <IonCol size="6" className="ion-text-start" onClick={props.forgotMyPass}>
-        <IonText color="primary" className="forgotPassword">Forgot Password?</IonText>
+        <IonText color="primary" className="forgotPassword cursor-pointer">Forgot Password?</IonText>
       </IonCol>
     </IonRow>
   );

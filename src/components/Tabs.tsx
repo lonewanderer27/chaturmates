@@ -20,13 +20,20 @@ import AuthWrapper from "./Auth/AuthWrapper";
 import MessagesRoute from "../routes/MessagesRoute";
 import NotificationsRoute from "../routes/NotificationsRoute";
 import ProfileRoute from "../routes/ProfileRoute";
+import GroupRoute from "../routes/GroupRoute";
+import StudentRoute from "../routes/StudentRoute";
+import Verification from "../pages/Verification";
+import CreateRoute from "../routes/CreateRoute";
 
 export default function Tabs() {
   return (
     <IonTabs>
       <IonRouterOutlet id="app">
         <AuthWrapper>
+          <Route path="/create" render={() => <CreateRoute />} />
           <Route path="/discover" render={() => <DiscoverRoute />} />
+          <Route path="/student" render={() => <StudentRoute />} />
+          <Route path="/group" render={() => <GroupRoute />} />
           <Route path="/messages" render={() => <MessagesRoute />} />
           <Route path="/notifications" render={() => <NotificationsRoute />} />
           <Route path="/me" render={() => <ProfileRoute />} />
@@ -40,6 +47,9 @@ export default function Tabs() {
         </Route>
         <Route exact path="/forgotmypassconfirm">
           <ForgotMyPassConfirm />
+        </Route>
+        <Route exact path="/verify">
+          <Verification />
         </Route>
       </IonRouterOutlet>
       <IonTabBar slot="bottom">

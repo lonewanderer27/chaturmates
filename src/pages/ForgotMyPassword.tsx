@@ -15,8 +15,11 @@ import { close, toggle } from "ionicons/icons";
 import { useHistory } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import SignupModal from "../components/Auth/SignupModal";
+import { client } from "../client";
+import useSession from "../hooks/auth/useSession";
 
 export default function ForgotMyPassword() {
+  const { session } = useSession();
   const page = useRef<HTMLElement>();
   const hst = useHistory();
 
@@ -47,12 +50,16 @@ export default function ForgotMyPassword() {
   }, []);
 
 
-  const handleForgotPass = () => {
+  const handleForgotPass = async () => {
     // TODO: implement logic
+    const response = await client.auth.resetPasswordForEmail(session?.user.email!);
 
-    // if the backend returns success, then
-    // push the user to forgot my pass confirm page
-    hst.push("/forgotmypassconfirm");
+    if (response.data) {
+      console.log("response.data", response.data);
+      // if the backend returns success, then
+      // push the user to forgot my pass confirm page
+      hst.push("/forgotmypassconfirm");
+    }
   }
 
   return (

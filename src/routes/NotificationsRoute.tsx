@@ -4,7 +4,7 @@ import Notifications from "../pages/Notifications";
 
 export default function NotificationsRoute() {
   return (
-    <IonRouterOutlet>
+    <IonRouterOutlet id="notifications">
       <Route exact path="/notifications" render={() => <Notifications />} />
     </IonRouterOutlet>
   );

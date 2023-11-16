@@ -1,6 +1,4 @@
 import {
-  IonBadge,
-  IonCard,
   IonCol,
   IonGrid,
   IonIcon,
@@ -8,15 +6,21 @@ import {
   IonLabel,
   IonRow,
   IonText,
+  useIonRouter,
 } from "@ionic/react";
 import { personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
-import "./KlasmeytItem.css";
+import "./StudentItem.css";
+import ItemListButton from "../ItemListButton";
+import S from "string";
+import { useAtom } from "jotai";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
 
 export default function KlasmeytItem(
   props: IonItemProps & {
+    studentId: number;
+    slug: string;
     size: string;
     icon: string;
     studentName: string;
@@ -24,23 +28,29 @@ export default function KlasmeytItem(
     buttonLabel: string;
   }
 ) {
+  const rt = useIonRouter();
+  function handleView() {
+    rt.push("/student/" + props.studentId, "forward");
+  }
+
   return (
-    <IonItem {...props}>
+    <IonItem onClick={handleView} {...props}>
       <IonIcon
         className="klasmeytItemIcon"
         slot="start"
         icon={props.icon}
       ></IonIcon>
-      <IonGrid>
-        <IonRow className="ion-align-items-center">
-          <IonCol>
-            <IonText className="studentName">{props.studentName}</IonText>
-            <br />
-            <IonText className="studentType">{props.studentType}</IonText>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-      <IonBadge slot="end">{props.buttonLabel}</IonBadge>
+      <IonRow className="ion-align-items-center">
+        <IonCol>
+          <IonText className="studentItemName truncate">
+            {props.studentName}
+          </IonText>
+          <br/>
+          <IonText className="studentType">
+            {S(props.studentType).capitalize().s}
+          </IonText>
+        </IonCol>
+      </IonRow>
     </IonItem>
   );
 }
@@ -49,6 +59,7 @@ KlasmeytItem.defaultProps = {
   lines: "none",
   icon: personCircleOutline,
   size: "large",
+  slug: "johnna_doe",
   studentName: "Johnna Doe",
   studentType: "Regular",
   buttonLabel: "Message",

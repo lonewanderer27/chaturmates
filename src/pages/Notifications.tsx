@@ -11,6 +11,10 @@ import { useState } from "react";
 import { NOTIFICATION_CATEGORY } from "../enums/notifications";
 import NotificationsCategory from "../components/Notifications/Category";
 import All from "../components/Notifications/All";
+import Archived from "../components/Notifications/Archived";
+import Following from "../components/Notifications/Following";
+
+
 
 function Notifications() {
   const [activeSegment, setActiveSegment] = useState(NOTIFICATION_CATEGORY.ALL);
@@ -34,6 +38,12 @@ function Notifications() {
         />
         {activeSegment == NOTIFICATION_CATEGORY.ALL && (
           <All/>
+        )}
+        {activeSegment == NOTIFICATION_CATEGORY.ARCHIVE && (
+          <Archived/>
+        )}
+        {activeSegment == NOTIFICATION_CATEGORY.FOLLOWING && (
+          <Following/>
         )}
       </IonContent>
     </IonPage>

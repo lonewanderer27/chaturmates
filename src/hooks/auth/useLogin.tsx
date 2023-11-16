@@ -27,6 +27,10 @@ export const useLogin = () => {
   const [show] = useIonAlert();
 
   const handleLogin: SubmitHandler<LoginFormInputs> = (data) => {
+    // log that the user is attempting to signin
+    console.log("attempting to signin");
+    console.log(data);
+
     // clear the errors
     clearErrors();
 
@@ -60,7 +64,9 @@ export const useLogin = () => {
             message: "Invalid email or password",
           });
         }
-      });
+      }).catch((error) => {
+        console.error(error);
+      })
   };
 
   useEffect(() => {

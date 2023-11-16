@@ -21,7 +21,6 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 /* Our custom CSS */
-import "./theme/main.css"; // global custom styles
 import "./theme/typography.css"; // global text styles
 import "./theme/inputs.css"; // global input styles
 import "./theme/tabs.css"; // bottom tabs styles

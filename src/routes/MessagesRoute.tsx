@@ -4,7 +4,7 @@ import Messages from "../pages/Messages";
 
 export default function MessagesRoute() {
   return (
-    <IonRouterOutlet>
+    <IonRouterOutlet id="messages">
       <Route path="/messages" exact render={() => <Messages />} />
     </IonRouterOutlet>
   );

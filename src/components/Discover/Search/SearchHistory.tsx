@@ -1,11 +1,60 @@
-import { IonList } from "@ionic/react";
+import { IonList, IonText } from "@ionic/react";
 import SearchHistoryItem from "./SearchHistoryItem";
+import { SearchHistoryType } from "../../../types";
+import { useAtom } from "jotai";
+import { showAllHistoryAtom } from "../../../atoms/search";
 
-export default function SearchHistory() {
+export default function SearchHistory(props: {
+  searchHistory: SearchHistoryType[];
+}) {
+  const [showAll, setShowAll] = useAtom(showAllHistoryAtom);
+
+  const toggleShowAll = () => {
+    setShowAll((show) => !show);
+  };
+
+  if (props.searchHistory.length === 0) {
+    return <></>
+  }
+
   return (
-    <IonList>
-      <SearchHistoryItem />
-      <SearchHistoryItem title="Software Engineering the best in the world" />
-    </IonList>
+    <div className="ion-margin-bottom">
+      {props.searchHistory.length > 0 && (
+        <IonList>
+          {showAll
+            ? props.searchHistory.map((search, index) => (
+                <SearchHistoryItem
+                  historyId={search.id!}
+                  key={search + "index" + index}
+                  title={search.query}
+                />
+              ))
+            : props.searchHistory
+                .slice(0, 3)
+                .map((search, index) => (
+                  <SearchHistoryItem
+                    historyId={search.id!}
+                    key={search + "index" + index}
+                    title={search.query}
+                  />
+                ))}
+        </IonList>
+      )}
+      <IonText
+        onClick={toggleShowAll}
+        color="primary"
+        className="ion-margin-vertical ion-padding-start  cursor-pointer"
+      >
+        {showAll ? "Show Most Recent" : "Show All History"}
+      </IonText>
+    </div>
   );
 }
+
+SearchHistory.defaultProps = {
+  searchHistory: [
+    "Software Engineering the best in the world",
+    "Group ni Jay",
+    "Taylor Swift",
+  ],
+};

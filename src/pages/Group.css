@@ -1,0 +1,23 @@
+.groupPageLogo {
+  border-radius: 50%;
+}
+
+.groupPageIcon {
+  font-size: 120px;
+}
+
+/* 
+  TODO: Style the group page
+*/
+.groupPage {
+  
+}
+
+.groupPageCard {
+  min-width: 80%;
+}
+
+ion-button {
+  --margin-start: 20px !important;
+  --margin-end: 20px !important;
+}

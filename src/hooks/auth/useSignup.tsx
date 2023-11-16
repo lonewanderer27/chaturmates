@@ -23,6 +23,10 @@ export default function useSignup() {
     hst.push("/discover");
   };
 
+  const verifyPage = () => {
+    hst.push("/verify");
+  }
+
   const handleSignUp: SubmitHandler<SignupFormInputs> = (data) => {
     // clear the errors
     clearErrors();

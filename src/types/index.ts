@@ -6,3 +6,6 @@ export type SearchHistoryType = Database["public"]["Tables"]["search_history"]["
 
 export type GroupType = Database["public"]["Tables"]["groups"]["Row"];
 export type GroupMemberType = Database["public"]["Tables"]["group_members"]["Row"];
+
+export type ThreadType = Database["public"]["Tables"]["threads"]["Row"];
+export type ThreadMessageType = Database["public"]["Tables"]["threads_messages"]["Row"];

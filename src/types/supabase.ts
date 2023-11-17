@@ -716,6 +716,45 @@ export interface Database {
           }
         ]
       }
+      student_followers: {
+        Row: {
+          created_at: string
+          follow_date: string | null
+          follower_id: number
+          following_id: number
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          follow_date?: string | null
+          follower_id: number
+          following_id: number
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          follow_date?: string | null
+          follower_id?: number
+          following_id?: number
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_followers_follower_id_fkey"
+            columns: ["follower_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_followers_following_id_fkey"
+            columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       students: {
         Row: {
           academic_year_id: number | null
@@ -826,39 +865,63 @@ export interface Database {
           created_at: string
           deleted: boolean
           id: number
-          receiver_student_id: number
-          sender_student_id: number
-          text: string
+          title: string
+          updated_at: string | null
         }
         Insert: {
           created_at?: string
           deleted?: boolean
           id?: number
-          receiver_student_id: number
-          sender_student_id: number
-          text: string
+          title?: string
+          updated_at?: string | null
         }
         Update: {
           created_at?: string
           deleted?: boolean
           id?: number
-          receiver_student_id?: number
-          sender_student_id?: number
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      threads_messages: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: number
+          student_id: number
+          text: string
+          thread_id: number
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id?: number
+          student_id: number
           text?: string
+          thread_id: number
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: number
+          student_id?: number
+          text?: string
+          thread_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "threads_receiver_student_id_fkey"
-            columns: ["receiver_student_id"]
+            foreignKeyName: "threads_messages_student_id_fkey"
+            columns: ["student_id"]
             isOneToOne: false
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "threads_sender_student_id_fkey"
-            columns: ["sender_student_id"]
+            foreignKeyName: "threads_messages_thread_id_fkey"
+            columns: ["thread_id"]
             isOneToOne: false
-            referencedRelation: "students"
+            referencedRelation: "threads"
             referencedColumns: ["id"]
           }
         ]

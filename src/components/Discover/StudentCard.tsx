@@ -22,7 +22,7 @@ export default function StudentCard(
     slug: string;
     studentName: string;
     studentType: string;
-    studentDescription: string;
+    studentDescription: string | null;
   }
 ) {
   const rt = useIonRouter();
@@ -32,12 +32,9 @@ export default function StudentCard(
 
   return (
     <SwiperSlide>
-      <IonCard
-        className="studentCard ion-padding ion-no-margin"
-        onClick={handleView}
-      >
+      <IonCard className="studentCard ion-padding m-2" onClick={handleView}>
         <IonRow>
-          <IonCol size="3">
+          <IonCol size="2">
             <IonAvatar>
               {props.logo ? (
                 <img src={props.logo} />
@@ -51,15 +48,18 @@ export default function StudentCard(
           </IonCol>
           <IonCol style={{ display: "flex" }}>
             <IonText>
-              <span className="studentName">{props.studentName}</span>
-              <br />
-              <span className="studentType">{S(props.studentType).capitalize().s}</span>
+              <span className="studentName text-ellipsis  line-clamp-1">
+                {props.studentName}
+              </span>
+              <p className="studentType">
+                {S(props.studentType).capitalize().s}
+              </p>
             </IonText>
           </IonCol>
         </IonRow>
         <IonRow>
           <IonText>
-            <p>{props.studentDescription}</p>
+            <p className="line-clamp-3">{props.studentDescription}</p>
           </IonText>
         </IonRow>
       </IonCard>

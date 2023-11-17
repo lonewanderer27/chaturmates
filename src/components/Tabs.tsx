@@ -17,7 +17,7 @@ import ForgotMyPassword from "../pages/ForgotMyPassword";
 import Login from "../pages/Login";
 import DiscoverRoute from "../routes/DiscoverRoute";
 import AuthWrapper from "./Auth/AuthWrapper";
-import MessagesRoute from "../routes/MessagesRoute";
+import ThreadsRoute from "../routes/ThreadsRoute";
 import NotificationsRoute from "../routes/NotificationsRoute";
 import ProfileRoute from "../routes/ProfileRoute";
 import GroupRoute from "../routes/GroupRoute";
@@ -34,7 +34,7 @@ export default function Tabs() {
           <Route path="/discover" render={() => <DiscoverRoute />} />
           <Route path="/student" render={() => <StudentRoute />} />
           <Route path="/group" render={() => <GroupRoute />} />
-          <Route path="/messages" render={() => <MessagesRoute />} />
+          <Route path="/threads" render={() => <ThreadsRoute />} />
           <Route path="/notifications" render={() => <NotificationsRoute />} />
           <Route path="/me" render={() => <ProfileRoute />} />
           <Route path="/" exact render={() => <Redirect to="/discover" />} />
@@ -56,7 +56,7 @@ export default function Tabs() {
         <IonTabButton tab="discover" href="/discover">
           <IonIcon aria-hidden="true" icon={gridOutline} />
         </IonTabButton>
-        <IonTabButton tab="messages" href="/messages">
+        <IonTabButton tab="threads" href="/threads">
           <IonIcon aria-hidden="true" icon={chatboxEllipsesOutline} />
         </IonTabButton>
         <IonTabButton tab="notifications" href="/notifications">

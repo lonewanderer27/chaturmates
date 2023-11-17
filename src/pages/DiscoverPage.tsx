@@ -41,7 +41,7 @@ function DiscoverPage() {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <p className="ion-padding-horizontal">
+        <p className="p-2 text-lg">
           Connect with a group or people like you
         </p>
         <StudentsGrid students={students} />

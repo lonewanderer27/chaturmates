@@ -4,7 +4,6 @@ import {
   IonHeader,
   IonPage,
   IonText,
-  IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "./Profile.css";
@@ -30,7 +29,6 @@ function ProfilePage() {
             </IonText>
           </IonToolbar>
         </IonHeader>
-        {/* <ExploreContainer name="Profile page" /> */}
         <IonButton onClick={handleLogout} expand="block">
           Logout
         </IonButton>

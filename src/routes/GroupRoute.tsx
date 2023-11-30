@@ -1,6 +1,5 @@
 import { IonRouterOutlet } from "@ionic/react";
 import { Route } from "react-router";
-import GroupNiJay from "../pages/Groups/GroupNiJay";
 import GroupPage from "../pages/GroupPage";
 import Klasmeyts from "../pages/Group/Klasmeyts";
 

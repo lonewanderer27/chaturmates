@@ -5,13 +5,14 @@ import {
   IonGrid,
   IonIcon,
   IonInput,
+  IonLabel,
   IonPage,
   IonRow,
   IonText,
 } from "@ionic/react";
 import TitleBar from "../components/TitleBar";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
-import { close, toggle } from "ionicons/icons";
+import { close } from "ionicons/icons";
 import { useHistory } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import SignupModal from "../components/Auth/SignupModal";
@@ -49,10 +50,11 @@ export default function ForgotMyPassword() {
     };
   }, []);
 
-
   const handleForgotPass = async () => {
     // TODO: implement logic
-    const response = await client.auth.resetPasswordForEmail(session?.user.email!);
+    const response = await client.auth.resetPasswordForEmail(
+      session?.user.email!
+    );
 
     if (response.data) {
       console.log("response.data", response.data);
@@ -60,7 +62,7 @@ export default function ForgotMyPassword() {
       // push the user to forgot my pass confirm page
       hst.push("/forgotmypassconfirm");
     }
-  }
+  };
 
   return (
     <IonPage ref={page}>
@@ -80,7 +82,7 @@ export default function ForgotMyPassword() {
             </IonButton>
           </IonRow>
           <IonText>
-            <h1>Oh no, I forgot!</h1>
+            <h1 className="text-2xl font-semibold">Oh no, I forgot!</h1>
           </IonText>
           <IonText>
             <p>
@@ -88,20 +90,20 @@ export default function ForgotMyPassword() {
               a new password
             </p>
           </IonText>
-          <IonRow>
+          <IonRow className="mt-4">
             <IonCol size="12">
+              <IonLabel className="my-2">
+                <IonText>Email or Username</IonText>
+              </IonLabel>
               <IonInput
-                label="Email or username"
-                labelPlacement="stacked"
+                className="custom my-1"
               ></IonInput>
             </IonCol>
           </IonRow>
-          <IonRow>
+          <IonRow className="mb-4">
             <IonCol size="12">
               <IonButton expand="block" onClick={handleForgotPass}>
-                <IonText>
-                  Forgot Password
-                </IonText>
+                <IonText>Forgot Password</IonText>
               </IonButton>
             </IonCol>
           </IonRow>

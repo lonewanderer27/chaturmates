@@ -8,12 +8,12 @@ import {
   IonRow,
   IonText,
 } from "@ionic/react";
-import TitleBar from "../components/TitleBar";
-import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
+import TitleBar from "../../components/TitleBar";
+import DontHaveAnAccount from "../../components/Auth/DontHaveAnAccount";
 import { useHistory } from "react-router";
 import { close } from "ionicons/icons";
-import SignupModal from "../components/Auth/SignupModal";
-import { useSignupModal } from "../hooks/auth/useSignupModal";
+import SignupModal from "../../components/Auth/SignupModal";
+import { useSignupModal } from "../../hooks/auth/useSignupModal";
 
 export default function ForgotMyPassConfirm() {
   const hst = useHistory();
@@ -43,12 +43,12 @@ export default function ForgotMyPassConfirm() {
           <IonRow>
             <IonCol>
               <IonText>
-                <h1>Check your email!</h1>
+                <h1 className="text-2xl font-semibold">Check your email!</h1>
               </IonText>
               <IonText>Follow the instructions on your email.</IonText>
             </IonCol>
           </IonRow>
-          <IonRow>
+          <IonRow className="my-5">
             <IonCol>
               <IonButton expand="block" onClick={handleReturnToLogin}>
                 <IonText>Return to Log in</IonText>

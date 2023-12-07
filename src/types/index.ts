@@ -1,5 +1,7 @@
 import { Database } from "./supabase";
 
+export type FollowType = Database["public"]["Tables"]["student_followers"]["Row"];
+
 export type StudentType = Database["public"]["Tables"]["students"]["Row"];
 export type ProfileType = Database["public"]["Tables"]["profiles"]["Row"];
 export type SearchHistoryType = Database["public"]["Tables"]["search_history"]["Row"];

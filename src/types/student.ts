@@ -1,5 +1,14 @@
 import { FollowType, GroupType, StudentType } from ".";
 
+export interface StudentsResponse {
+  getAll: {
+    data: StudentResponse['get']['data'][],
+    error: any;
+    success: boolean;
+    message: string;
+  }
+}
+
 export interface StudentResponse {
   get: {
     data: {

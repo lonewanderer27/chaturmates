@@ -43,4 +43,16 @@ export interface GroupResponse {
     success: boolean;
     error: any;
   };
+  students: {
+    getAll: {
+      data: {
+        group: GroupType;
+        students: {
+          all: StudentType[];
+          approved: StudentType[];
+          pending: StudentType[];
+        };
+      }
+    }
+  };
 }

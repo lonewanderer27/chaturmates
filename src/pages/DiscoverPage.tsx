@@ -20,6 +20,7 @@ import useCreateGroupModal from "../hooks/group/useCreateGroupModal";
 import GroupCreateModal from "../components/Group/GroupCreateModal";
 import useStudents from "../hooks/student/useStudents";
 import { getAllGroups } from "../services/group";
+import { getAllStudents } from "../services/student";
 
 function DiscoverPage() {
   const { session, nickname } = useSession();
@@ -33,7 +34,16 @@ function DiscoverPage() {
       return res.data;
     },
   });
-  const { students } = useStudents();
+  const squery = useQuery({
+    queryKey: ["students"],
+    queryFn: async () => {
+      console.log("useQuery");
+      const res = await getAllStudents();
+      await close();
+      console.log("data", res.data);
+      return res.data;
+    },
+  });
 
   const { page, modal, presentingElement, toggleShowCreateGroup } =
     useCreateGroupModal();
@@ -54,7 +64,7 @@ function DiscoverPage() {
         <p className="p-2 text-lg">
           Connect with a group or people like you
         </p>
-        <StudentsGrid students={students} />
+        <StudentsGrid students={squery.data?.students} />
         <GroupsGrid groups={query.data?.groups} />
         <GroupCreateModal
           handleToggle={toggleShowCreateGroup}

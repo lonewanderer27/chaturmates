@@ -1,6 +1,18 @@
 import { client } from "../../client";
 import { StudentResponse } from "../../types/student";
 
+export async function getAllStudents() {
+  const response = await client.from("students").select("*");
+  return Promise.resolve({
+    data: {
+      students: response.data!
+    },
+    message: "Students fetched successfully",
+    error: null,
+    success: true,
+  })
+}
+
 export async function getStudentById(
   id: string
 ): Promise<StudentResponse['get']> {

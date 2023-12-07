@@ -9,32 +9,28 @@ import {
   IonText,
   useIonRouter,
 } from "@ionic/react";
+import { useQuery } from "@tanstack/react-query";
 import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
-import { ComponentProps } from "react";
 import "./GroupCard.css";
-import useGroupMembers from "../../hooks/group/useGroupMembers";
-
-// TODO:  change the color of the ion card to be black
-//        for some reason it displays as gray
-type IonCardProps = ComponentProps<typeof IonCard>;
+import { GroupType } from "../../types";
+import getStudentsInGroup from "../../services/group/students";
 
 export default function GroupCard(
-  props: IonCardProps & {
-    groupId: number;
-    slug: string;
-    avatar_url: string | null;
-    cover_url: string | null;
-    icon: string;
-    groupName: string;
-  }
+  props: GroupType
 ) {
   const rt = useIonRouter();
 
   function handleView() {
-    rt.push("/group/" + props.slug);
+    rt.push("/group/" + props.vanity_url);
   }
 
-  const { groupMembers } = useGroupMembers(props.groupId);
+  const { data } = useQuery({
+    queryKey: ['group', props.vanity_url],
+    queryFn: async () => {
+      const res =  (await getStudentsInGroup(props.id+"")).data;
+      return res;
+    }
+  })
 
   return (
     <IonCol size="6" className="flex flex-column w-full cursor-pointer">
@@ -47,19 +43,19 @@ export default function GroupCard(
             {props.avatar_url ? (
               <img src={props.avatar_url} />
             ) : (
-              <IonIcon className="groupCardIcon" src={props.icon}></IonIcon>
+              <IonIcon className="groupCardIcon" src={props.avatar_url!}></IonIcon>
             )}
           </IonAvatar>
         </IonRow>
         <IonRow className="ion-margin-vertical">
           <IonLabel color="primary">
-            <p>{props.groupName}</p>
+            <p>{props.name}</p>
           </IonLabel>
         </IonRow>
         <IonRow>
-          {groupMembers.length > 4 && (
+          {data?.students && data?.students.approved.length > 4 && (
             <>
-              {groupMembers.slice(0, 4).map((member, index) => (
+              {data?.students.approved.slice(0, 4).map((member, index) => (
                 <IonIcon
                   key={"ionicon:members:" + index}
                   className="groupMemberIcon"
@@ -67,13 +63,13 @@ export default function GroupCard(
                 ></IonIcon>
               ))}
               <IonBadge color="light" className="groupCountBadge">
-                <IonText>+ {groupMembers.length - 4}</IonText>
+                <IonText>+ {data?.students.approved.length - 4}</IonText>
               </IonBadge>
             </>
           )}
-          {groupMembers.length < 4 && (
+          {data?.students && data?.students.approved.length < 4 && (
             <>
-              {groupMembers.map((member, index) => (
+              {data?.students.approved.map((member, index) => (
                 <IonIcon
                   key={"ionicon:members:" + index}
                   className="groupMemberIcon"

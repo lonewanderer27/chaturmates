@@ -5,13 +5,13 @@ import {
   IonIcon,
   IonRow,
   IonText,
-  useIonRouter,
 } from "@ionic/react";
 import { personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import { SwiperSlide } from "swiper/react";
 import "./StudentCard.css";
 import S from "string";
+import { useHistory } from "react-router";
 
 // TODO: design StudentCard
 type StudentCardProps = ComponentProps<typeof IonCard>;
@@ -25,7 +25,7 @@ export default function StudentCard(
     studentDescription: string | null;
   }
 ) {
-  const rt = useIonRouter();
+  const rt = useHistory();
   function handleView() {
     rt.push("/student/" + props.slug);
   }

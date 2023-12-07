@@ -13,6 +13,7 @@ import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import "./GroupCard.css";
 import useGroupMembers from "../../hooks/group/useGroupMembers";
+import { useHistory } from "react-router";
 
 // TODO:  change the color of the ion card to be black
 //        for some reason it displays as gray
@@ -28,7 +29,7 @@ export default function GroupCard(
     groupName: string;
   }
 ) {
-  const rt = useIonRouter();
+  const rt = useHistory();
 
   function handleView() {
     rt.push("/group/" + props.slug);

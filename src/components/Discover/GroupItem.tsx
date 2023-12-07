@@ -13,6 +13,7 @@ import {
 import { peopleCircleOutline } from "ionicons/icons";
 import ItemListButton from "../ItemListButton";
 import useGroupMembers from "../../hooks/group/useGroupMembers";
+import { useHistory } from "react-router";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
 
@@ -28,7 +29,7 @@ export default function GroupItem(
     buttonLabel?: string;
   }
 ) {
-  const rt = useIonRouter();
+  const rt = useHistory();
   function handleView() {
     rt.push("/group/" + props.slug);
   }

@@ -17,9 +17,10 @@ import useStudentSearch from "../hooks/student/useStudentSearch";
 import { useAtom } from "jotai";
 import { searchQueryAtom } from "../atoms/search";
 import useGroupSearch from "../hooks/group/useGroupSearch";
+import { useHistory } from "react-router";
 
 export default function SearchPage() {
-  const rt = useIonRouter();
+  const rt = useHistory();
   function handleCancel() {
     rt.push("/discover", "back");
   }

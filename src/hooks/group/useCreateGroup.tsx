@@ -6,9 +6,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CreateGroupInputs } from "../../types/group";
 import { GroupType } from "../../types";
+import { useHistory } from "react-router";
 
 export default function useCreateGroup() {
-  const rt = useIonRouter();
+  const rt = useHistory();
   const { session } = useSession();
   const { student } = useSelfStudent();
   const [success, setSuccess] = useState<boolean | undefined>();

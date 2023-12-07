@@ -4,9 +4,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { VerificationFormInputs } from "../../types/verification";
 import { client } from "../../client";
+import { useHistory } from "react-router";
 
 export default function useVerify() {
-  const hst = useIonRouter();
+  const hst = useHistory();
   const { session } = useSession();
 
   const {

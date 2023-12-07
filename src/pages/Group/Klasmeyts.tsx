@@ -11,9 +11,10 @@ import {
 } from "@ionic/react";
 import "./Klasmeyts.css";
 import StudentsResults from "../../components/Discover/KlasmeytsResults";
+import { useHistory } from "react-router";
 
 export default function Klasmeyts() {
-  const rt = useIonRouter();
+  const rt = useHistory();
   function handleViewMore() {
     rt.push("/");
   }

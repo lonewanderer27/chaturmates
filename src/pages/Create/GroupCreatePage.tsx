@@ -19,12 +19,12 @@ import {
 import { arrowBack } from "ionicons/icons";
 import "./GroupCreatePage.css";
 import useCreateGroup from "../../hooks/group/useCreateGroup";
+import { useHistory } from "react-router";
 
 export default function GroupCreatePage() {
   const { handleCreate, success, register, handleSubmit, getValues } =
     useCreateGroup();
-
-  const rt = useIonRouter();
+  const rt = useHistory();
 
   function handleBack() {
     console.log("handleBack");

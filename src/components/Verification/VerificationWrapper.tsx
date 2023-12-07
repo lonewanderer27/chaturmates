@@ -1,9 +1,8 @@
 import { IonContent, IonPage, useIonRouter } from "@ionic/react";
 import TitleBar from "../TitleBar";
 import { useEffect, useState } from "react";
-import { ProfileType, StudentType } from "../../types";
+import { ProfileType, StudentType } from "../../types"
 import useSession from "../../hooks/auth/useSession";
-import { client } from "../../client";
 
 export default function VerificationWrapper() {
   const { session } = useSession();

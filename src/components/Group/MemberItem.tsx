@@ -4,6 +4,7 @@ import { useFindStudent } from "../../hooks/student/useSelfStudent";
 import { personCircleOutline } from "ionicons/icons";
 import S from "string";
 import "./MemberItem.css";
+import { useHistory } from "react-router";
 
 export default function MemberItem(
   props: GroupMemberType & {
@@ -11,7 +12,7 @@ export default function MemberItem(
     buttonLabel: string;
   }
 ) {
-  const rt = useIonRouter();
+  const rt = useHistory();
   const { student } = useFindStudent(props.student_id + "");
   function handleClick() {
     rt.push("/student/" + props.student_id);

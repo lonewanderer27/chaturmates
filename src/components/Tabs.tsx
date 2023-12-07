@@ -11,7 +11,7 @@ import {
   notificationsOutline,
   personCircleOutline,
 } from "ionicons/icons";
-import { Route, Redirect } from "react-router";
+import { Route, Redirect, useHistory } from "react-router";
 import ForgotMyPassConfirm from "../pages/ForgotMyPassConfirm";
 import ForgotMyPassword from "../pages/ForgotMyPassword";
 import Login from "../pages/Login";
@@ -26,6 +26,8 @@ import Verification from "../pages/Verification";
 import CreateRoute from "../routes/CreateRoute";
 
 export default function Tabs() {
+  const ht = useHistory();
+
   return (
     <IonTabs>
       <IonRouterOutlet id="app">

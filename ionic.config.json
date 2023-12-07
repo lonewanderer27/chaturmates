@@ -1,7 +1,0 @@
-{
-  "name": "Chaturmates",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}

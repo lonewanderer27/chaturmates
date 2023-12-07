@@ -2,118 +2,75 @@ import { useState } from "react";
 import { client } from "../../client";
 import { OAuthResponse } from "@supabase/supabase-js";
 import { useIonRouter } from "@ionic/react";
+import { useLocation } from "react-router";
 
 export default function useGoogle() {
-  const rt = useIonRouter();
+  const rt = useLocation();
   const [res, setRes] = useState<OAuthResponse>();
 
-  // const handleGoogleAsync = async () => {
-  //   const resG = await client.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: {
-  //       redirectTo: rt.routeInfo.pathname,
-  //     },
-  //   });
+  const handleGoogle = async () => {
+    const oauth = await client.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: rt.pathname,
+      },
+    });
 
-  //   if (resG.error) {
-  //     console.log(resG.error);
-  //     setRes(resG);
-  //     return;
-  //   }
+    if (oauth.error) {
+      console.log(oauth.error);
+      setRes(oauth);
+      return;
+    }
 
-  //   const res = await client.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: {
-  //       redirectTo: rt.routeInfo.pathname,
-  //     },
-  //   });
-  // };
+    // google auth response
+    console.log("google auth response");
 
-  const handleGoogle = () => {
-    client.auth
-      .signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: rt.routeInfo.pathname,
-        },
-      })
-      .then((response) => {
-        if (response.data) {
-          console.log("google auth response");
-          client.auth.getUser().then((user) => {
-            console.log("checking if the student record exists...");
-            if (user.data.user) {
-              client
-                .from("students")
-                .select("*")
-                .eq("profile_id", user.data.user.id)
-                .single()
-                .then((response2) => {
-                  if (response2.data) {
-                    console.log("student record exists");
-                    console.log(response2);
-                  } else {
-                    console.log("student record does not exist");
-                    console.log("creating student record...");
-                    client
-                      .from("students")
-                      .insert([
-                        {
-                          school: 1,
-                          profile_id: user.data.user!.id,
-                          school_email: user.data.user!.email!,
-                          full_name: user.data.user!.user_metadata!.full_name!,
-                          verified: true,
-                        },
-                      ])
-                      .then((response3) => {
-                        console.log(response3);
-                      });
-                  }
-                });
-            }
-          });
-        }
-      });
-    // setRes(response);
+    // check if the student record exists
+    console.log("checking if the student record exists...");
+
+    const user = await client.auth.getUser();
+
+    if (user.error) {
+      console.log(user.error);
+      return;
+    }
+
+    const student = await client
+      .from("students")
+      .select("*")
+      .eq("profile_id", user.data.user!.id)
+      .single();
+
+    if (student.error) {
+      console.log(student.error);
+      return;
+    }
+
+    if (student.data) {
+      console.log("student record exists");
+      console.log(student);
+      return;
+    }
+
+    console.log("student record does not exist");
+    console.log("creating student record...");
+
+    const student2 = await client.from("students").insert([{
+      school: 1,
+      profile_id: user.data.user!.id,
+      school_email: user.data.user!.email!,
+      full_name: user.data.user!.user_metadata!.full_name!,
+      verified: true,
+    }]);
+
+    if (student2.error) {
+      console.log(student2.error);
+      return;
+    }
+
+    console.log("student record created");
+    console.log(student2);
   };
-
-  // const createStudent = async () => {
-  //   // only gets triggered by handleGoogle which is only called
-  //   // when an adamson email is used to sign in
-
-  //   // get the last inserted profile id
-  //   const user = await client.auth.getUser();
-
-  //   // check if we already have a student record for this user
-  //   console.log("Checking if student record exists...");
-  //   const response3 = await client
-  //     .from("students")
-  //     .select()
-  //     .eq("profile_id", user.data.user!.id);
-  //   console.log(response3);
-
-  //   if (response3 && response3.data?.length! > 0) {
-  //     // student record already exists
-  //     return;
-  //   }
-
-  //   // create a student record
-  //   console.log("Creating student record...");
-  //   const response2 = await client
-  //     .from("students")
-  //     .insert([
-  //       {
-  //         school: 1,
-  //         profile_id: user.data.user!.id,
-  //         school_email: user.data.user!.email!,
-  //         full_name: user.data.user!.user_metadata!.full_name!,
-  //         verified: true,
-  //       },
-  //     ])
-  //     .select();
-  //   console.log(response2);
-  // };
 
   return {
     handleGoogle,

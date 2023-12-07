@@ -5,9 +5,10 @@ import { useIonAlert, useIonRouter } from "@ionic/react";
 import { client } from "../../client";
 import { AuthTokenResponse } from "@supabase/supabase-js";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory } from "react-router";
 
 export const useLogin = () => {
-  const hst = useIonRouter();
+  const hst = useHistory();
   const { session } = useSession();
   const [res, setRes] = useState<AuthTokenResponse>();
 

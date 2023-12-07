@@ -1,7 +1,7 @@
 import { RouteProps } from "react-router";
 import useSession from "../../hooks/auth/useSession";
 import { Redirect } from "react-router";
-import { IonLoading, useIonRouter } from "@ionic/react";
+import { IonLoading } from "@ionic/react";
 import { hideTabBar, showTabBar } from "../../utils/auth";
 
 const AuthWrapper = (props: RouteProps): JSX.Element => {

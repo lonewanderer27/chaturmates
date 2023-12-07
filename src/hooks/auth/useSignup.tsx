@@ -4,9 +4,10 @@ import { AuthResponse } from "@supabase/supabase-js";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { useIonAlert, useIonRouter } from "@ionic/react";
 import useSession from "./useSession";
+import { useHistory } from "react-router";
 
 export default function useSignup() {
-  const hst = useIonRouter();
+  const hst = useHistory();
   const { session } = useSession();
   const [res, setRes] = useState<AuthResponse>();
 

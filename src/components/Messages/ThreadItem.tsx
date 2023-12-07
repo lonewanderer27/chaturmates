@@ -11,11 +11,12 @@ import { useFindStudent } from "../../hooks/student/useSelfStudent";
 import { personCircleOutline } from "ionicons/icons";
 import "./ThreadItem.css";
 import useGetLastMessageInThread from "../../hooks/threads/useGetLastMessageInThread";
+import { useHistory } from "react-router";
 
 export default function ThreadItem(props: ThreadType) {
   const { lastMessage } = useGetLastMessageInThread(props.id);
   const { student } = useFindStudent(lastMessage?.student_id + "");
-  const rt = useIonRouter();
+  const rt = useHistory();
 
   function handleClick() {
     rt.push("/threads/" + props.id);

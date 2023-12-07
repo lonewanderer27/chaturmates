@@ -14,6 +14,7 @@ import "./StudentItem.css";
 import ItemListButton from "../ItemListButton";
 import S from "string";
 import { useAtom } from "jotai";
+import { useHistory } from "react-router";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
 
@@ -28,7 +29,7 @@ export default function KlasmeytItem(
     buttonLabel: string;
   }
 ) {
-  const rt = useIonRouter();
+  const rt = useHistory();
   function handleView() {
     rt.push("/student/" + props.studentId, "forward");
   }

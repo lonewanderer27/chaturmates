@@ -2,9 +2,10 @@ import { IonCard, IonCol, IonIcon, IonLabel, useIonRouter } from "@ionic/react";
 import { addCircleOutline } from "ionicons/icons";
 import "./AddGroupCard.css";
 import useCreateGroupModal from "../../hooks/group/useCreateGroupModal";
+import { useHistory } from "react-router";
 
 export default function AddGroupCard() {
-  const rt = useIonRouter()
+  const rt = useHistory();
   function handleClick() {
     // setShowCreateGroup(true);
     rt.push("/create/group");

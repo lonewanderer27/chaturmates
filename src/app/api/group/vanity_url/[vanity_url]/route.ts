@@ -1,0 +1,121 @@
+import { client } from "@/client";
+
+export async function POST(
+  request: Request
+) {
+  
+}
+
+export async function GET(
+  request: Request,
+  { params }: { params: { vanity_url: string } }
+) {
+  // fetch the group id from the url
+  console.log(params);
+  const { vanity_url } = params;
+
+  // if the group id is not present, return an error
+  if (!vanity_url) {
+    return new Response(
+      JSON.stringify({ error: "Missing group vanity url", success: false }),
+      {
+        status: 400,
+        statusText: "Bad Request",
+      }
+    );
+  }
+
+  // fetch the group from the database
+  const group = await client.from("groups").select("*").eq("vanity_url", vanity_url).single();
+
+  // if the group is not found, return an error
+  if (!group) {
+    return new Response(
+      JSON.stringify({ error: "Group not found", success: false }),
+      {
+        status: 404,
+        statusText: "Not Found",
+      }
+    );
+  }
+
+  // fetch the group members from the database
+  const groupMembers = await client
+    .from("group_members")
+    .select("*")
+    .eq("group_id", group.data!.id);
+
+  // fetch the approved group members from the database
+  const approvedGroupMembers = await client
+    .from("group_members")
+    .select("*")
+    .eq("group_id", group.data!.id)
+    .eq("approved", true);
+
+  // fetch the pending group members from the database
+  const pendingGroupMembers = await client
+    .from("group_members")
+    .select("*")
+    .eq("group_id", group.data!.id)
+    .eq("approved", false);
+
+  // fetch the students based on the group members from the database
+  const students = await client
+    .from("students")
+    .select("*")
+    .in("id", groupMembers.data!.map((groupMember) => groupMember.student_id));
+
+  // fetch the students based on the approved group members from the database
+  const approvedStudents = await client
+    .from("students")
+    .select("*")
+    .in(
+      "id",
+      approvedGroupMembers.data!.map((groupMember) => groupMember.student_id)
+    );
+
+  // fetch the students based on the pending group members from the database
+  const pendingStudents = await client
+    .from("students")
+    .select("*")
+    .in(
+      "id",
+      pendingGroupMembers.data!.map((groupMember) => groupMember.student_id)
+    );
+
+  // fetch the group chat urls from the database
+  const groupChatUrls = await client
+    .from("group_chat_urls")
+    .select("*")
+    .eq("group_id", group.data!.id);
+
+  // fetch the group posts from the database
+  const groupPosts = await client
+    .from("group_posts")
+    .select("*")
+    .eq("group_id", group.data!.id);
+
+  // return the group, group members, approved group members, pending group members, students, approved students, and pending students, group chat urls, and group posts
+  return new Response(
+    JSON.stringify({
+      data: {
+        group: group.data,
+        chat_urls: groupChatUrls.data,
+        posts: groupPosts.data,
+        members: {
+          all: groupMembers.data,
+          approved: approvedGroupMembers.data,
+          pending: pendingGroupMembers.data,
+        },
+        students: {
+          all: students.data,
+          approved: approvedStudents.data,
+          pending: pendingStudents.data,
+        },
+      },
+      message: "Group fetched successfully",
+      error: null,
+      success: true,
+    })
+  )
+}

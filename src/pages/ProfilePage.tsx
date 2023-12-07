@@ -8,11 +8,17 @@ import {
 } from "@ionic/react";
 import "./Profile.css";
 import { client } from "../client";
+import { useCurrentStudent } from "../hooks/student/useSelfStudent";
 
 function ProfilePage() {
   const handleLogout = () => {
     client.auth.signOut();
   };
+
+  const { data, isLoading, error } = useCurrentStudent();
+  console.log("data", data);
+  console.log("isLoading", isLoading);
+  console.log("error", error);
 
   return (
     <IonPage>

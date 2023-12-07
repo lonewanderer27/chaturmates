@@ -1,9 +1,9 @@
 import { IonText, IonList } from "@ionic/react";
-import { GroupMemberType } from "../../types";
-import MemberItem from "./MemberItem";
+import { StudentType } from "../../types";
 import { useState } from "react";
+import StudentItem from "./StudentItem";
 
-export default function GroupMembers(props: { members: GroupMemberType[] }) {
+export default function GroupMembers(props: { members?: StudentType[] }) {
   const [showAll, setShowAll] = useState(false);
 
   const toggleShowAll = () => {
@@ -15,20 +15,20 @@ export default function GroupMembers(props: { members: GroupMemberType[] }) {
       <IonText className="pageTitle ion-margin-vertical ion-padding-start">
         Klasmeyts
       </IonText>
-      {props.members.length > 0 && (
+      {props.members && props.members.length > 0 && (
         <IonList lines="inset">
           {showAll
-            ? props.members.map((klasmeyt) => (
-                <MemberItem key={klasmeyt.id} {...klasmeyt} />
+            ? props.members!.map((klasmeyt) => (
+                <StudentItem key={klasmeyt.id} {...klasmeyt} />
               ))
-            : props.members
+            : props.members!
                 .slice(0, 3)
                 .map((klasmeyt) => (
-                  <MemberItem key={klasmeyt.id} {...klasmeyt} />
+                  <StudentItem key={klasmeyt.id} {...klasmeyt} />
                 ))}
         </IonList>
       )}
-      {props.members.length > 3 && (
+      {props.members && props.members.length > 3 && (
         <IonText
           onClick={toggleShowAll}
           color="primary"

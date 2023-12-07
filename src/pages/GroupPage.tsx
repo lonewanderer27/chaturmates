@@ -12,6 +12,7 @@ import {
   IonRow,
   IonText,
   IonToolbar,
+  useIonLoading,
   useIonRouter,
 } from "@ionic/react";
 import "./Group.css";
@@ -22,20 +23,35 @@ import useGroup from "../hooks/group/useGroup";
 import useGroupMembers from "../hooks/group/useGroupMembers";
 import GroupMembers from "../components/Group/GroupMembers";
 import useSelfStudent from "../hooks/student/useSelfStudent";
+import { useQuery } from "@tanstack/react-query";
+import { getGroupByVanityUrl } from "../services/group";
 
 export default function GroupPage() {
+  const [show, close] = useIonLoading();
   const rt = useIonRouter();
   const { student } = useSelfStudent();
   const { vanity_url } = useParams<{ vanity_url: string }>();
   const { group } = useGroup(vanity_url);
-  const { groupMembers } = useGroupMembers(group?.id ?? 0);
+  // const { groupMembers } = useGroupMembers(group?.id ?? 0);
 
-  console.log("groupMembers: ", groupMembers);
+  const query = useQuery({
+    queryKey: ["group", vanity_url],
+    queryFn: async () => {
+      await show();
+      const res = (await getGroupByVanityUrl(vanity_url)).data;
+      await close();
+      return res;
+    },
+    enabled: !!vanity_url,
+  });
+
+  console.log("groupMembers: ", query.data?.members);
+  console.log("admins", query.data?.admins);
 
   const [join, setJoin] = useState(true);
 
   useEffect(() => {
-    const stud = groupMembers.find(
+    const stud = query.data?.members?.all.find(
       (member) => member.student_id === student?.id
     );
     if (stud) {
@@ -43,7 +59,7 @@ export default function GroupPage() {
     } else {
       setJoin(false);
     }
-  }, [groupMembers]);
+  }, [query.data?.members]);
 
   const toggleJoin = () => {
     setJoin(!join);
@@ -115,7 +131,7 @@ export default function GroupPage() {
             <IonText className="text-center ion-margin-vertical">
               <p style={{ textAlign: "center" }}>{group?.description}</p>
             </IonText>
-            <GroupMembers members={groupMembers} />
+            <GroupMembers members={query.data?.students.all!} />
           </IonGrid>
         </IonCard>
       </IonContent>

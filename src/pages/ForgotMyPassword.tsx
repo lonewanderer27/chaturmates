@@ -56,12 +56,14 @@ export default function ForgotMyPassword() {
       session?.user.email!
     );
 
-    if (response.data) {
-      console.log("response.data", response.data);
-      // if the backend returns success, then
-      // push the user to forgot my pass confirm page
-      hst.push("/forgotmypassconfirm");
+    if (response.error) {
+      return;
     }
+
+    // if the backend returns success, then
+    // push the user to forgot my pass confirm page
+    console.log("response.data", response.data);
+    hst.push("/forgotpass/confirm");
   };
 
   return (
@@ -95,9 +97,7 @@ export default function ForgotMyPassword() {
               <IonLabel className="my-2">
                 <IonText>Email or Username</IonText>
               </IonLabel>
-              <IonInput
-                className="custom my-1"
-              ></IonInput>
+              <IonInput className="custom my-1"></IonInput>
             </IonCol>
           </IonRow>
           <IonRow className="mb-4">

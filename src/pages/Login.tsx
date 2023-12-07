@@ -40,7 +40,7 @@ export default function Login() {
   };
 
   const forgotMyPass = () => {
-    hst.push("/forgotmypass");
+    hst.push("/forgotpass");
   };
 
   // signup modal related functionalities

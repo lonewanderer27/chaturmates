@@ -16,11 +16,9 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import "./Group.css";
-import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
+import { peopleCircleOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import useGroup from "../hooks/group/useGroup";
-import useGroupMembers from "../hooks/group/useGroupMembers";
 import GroupMembers from "../components/Group/GroupMembers";
 import useSelfStudent from "../hooks/student/useSelfStudent";
 import { useQuery } from "@tanstack/react-query";
@@ -28,11 +26,8 @@ import { getGroupByVanityUrl } from "../services/group";
 
 export default function GroupPage() {
   const [show, close] = useIonLoading();
-  const rt = useIonRouter();
   const { student } = useSelfStudent();
   const { vanity_url } = useParams<{ vanity_url: string }>();
-  const { group } = useGroup(vanity_url);
-  // const { groupMembers } = useGroupMembers(group?.id ?? 0);
 
   const query = useQuery({
     queryKey: ["group", vanity_url],
@@ -44,7 +39,7 @@ export default function GroupPage() {
     },
     enabled: !!vanity_url,
   });
-
+  
   console.log("groupMembers: ", query.data?.members);
   console.log("admins", query.data?.admins);
 
@@ -79,9 +74,9 @@ export default function GroupPage() {
         <IonCard className="groupPageCard ion-padding">
           <IonGrid>
             <IonRow className="ion-justify-content-center">
-              {group?.avatar_url ? (
+              {query.data?.group?.avatar_url ? (
                 <IonCol size="4">
-                  <img className="groupPageLogo" src={group?.avatar_url} />
+                  <img className="groupPageLogo" src={query.data!.group?.avatar_url} />
                 </IonCol>
               ) : (
                 <IonIcon
@@ -91,7 +86,7 @@ export default function GroupPage() {
               )}
             </IonRow>
             <IonText className="pageTitle">
-              <p style={{ textAlign: "center" }}>{group?.name}</p>
+              <p style={{ textAlign: "center" }}>{query.data?.group?.name}</p>
             </IonText>
             <IonRow className="ion-justify-content-center  ion-margin-vertical">
               {join === false ? (
@@ -129,7 +124,7 @@ export default function GroupPage() {
               </IonButton>
             </IonRow>
             <IonText className="text-center ion-margin-vertical">
-              <p style={{ textAlign: "center" }}>{group?.description}</p>
+              <p style={{ textAlign: "center" }}>{query.data!.group?.description}</p>
             </IonText>
             <GroupMembers members={query.data?.students.all!} />
           </IonGrid>

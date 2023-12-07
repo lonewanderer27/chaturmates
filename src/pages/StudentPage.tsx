@@ -13,15 +13,18 @@ import {
   IonRow,
   IonText,
   IonToolbar,
+  useIonLoading,
 } from "@ionic/react";
 import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
 import { GROUPS } from "../constants/groups";
 import "./StudentPage.css";
 import { useState } from "react";
-import useStudent from "../hooks/student/useStudent";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
+import { getStudentById } from "../services/student";
 
 export default function StudentPage() {
+  const [show, close] = useIonLoading();
   const [follow, setFollow] = useState(false);
 
   const toggleFollow = () => {
@@ -29,7 +32,18 @@ export default function StudentPage() {
   };
 
   const { student_id } = useParams<{ student_id: string }>();
-  const { student } = useStudent(student_id);
+  const query = useQuery({
+    queryKey: ["student", student_id],
+    queryFn: async () => {
+      console.log("useQuery");
+      await show();
+      const res = await getStudentById(student_id);
+      await close();
+      console.log("data", res.data);
+      return res.data;
+    },
+    enabled: !!student_id,
+  });
 
   return (
     <IonPage>
@@ -45,9 +59,9 @@ export default function StudentPage() {
         <IonCard className="studentPageCard ion-padding">
           <IonGrid>
             <IonRow className="ion-justify-content-center">
-              {student?.avatar_url ? (
+              {query.data?.student?.avatar_url ? (
                 <IonCol size="4">
-                  <img className="studentPageLogo" src={student.avatar_url} />
+                  <img className="studentPageLogo" src={query.data?.student.avatar_url} />
                 </IonCol>
               ) : (
                 <IonIcon
@@ -57,7 +71,7 @@ export default function StudentPage() {
               )}
             </IonRow>
             <IonText className="pageTitle">
-              <p style={{ textAlign: "center" }}>{student?.full_name}</p>
+              <p style={{ textAlign: "center" }}>{query.data?.student?.full_name}</p>
             </IonText>
             <IonRow className="ion-justify-content-center ion-margin-vertical">
               <IonButton
@@ -94,7 +108,7 @@ export default function StudentPage() {
               )}
             </IonRow>
             <IonText className="studentDescription  ion-margin-vertical">
-              <p style={{ textAlign: "center" }}>{student?.description}</p>
+              <p style={{ textAlign: "center" }}>{query.data?.student?.description}</p>
             </IonText>
           </IonGrid>
         </IonCard>

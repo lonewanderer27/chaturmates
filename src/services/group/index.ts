@@ -1,5 +1,18 @@
 import { client } from "../../client";
-import { GroupResponse } from "../../types/group";
+import { GroupResponse, GroupsResponse } from "../../types/group";
+
+export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
+  const groups = await client.from('groups').select("*");
+
+  return Promise.resolve({
+    data: {
+      groups: groups.data!
+    },
+    message: "Groups fetched successfully",
+    error: null,
+    success: true,
+  })
+}
 
 export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
   const group = await client.from("groups").select("*").eq("id", id).single();

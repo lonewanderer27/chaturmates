@@ -12,6 +12,17 @@ export interface CreateGroupInputs {
   vanity_url: string;
 }
 
+export interface GroupsResponse {
+  getAll: {
+    data: {
+      groups: GroupResponse["get"]["data"]["group"][];
+    };
+    message: string;
+    success: boolean;
+    error: any;
+  };
+}
+
 export interface GroupResponse {
   get: {
     data: {

@@ -15,14 +15,24 @@ import BtnSearch from "../components/Discover/BtnSearch";
 import useSession from "../hooks/auth/useSession";
 import GroupsGrid from "../components/Discover/GroupsGrid";
 import StudentsGrid from "../components/Discover/StudentsGrid";
-import useGroups from "../hooks/group/useGroups";
+import { useQuery } from "@tanstack/react-query";
 import useCreateGroupModal from "../hooks/group/useCreateGroupModal";
 import GroupCreateModal from "../components/Group/GroupCreateModal";
 import useStudents from "../hooks/student/useStudents";
+import { getAllGroups } from "../services/group";
 
 function DiscoverPage() {
   const { session, nickname } = useSession();
-  const { groups } = useGroups();
+  const query = useQuery({
+    queryKey: ["groups"],
+    queryFn: async () => {
+      console.log("useQuery");
+      const res = await getAllGroups();
+      await close();
+      console.log("data", res.data);
+      return res.data;
+    },
+  });
   const { students } = useStudents();
 
   const { page, modal, presentingElement, toggleShowCreateGroup } =
@@ -45,7 +55,7 @@ function DiscoverPage() {
           Connect with a group or people like you
         </p>
         <StudentsGrid students={students} />
-        <GroupsGrid groups={groups} />
+        <GroupsGrid groups={query.data?.groups} />
         <GroupCreateModal
           handleToggle={toggleShowCreateGroup}
           presentingElementRef={presentingElement}

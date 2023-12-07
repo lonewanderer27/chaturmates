@@ -4,7 +4,7 @@ import { GroupType } from "../../types";
 import AddGroupCard from "./AddGroupCard";
 
 export default function GroupsGrid(props: {
-  groups: GroupType[];
+  groups?: GroupType[];
 }) {
   return (
     <IonGrid className="ion-padding-vertical">
@@ -15,7 +15,7 @@ export default function GroupsGrid(props: {
       </IonCol>
       <IonCol size="12">
         <IonRow>
-          {props.groups.map((group, index) => (
+          {props.groups && props.groups.map((group, index) => (
             <GroupCard
               groupId={group.id}
               avatar_url={group.avatar_url}

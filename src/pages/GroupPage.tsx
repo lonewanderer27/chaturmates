@@ -12,6 +12,7 @@ import {
   IonRow,
   IonText,
   IonToolbar,
+  useIonLoading,
   useIonRouter,
 } from "@ionic/react";
 import "./Group.css";
@@ -27,6 +28,7 @@ import GroupHTTPServices from "@/services/group.service";
 import Students from "../components/Group/GroupMembers";
 
 export default function GroupPage() {
+  const [show, close] = useIonLoading();
   const rt = useHistory();
   const { student } = useSelfStudent();
   const { vanity_url } = useParams<{ vanity_url: string }>();
@@ -36,7 +38,10 @@ export default function GroupPage() {
   const query = useQuery({
     queryKey: ['group', vanity_url],
     queryFn: async () => {
-      return (await GroupHTTPServices.getByVanityUrl(vanity_url)).data.data;
+      await show();
+      const res =  (await GroupHTTPServices.getByVanityUrl(vanity_url)).data.data;
+      await close();
+      return res;
     }
   })
 

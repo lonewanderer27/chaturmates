@@ -15,10 +15,6 @@ const AuthWrapper = (props: RouteProps): JSX.Element => {
     return props.children as unknown as JSX.Element;
   }
 
-  if (session === undefined) {
-    return <IonLoading isOpen={true} duration={3000} />;
-  }
-
   if (session === null) {
     hideTabBar();
     return <Redirect to="/login" />;

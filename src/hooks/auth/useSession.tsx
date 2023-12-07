@@ -3,6 +3,7 @@ import { client } from "../../client";
 import { Session } from "@supabase/supabase-js";
 import { useAtom } from "jotai";
 import { passwordResetEmailAtom } from "../../atoms/auth";
+import { useIonLoading } from "@ionic/react";
 
 export default function useSession() {
   const [passwordResetEmail, setPasswordResetEmail] = useAtom(passwordResetEmailAtom);

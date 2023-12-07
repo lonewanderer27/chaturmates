@@ -1,8 +1,18 @@
 import { GroupType, StudentType } from ".";
-import { Database } from "./supabase";
 
 export interface StudentResponse {
   get: {
+    data: {
+      student: StudentType;
+      groups: GroupType[];
+      followers: StudentType[];
+      following: StudentType[];
+    };
+    error: any;
+    success: boolean;
+    message: string;
+  };
+  getByProfileId: {
     data: {
       student: StudentType;
       groups: GroupType[];

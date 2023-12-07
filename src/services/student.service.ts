@@ -5,9 +5,14 @@ import { AxiosResponse } from "axios";
 
 const StudentHTTPServices = {
   get: (id: string): Promise<AxiosResponse<StudentResponse["get"]>> => {
-    console.log("baseURL: ", http.defaults.baseURL)
+    console.log("baseURL: ", http.defaults.baseURL);
     console.log("get student");
     return http.get(`/student/id/${id}`);
+  },
+  getByProfileId: (
+    profile_id: string
+  ): Promise<AxiosResponse<StudentResponse["getByProfileId"]>> => {
+    return http.get(`/student/profile_id/${profile_id}`);
   },
   groups: {
     getAll: (

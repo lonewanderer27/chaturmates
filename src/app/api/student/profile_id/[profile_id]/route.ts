@@ -1,18 +1,18 @@
 import { client } from "@/client";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { profile_id: string } }
 ) {
-
-  // fetch the student id from the url
+  // fetch the profile id from the url
   console.log(params);
-  const { id } = params;
+  const { profile_id } = params;
 
-  // if the student id is not present, return an error
-  if (!id) {
+  // if the profile id is not present, return an error
+  if (!profile_id) {
     return new Response(
-      JSON.stringify({ error: "Missing student id", success: false }),
+      JSON.stringify({ error: "Missing profile id", success: false }),
       {
         status: 400,
         statusText: "Bad Request",
@@ -20,11 +20,29 @@ export async function GET(
     );
   }
 
-  // verify if the student exists
+  // verify if the profile exists
+  const profile = await client
+    .from("profiles")
+    .select("*")
+    .eq("id", profile_id)
+    .single();
+
+  // if the profile is not found, return an error
+  if (!profile) {
+    return new Response(
+      JSON.stringify({ error: "Profile not found", success: false }),
+      {
+        status: 404,
+        statusText: "Not Found",
+      }
+    );
+  }
+
+  // verify if the student exists with the profile id
   const student = await client
     .from("students")
     .select("*")
-    .eq("id", id)
+    .eq("profile_id", profile_id)
     .single();
 
   // if the student is not found, return an error
@@ -42,54 +60,62 @@ export async function GET(
   const followerIds = await client
     .from("student_followers")
     .select("*")
-    .eq("following_id", id);
+    .eq("following_id", student.data!.id);
 
   // fetch the followers of the student from the database
   const followers = await client
     .from("students")
     .select("*")
-    .in("id", followerIds.data!.map((followerId) => followerId.follower_id));
+    .in(
+      "id",
+      followerIds.data!.map((followerId) => followerId.follower_id)
+    );
 
   // fetch the following ids of the student from the database
   const followingIds = await client
     .from("student_followers")
     .select("*")
-    .eq("follower_id", id);
+    .eq("follower_id", student.data!.id);
 
   // fetch the following of the student from the database
   const following = await client
     .from("students")
     .select("*")
-    .in("id", followingIds.data!.map((followingId) => followingId.following_id));
+    .in(
+      "id",
+      followingIds.data!.map((followingId) => followingId.following_id)
+    );
 
   // fetch the group ids of the student from the database
   const group_ids = await client
     .from("group_members")
     .select("*")
-    .eq("student_id", id);
+    .eq("student_id", student.data!.id);
 
   // fetch the groups of the student from the database
   const groups = await client
     .from("groups")
     .select("*")
-    .in("id", group_ids.data!.map((group_id) => group_id.group_id));
+    .in(
+      "id",
+      group_ids.data!.map((group_id) => group_id.group_id)
+    );
 
   // return the student, followers, following, and groups
   return new Response(
     JSON.stringify({
+      error: null,
+      success: true,
       data: {
         student: student.data,
         followers: followers.data,
         following: following.data,
         groups: groups.data,
       },
-      message: "Student found",
-      success: true,
-      error: null,
     }),
     {
       status: 200,
-      statusText: "ok",
+      statusText: "OK",
     }
   );
 }

@@ -9,6 +9,7 @@ import {
   IonPage,
   IonText,
   IonToolbar,
+  useIonLoading,
 } from "@ionic/react";
 import "./Discover.css";
 import BtnSearch from "../components/Discover/BtnSearch";

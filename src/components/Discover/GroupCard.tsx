@@ -6,8 +6,7 @@ import {
   IonIcon,
   IonLabel,
   IonRow,
-  IonText,
-  useIonRouter,
+  IonText
 } from "@ionic/react";
 import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";

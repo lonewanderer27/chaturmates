@@ -25,24 +25,24 @@ export function useFindStudent(student_id: string) {
   return { student };
 }
 
-export function useCurrentStudent() {
-  // access session
-  const { session } = useSession();
+// export function useCurrentStudent() {
+//   // access session
+//   const { session } = useSession();
 
-  const query = useQuery({
-    queryKey: ["current_student"],
-    queryFn: async () => {
-      console.log("useCurrentStudent queryFn");
-      const res = (await StudentHTTPServices.get(session!.user.id)).data
-        .data
-      console.log("useCurrentStudent queryFn res", res);
-      return res;
-    },
-    enabled: !!session,
-  });
+//   const query = useQuery({
+//     queryKey: ["current_student"],
+//     queryFn: async () => {
+//       console.log("useCurrentStudent queryFn");
+//       const res = (await StudentHTTPServices.get(session!.user.id)).data
+//         .data
+//       console.log("useCurrentStudent queryFn res", res);
+//       return res;
+//     },
+//     enabled: !!session,
+//   });
 
-  return query;
-}
+//   return query;
+// }
 
 export default function useSelfStudent() {
   const { session } = useSession();

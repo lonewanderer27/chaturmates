@@ -19,7 +19,7 @@ import DiscoverRoute from "../routes/DiscoverRoute";
 import AuthWrapper from "./Auth/AuthWrapper";
 import ThreadsRoute from "../routes/ThreadsRoute";
 import NotificationsRoute from "../routes/NotificationsRoute";
-import ProfileRoute from "../routes/ProfileRoute";
+import MeRoute from "../routes/MeRoute";
 import GroupRoute from "../routes/GroupRoute";
 import StudentRoute from "../routes/StudentRoute";
 import Verification from "../pages/Verification";
@@ -38,7 +38,7 @@ export default function Tabs() {
           <Route path="/group" render={() => <GroupRoute />} />
           <Route path="/threads" render={() => <ThreadsRoute />} />
           <Route path="/notifications" render={() => <NotificationsRoute />} />
-          <Route path="/me" render={() => <ProfileRoute />} />
+          <Route path="/me" render={() => <MeRoute />} />
           <Route path="/" exact render={() => <Redirect to="/discover" />} />
         </AuthWrapper>
         <Route exact path="/login">

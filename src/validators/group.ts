@@ -1,7 +1,7 @@
-import { Group } from "@/types";
+import { GroupType } from "@/types";
 import Joi from "joi";
 
-export const newGroup = Joi.object<Group>({
+export const newGroup = Joi.object<GroupType>({
   name: Joi.string().required(),
   academic_year_id: Joi.number().optional().default(1),
   school: Joi.number().optional().default(1),

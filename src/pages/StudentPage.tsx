@@ -19,7 +19,6 @@ import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
 import { GROUPS } from "../constants/groups";
 import "./StudentPage.css";
 import { useState } from "react";
-import useStudent, { useStudentB } from "../hooks/student/useStudent";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import StudentHTTPServices from "@/services/student.service";

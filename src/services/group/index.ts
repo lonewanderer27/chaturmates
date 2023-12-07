@@ -1,6 +1,16 @@
 import { client } from "../../client";
 import { GroupResponse } from "../../types/group";
 
+export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
+  const group = await client.from("groups").select("*").eq("id", id).single();
+
+  if (!group) {
+    return Promise.reject("Group not found");
+  }
+
+  return await getGroupByVanityUrl(group.data!.vanity_url);
+}
+
 export async function getGroupByVanityUrl(
   vanity_url: string
 ): Promise<GroupResponse["get"]> {
@@ -84,13 +94,19 @@ export async function getGroupByVanityUrl(
   const admins = await client
     .from("group_members")
     .select("*")
-    .in("id", adminIds.data!.map((adminId) => adminId.student_id));
+    .in(
+      "id",
+      adminIds.data!.map((adminId) => adminId.student_id)
+    );
 
   // fetch the admin students of the group from the database
   const adminStudents = await client
     .from("students")
     .select("*")
-    .in("id", admins.data!.map((admin) => admin.student_id));
+    .in(
+      "id",
+      admins.data!.map((admin) => admin.student_id)
+    );
 
   // return the group, members, admins, students, chat urls, and posts
   return Promise.resolve({
@@ -111,7 +127,7 @@ export async function getGroupByVanityUrl(
       },
     },
     message: "Group fetched successfully",
-      error: null,
-      success: true,
+    error: null,
+    success: true,
   });
 }

@@ -76,7 +76,7 @@ export default function GroupPage() {
             <IonRow className="ion-justify-content-center">
               {query.data?.group?.avatar_url ? (
                 <IonCol size="4">
-                  <img className="groupPageLogo" src={query.data!.group?.avatar_url} />
+                  <img className="groupPageLogo" src={query.data?.group?.avatar_url} />
                 </IonCol>
               ) : (
                 <IonIcon
@@ -124,7 +124,7 @@ export default function GroupPage() {
               </IonButton>
             </IonRow>
             <IonText className="text-center ion-margin-vertical">
-              <p style={{ textAlign: "center" }}>{query.data!.group?.description}</p>
+              <p style={{ textAlign: "center" }}>{query.data?.group?.description}</p>
             </IonText>
             <GroupMembers members={query.data?.students.all!} />
           </IonGrid>

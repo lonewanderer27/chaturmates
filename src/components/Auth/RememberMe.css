@@ -18,9 +18,3 @@
     display: flex;
     align-items: center;
 }
-
-.forgotPassword {
-    display: flex;
-    height: 100%;
-    margin-top: 10%;
-}

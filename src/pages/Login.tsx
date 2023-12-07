@@ -22,10 +22,12 @@ import SignupModal from "../components/Auth/SignupModal";
 import RememberMe from "../components/Auth/RememberMe";
 import { useSignupModal } from "../hooks/auth/useSignupModal";
 import { useLogin } from "../hooks/auth/useLogin";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Form, Button } from "react-bootstrap";
 
 export default function Login() {
   const hst = useIonRouter();
-  console.log("login page")
+  console.log("login page");
 
   const [showPass, setShowPass] = useState(true);
   const togglePass = () => {
@@ -54,38 +56,43 @@ export default function Login() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonText>
-              <h1>Hi Klasmeyt!</h1>
+              <h1 className="text-2xl font-semibold fon">Hi Klasmeyt!</h1>
             </IonText>
+          </IonRow>
+          <IonRow>
             <IonCol size="12">
-              <IonLabel>
+              <BtnContinueWithGoogle />
+            </IonCol>
+            <IonCol size="12" className="ion-text-center">
+              <IonText>or</IonText>
+            </IonCol>
+            <IonCol size="12">
+              <IonLabel className="my-2">
                 <IonText>Email or Username</IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+                className="custom my-1"
                 {...register("email", { required: true })}
                 errorText="Invalid email or password"
               ></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="9">
-              <IonLabel>
-                <IonText>Password</IonText>
-              </IonLabel>
-              <IonInput
+            <IonLabel className="my-1 px-2">
+              <IonText>Password</IonText>
+            </IonLabel>
+            <InputGroup className="px-1 customB">
+              <Form.Control
                 className="custom"
                 type={showPass ? "password" : "text"}
                 {...register("password", { required: true })}
-                errorText="Invalid email or password"
-              ></IonInput>
-            </IonCol>
-            <IonButton
-                size="large"
-                fill="clear"
+                placeholder="Password"
                 onClick={() => togglePass()}
-              >
+              />
+              <Button onClick={() => togglePass()}>
                 <IonIcon src={showPass ? eye : eyeOff}></IonIcon>
-              </IonButton>
+              </Button>
+            </InputGroup>
           </IonRow>
           <RememberMe
             rememberMe={rememberMe}
@@ -94,15 +101,12 @@ export default function Login() {
           />
           <IonRow>
             <IonCol size="12">
-              <IonButton expand="block" onClick={() => handleSubmit(handleLogin)}>
+              <IonButton
+                expand="block"
+                onClick={() => handleSubmit(handleLogin)}
+              >
                 Log In
               </IonButton>
-            </IonCol>
-            <IonCol size="12" className="ion-text-center">
-              <IonText>or</IonText>
-            </IonCol>
-            <IonCol size="12">
-              <BtnContinueWithGoogle />
             </IonCol>
           </IonRow>
           <DontHaveAnAccount handleClick={toggleShowSignup} />

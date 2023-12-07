@@ -28,3 +28,12 @@ ion-textarea.custom {
   --padding-start: 10px;
   --border-radius: 10px;
 }
+
+/* For Bootstrap Inputs */
+.customB > .form-control {
+  background: #272727;
+  color: #ffffff !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}

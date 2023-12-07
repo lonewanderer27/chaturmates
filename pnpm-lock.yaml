@@ -20,6 +20,9 @@ dependencies:
   '@capacitor/status-bar':
     specifier: 5.0.6
     version: 5.0.6(@capacitor/core@5.5.1)
+  '@fontsource/poppins':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@ionic/react':
     specifier: ^7.0.0
     version: 7.5.2(react-dom@18.2.0)(react@18.2.0)
@@ -1672,6 +1675,10 @@ packages:
     resolution: {integrity: sha512-mjZVbpaeMZludF2fsWLD0Z9gCref1Tk4i9+wddjRvpUNqqcndPkBD09N/Mapey0b3jaXbLm2kICwFv2E64QinA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource/poppins@5.0.8:
+    resolution: {integrity: sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}

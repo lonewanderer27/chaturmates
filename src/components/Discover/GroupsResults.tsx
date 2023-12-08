@@ -19,7 +19,7 @@ export default function GroupsResults(props: {
         Groups
       </IonText>
       {props.groups.length > 0 && (
-        <IonList>
+        <IonList lines="none">
           {showAll ? (
             <>
               {props.groups.map((group) => (

@@ -1,4 +1,4 @@
-import { IonAvatar, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, useIonRouter } from "@ionic/react";
+import { IonAvatar, IonButton, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonRow, IonText, useIonRouter } from "@ionic/react";
 import { GroupMemberType } from "../../types";
 import { useFindStudent } from "../../hooks/student/useSelfStudent";
 import { personCircleOutline } from "ionicons/icons";
@@ -32,8 +32,7 @@ export default function MemberItem(
           ></IonIcon>
         </>
       )}
-      <IonGrid>
-        <IonRow className="ion-align-items-center">
+        <IonRow className="ion-align-items-center ml-[-5px]">
           <IonCol>
             <IonText className="studentItemName ">{student?.full_name}</IonText>
             <br />
@@ -42,11 +41,9 @@ export default function MemberItem(
             </IonText>
           </IonCol>
         </IonRow>
-      </IonGrid>
-      {/* <ItemListButton>
-        <IonText>{props.buttonLabel}</IonText>
-        <IonIcon></IonIcon>
-      </ItemListButton> */}
+      <IonButton slot="end">
+        <IonLabel>{props.buttonLabel}</IonLabel>
+      </IonButton>
     </IonItem>
   );
 }

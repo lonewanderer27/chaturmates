@@ -1,9 +1,17 @@
-import { IonAvatar, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, useIonRouter } from "@ionic/react";
+import {
+  IonAvatar,
+  IonCol,
+  IonGrid,
+  IonIcon,
+  IonItem,
+  IonRow,
+  IonText,
+  useIonRouter,
+} from "@ionic/react";
 import { StudentType } from "../../types";
 import { personCircleOutline } from "ionicons/icons";
 import S from "string";
 import "./MemberItem.css";
-import { useHistory } from "react-router";
 
 export default function StudentItem(
   props: StudentType & {
@@ -11,7 +19,7 @@ export default function StudentItem(
     buttonLabel?: string;
   }
 ) {
-  const rt = useHistory();
+  const rt = useIonRouter();
   // const { student } = useFindStudent(props.id + "");
   function handleClick() {
     rt.push("/student/" + props.id);
@@ -21,7 +29,9 @@ export default function StudentItem(
     <IonItem lines="none" onClick={handleClick} className="cursor-pointer">
       {props?.avatar_url ? (
         <>
-          <IonAvatar><img src={props!.avatar_url} /></IonAvatar>
+          <IonAvatar>
+            <img src={props!.avatar_url} />
+          </IonAvatar>
         </>
       ) : (
         <>
@@ -30,19 +40,17 @@ export default function StudentItem(
             slot="start"
             icon={props.icon}
           ></IonIcon>
-        </> 
+        </>
       )}
-      <IonGrid>
-        <IonRow className="ion-align-items-center">
-          <IonCol>
-            <IonText className="studentItemName ">{props?.full_name}</IonText>
-            <br />
-            <IonText className="studentType">
-              {S(props?.type+"").capitalize().s}
-            </IonText>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+      <IonRow className="ion-align-items-center ml-[-5px]">
+        <IonCol>
+          <IonText className="studentItemName ">{props?.full_name}</IonText>
+          <br />
+          <IonText className="studentType">
+            {S(props?.type + "").capitalize().s}
+          </IonText>
+        </IonCol>
+      </IonRow>
     </IonItem>
   );
 }

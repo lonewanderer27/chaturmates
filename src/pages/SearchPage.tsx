@@ -15,8 +15,10 @@ import useSearchHistory from "../hooks/search/useSearchHistory";
 import useSearch from "../hooks/search/useSearch";
 import useStudentSearch from "../hooks/student/useStudentSearch";
 import { useAtom } from "jotai";
-import { searchQueryAtom } from "../atoms/search";
+import { searchCategoryAtom, searchQueryAtom } from "../atoms/search";
 import useGroupSearch from "../hooks/group/useGroupSearch";
+import SearchCategory from "../components/Discover/Search/SearchCategory";
+import { SEARCH_CATEGORY } from "../enums/search";
 
 export default function SearchPage() {
   const rt = useIonRouter();
@@ -29,13 +31,15 @@ export default function SearchPage() {
   const { handleGroupSearch, groupsResults } = useGroupSearch();
   const { handleSearch } = useSearch();
 
+  const [activePage, setActivePage] = useAtom(searchCategoryAtom);
+
   return (
     <IonPage>
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonSearchbar
-              className="custom"
+              className="custom font-poppins font-semibold"
               onIonChange={(ev) => {
                 setQuery(ev.detail.value!);
                 handleSearch(ev.detail.value!);
@@ -54,9 +58,16 @@ export default function SearchPage() {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
+        <SearchCategory value={activePage} setActivePage={setActivePage} />
         <SearchHistory searchHistory={searchHistory} />
-        <StudentsResults klasmeyts={studentsResults} />
-        <GroupsResults groups={groupsResults} />
+        {activePage === SEARCH_CATEGORY.ALL ||
+          activePage === SEARCH_CATEGORY.KLASMEYTS ? (
+            <StudentsResults klasmeyts={studentsResults} />
+          ) : null}
+        {activePage === SEARCH_CATEGORY.ALL ||
+          activePage === SEARCH_CATEGORY.GROUPS ? (
+            <GroupsResults groups={groupsResults} />
+          ) : null}
       </IonContent>
     </IonPage>
   );

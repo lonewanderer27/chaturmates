@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonCol,
   IonGrid,
   IonIcon,
@@ -40,7 +41,7 @@ export default function KlasmeytItem(
         slot="start"
         icon={props.icon}
       ></IonIcon>
-      <IonRow className="ion-align-items-center">
+      <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
           <IonText className="studentItemName truncate">
             {props.studentName}
@@ -51,6 +52,9 @@ export default function KlasmeytItem(
           </IonText>
         </IonCol>
       </IonRow>
+      <IonButton slot="end">
+        <IonLabel>{props.buttonLabel}</IonLabel>
+      </IonButton>
     </IonItem>
   );
 }

@@ -1,18 +1,16 @@
 import { ComponentProps } from "react";
 import "./GroupItem.css";
 import {
-  IonBadge,
+  IonButton,
   IonCol,
-  IonGrid,
   IonIcon,
   IonItem,
+  IonLabel,
   IonRow,
   IonText,
   useIonRouter,
 } from "@ionic/react";
 import { peopleCircleOutline } from "ionicons/icons";
-import ItemListButton from "../ItemListButton";
-import useGroupMembers from "../../hooks/group/useGroupMembers";
 import { useQuery } from "@tanstack/react-query";
 import { getGroupById } from "../../services/group";
 
@@ -52,7 +50,7 @@ export default function GroupItem(
         slot="start"
         icon={props.icon}
       ></IonIcon>
-      <IonRow className="ion-align-items-center">
+      <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
           <IonText className="groupName">{props.groupName}</IonText>
           <br />
@@ -61,10 +59,14 @@ export default function GroupItem(
           </IonText>
         </IonCol>
       </IonRow>
+      <IonButton slot="end" size="default" className="py-2">
+        <IonLabel>{props.buttonLabel}</IonLabel>
+      </IonButton>
     </IonItem>
   );
 }
 
 GroupItem.defaultProps = {
   icon: peopleCircleOutline,
+  buttonLabel: "Join"
 }

@@ -1,11 +1,11 @@
 import { IonRouterOutlet } from "@ionic/react";
 import { Route } from "react-router";
-import ProfilePage from "../pages/ProfilePage";
+import MePage from "../pages/MePage";
 
 export default function ProfileRoute() {
   return (
     <IonRouterOutlet id="me">
-      <Route exact path="/me" render={() => <ProfilePage/>}/>
+      <Route exact path="/me" render={() => <MePage/>}/>
     </IonRouterOutlet>
   )
 }

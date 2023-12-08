@@ -10,7 +10,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import "./Profile.css";
+import "./MePage.css";
 import { client } from "../client";
 import Cover from "../components/Me/Cover";
 import Avatar from "../components/Me/Avatar";

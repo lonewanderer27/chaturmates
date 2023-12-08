@@ -35,6 +35,9 @@ export default function useGoogle() {
         provider: "google",
         options: {
           redirectTo: rt.routeInfo.pathname,
+          queryParams: {
+            prompt: "select_account"
+          }
         },
       })
       .then((response) => {

@@ -7,21 +7,28 @@ import { useQuery } from "@tanstack/react-query";
 import { getStudentById } from "../../services/student";
 
 export function useFindStudent(student_id: string) {
-  const [student, setStudent] = useState<StudentType>();
+  const query = useQuery({
+    queryKey: ["student lite", student_id],
+    queryFn: async () => {
+      const res = (await client.from("students").select("*").eq("id", student_id).single()).data;
+      return res;
+    },
+  })
+  // const [student, setStudent] = useState<StudentType>();
 
-  useEffect(() => {
-    (async () => {
-      const response = await client
-        .from("students")
-        .select("*")
-        .eq("id", student_id)
-        .single();
-      console.log("useStudent response", response);
-      setStudent(response.data as StudentType);
-    })();
-  }, [student_id]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await client
+  //       .from("students")
+  //       .select("*")
+  //       .eq("id", student_id)
+  //       .single();
+  //     console.log("useStudent response", response);
+  //     setStudent(response.data as StudentType);
+  //   })();
+  // }, [student_id]);
 
-  return { student };
+  return { student: query.data? query.data as StudentType : null };
 }
 
 export default function useSelfStudent() {

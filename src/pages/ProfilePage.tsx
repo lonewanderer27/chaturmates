@@ -1,35 +1,44 @@
 import {
   IonButton,
   IonContent,
+  IonGrid,
   IonHeader,
+  IonLabel,
   IonPage,
+  IonRow,
   IonText,
+  IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "./Profile.css";
 import { client } from "../client";
+import Cover from "../components/Me/Cover";
+import Avatar from "../components/Me/Avatar";
+import { useQuery } from "@tanstack/react-query";
+import useSelfStudent from "../hooks/student/useSelfStudent";
+import StudentInformation from "../components/Me/Information";
 
 function ProfilePage() {
   const handleLogout = () => {
     client.auth.signOut();
   };
+  const { student, profile, groups } = useSelfStudent();
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Profile</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
-      <IonContent fullscreen className="ion-padding">
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonText slot="start" className="pageTitle">
-              Profile
-            </IonText>
-          </IonToolbar>
-        </IonHeader>
-        <IonButton onClick={handleLogout} expand="block">
+      <IonContent fullscreen>
+        <Cover />
+        <Avatar student={student} />
+        <IonText>
+          <h3 className="text-xl font-bold text-center">
+            {student?.full_name}
+          </h3>
+        </IonText>
+        <IonText>
+          <p className="px-4 pt-2 text-center">{student?.description}</p>
+        </IonText>
+        <StudentInformation student={student} profile={profile} />
+        <IonButton onClick={handleLogout} expand="block" className="p-4 bottom-0">
           Logout
         </IonButton>
       </IonContent>

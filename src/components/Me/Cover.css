@@ -1,0 +1,8 @@
+.coverBar {
+  background-image: url("/adu_bg_portrait_blurred.png");
+  background-position: 50% 10%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 15%;
+  padding-bottom: 15%;
+}

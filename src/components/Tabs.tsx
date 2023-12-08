@@ -12,7 +12,7 @@ import {
   personCircleOutline,
 } from "ionicons/icons";
 import { Route, Redirect } from "react-router";
-import ForgotMyPassConfirm from "../pages/ForgotMyPassConfirm";
+import ForgotMyPassConfirm from "../pages/ForgotMyPass/Confirm";
 import ForgotMyPassword from "../pages/ForgotMyPassword";
 import Login from "../pages/Login";
 import DiscoverRoute from "../routes/DiscoverRoute";
@@ -42,10 +42,10 @@ export default function Tabs() {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/forgotmypass">
+        <Route exact path="/forgotpass">
           <ForgotMyPassword />
         </Route>
-        <Route exact path="/forgotmypassconfirm">
+        <Route exact path="/forgotpass/confirm">
           <ForgotMyPassConfirm />
         </Route>
         <Route exact path="/verify">

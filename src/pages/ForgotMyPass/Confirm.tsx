@@ -34,6 +34,7 @@ export default function ForgotMyPassConfirm() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonButton
+              className="ml-[-20px]"
               fill="clear"
               onClick={handleReturnToLogin}
             >

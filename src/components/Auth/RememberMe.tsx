@@ -14,10 +14,10 @@ export default function RememberMe(props: {
           checked={props.rememberMe}
           onClick={props.toggleRememberMe}
         />
-        <IonText className="rememberMe">Remember Me</IonText>
+        <IonText className="rememberMe font-poppins">Remember Me</IonText>
       </IonCol>
       <IonCol size="6" className="ion-text-end" onClick={props.forgotMyPass}>
-        <IonText color="primary" className="forgotPassword font-bold cursor-pointer">Forgot Password?</IonText>
+        <IonText color="primary" className="forgotPassword font-poppins font-bold cursor-pointer">Forgot Password?</IonText>
       </IonCol>
     </IonRow>
   );

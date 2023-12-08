@@ -121,10 +121,15 @@ export async function getGroupByVanityUrl(
       admins.data!.map((admin) => admin.student_id)
     );
 
+  console.log("approved members count: ", approvedStudents.data?.length)
+
   // return the group, members, admins, students, chat urls, and posts
   return Promise.resolve({
     data: {
-      group: group.data!,
+      group: {
+        ...group.data!,
+        memberCount: approvedStudents.data?.length,
+      },
       chat_urls: groupChatUrls.data!,
       posts: groupPosts.data!,
       members: {

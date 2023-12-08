@@ -14,21 +14,8 @@ export function useFindStudent(student_id: string) {
       return res;
     },
   })
-  // const [student, setStudent] = useState<StudentType>();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await client
-  //       .from("students")
-  //       .select("*")
-  //       .eq("id", student_id)
-  //       .single();
-  //     console.log("useStudent response", response);
-  //     setStudent(response.data as StudentType);
-  //   })();
-  // }, [student_id]);
-
-  return { student: query.data? query.data as StudentType : null };
+  return { student: query.data ?? null };
 }
 
 export default function useSelfStudent() {

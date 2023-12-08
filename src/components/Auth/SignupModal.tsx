@@ -60,18 +60,18 @@ export default function SignupModal(
               <IonIcon src={close}></IonIcon>
             </IonButton>
           </IonButtons>
-          <IonTitle>Sign up</IonTitle>
+          <IonTitle className="font-poppins">Sign Up</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="signupPage ">
         <IonGrid className="ion-padding">
           <IonRow>
             <IonCol>
-              <IonLabel>
-                <IonText>Your Email Address</IonText>
+              <IonLabel className="my-2">
+                <IonText className="font-poppins">Your Email Address</IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+                className="custom font-poppins"
                 type="email"
                 {...register("email", { required: true })}
               ></IonInput>
@@ -79,11 +79,11 @@ export default function SignupModal(
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonLabel>
-                <IonText>Full Name</IonText>
+              <IonLabel className="my-2">
+                <IonText className="font-poppins">Full Name</IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+                className="custom my-1 font-poppins"
                 {...register("fullName", { required: true })}
               ></IonInput>
             </IonCol>
@@ -96,9 +96,9 @@ export default function SignupModal(
           </IonRow> */}
           <IonRow>
             <IonCol>
-              <IonLabel>Password</IonLabel>
+              <IonLabel className="font-poppins">Password</IonLabel>
               <IonInput
-                className="custom"
+                className="custom font-poppins"
                 type={showPass ? "password" : "text"}
                 {...register("password", { required: true })}
               ></IonInput>
@@ -109,9 +109,9 @@ export default function SignupModal(
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonLabel>Confirm Password</IonLabel>
+              <IonLabel className="font-poppins">Confirm Password</IonLabel>
               <IonInput
-                className="custom"
+                className="custom font-poppins"
                 type={showPass ? "password" : "text"}
                 {...register("passwordConfirmation", { required: true })}
               ></IonInput>
@@ -123,12 +123,12 @@ export default function SignupModal(
           <AgreeToTerms agree={agree} toggleAgree={toggleAgree} />
           <IonRow>
             <IonCol size="12">
-              <IonButton expand="block" onClick={handleSubmit(handleSignUp)}>
+              <IonButton expand="block" onClick={handleSubmit(handleSignUp)} className="font-poppins font-bold">
                 Sign up
               </IonButton>
             </IonCol>
             <IonCol size="12" className="ion-text-center">
-              <IonText>or</IonText>
+              <IonText className="font-poppins font-bold">or</IonText>
             </IonCol>
             <IonCol size="12">
               <BtnContinueWithGoogle onClick={handleGoogle} />

@@ -26,7 +26,9 @@ export interface GroupsResponse {
 export interface GroupResponse {
   get: {
     data: {
-      group: GroupType;
+      group: GroupType & {
+        memberCount?: number;
+      }
       members: {
         all: GroupMemberType[];
         approved: GroupMemberType[];

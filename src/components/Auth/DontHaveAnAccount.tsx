@@ -5,10 +5,12 @@ import SignupModal from "./SignupModal";
 export default function DontHaveAnAccount(props: { handleClick: () => void }) {
   return (
     <IonRow>
-      <IonCol size="8">Don't have an account?</IonCol>
+      <IonCol size="8">
+        <IonText className="font-poppins">Don't have an account?</IonText>
+      </IonCol>
       <IonCol size="4" className="ion-text-end" onClick={props.handleClick}>
-        <IonText color="primary" className="cursor-pointer font-bold">
-          Sign up
+        <IonText color="primary" className="cursor-pointer font-bold font-poppins">
+          Sign Up
         </IonText>
       </IonCol>
     </IonRow>

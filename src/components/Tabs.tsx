@@ -12,7 +12,7 @@ import {
   personCircleOutline,
 } from "ionicons/icons";
 import { Route, Redirect } from "react-router";
-import ForgotMyPassConfirm from "../pages/ForgotMyPass/Confirm";
+import ForgotMyPassConfirm from "../pages/ForgotMyPass/ForgotPassConfirm";
 import ForgotMyPassword from "../pages/ForgotMyPassword";
 import Login from "../pages/Login";
 import DiscoverRoute from "../routes/DiscoverRoute";

@@ -22,6 +22,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { getStudentById } from "../services/student";
+import GroupsResults from "../components/Discover/GroupsResults";
 
 export default function StudentPage() {
   const [show, close] = useIonLoading();
@@ -111,6 +112,9 @@ export default function StudentPage() {
             <IonText className="studentDescription  ion-margin-vertical  font-poppins font-medium">
               <p style={{ textAlign: "center" }}>{query.data?.student?.description}</p>
             </IonText>
+              <GroupsResults
+                groups={query.data?.groups}
+              />
           </IonGrid>
         </IonCard>
       </IonContent>

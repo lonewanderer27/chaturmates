@@ -4,7 +4,6 @@ import { client } from "../../client";
 import { useIonLoading } from "@ionic/react";
 
 export default function useGroupMembers(group_id: number) {
-  const [load, dismiss] = useIonLoading();
   const [groupMembers, setGroupMembers] = useState<GroupMemberType[]>([]);
 
   async function getAll() {

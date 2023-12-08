@@ -24,7 +24,7 @@ export default function ForgotMyPassConfirm() {
   const handleReturnToLogin = () => {
     hst.push("/login", {
       direction: "back",
-    })
+    });
   };
 
   return (
@@ -34,7 +34,7 @@ export default function ForgotMyPassConfirm() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonButton
-              className="ml-[-20px]"
+              className="ml-[-18px]"
               fill="clear"
               onClick={handleReturnToLogin}
             >
@@ -43,16 +43,20 @@ export default function ForgotMyPassConfirm() {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonText>
+              <IonText className="font-poppins">
                 <h1 className="text-2xl font-semibold">Check your email!</h1>
               </IonText>
-              <IonText>Follow the instructions on your email.</IonText>
+              <IonText className="font-poppins">
+                Follow the instructions on your email.
+              </IonText>
             </IonCol>
           </IonRow>
           <IonRow className="my-5">
             <IonCol>
               <IonButton expand="block" onClick={handleReturnToLogin}>
-                <IonText>Return to Log in</IonText>
+                <IonText className="font-poppins font-bold">
+                  Return to Log in
+                </IonText>
               </IonButton>
             </IonCol>
           </IonRow>

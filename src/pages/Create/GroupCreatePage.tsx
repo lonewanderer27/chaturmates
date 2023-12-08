@@ -28,7 +28,7 @@ export default function GroupCreatePage() {
 
   function handleBack() {
     console.log("handleBack");
-    rt.push("/discover");
+    rt.push("/discover", "back");
   }
 
   return (

@@ -10,7 +10,7 @@ export default function AgreeToTerms(props: IonToggleProps & {
   return (
     <IonRow className="ion-align-items-center">
       <IonCol size="8">
-        <IonText className="agreeToTerms">I agree with Terms &amp; Conditions</IonText>
+        <IonText className="agreeToTerms  font-poppins">I agree with Terms &amp; Conditions</IonText>
       </IonCol>
       <IonCol size="4" className="ion-text-end">
         <IonToggle

@@ -73,7 +73,7 @@ export default function ForgotMyPassword() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonButton
-              className="ml-[-20px]"
+              className="ml-[-18px]"
               fill="clear"
               onClick={() =>
                 hst.push("/login", {
@@ -84,27 +84,35 @@ export default function ForgotMyPassword() {
               <IonIcon src={close} />
             </IonButton>
           </IonRow>
-          <IonText>
-            <h1 className="text-2xl font-semibold">Oh no, I forgot!</h1>
-          </IonText>
-          <IonText>
-            <p>
-              Enter your email, or username and we'll send you a link to change
-              a new password
-            </p>
-          </IonText>
+          <IonRow className="px-1">
+            <IonText>
+              <h1 className="text-2xl font-semibold  font-poppins">
+                Oh no, I forgot!
+              </h1>
+            </IonText>
+            <IonText className=" font-poppins">
+              <p>
+                Enter your email, or username and we'll send you a link to
+                change a new password
+              </p>
+            </IonText>
+          </IonRow>
           <IonRow className="mt-4">
             <IonCol size="12">
               <IonLabel className="my-2">
-                <IonText>Email or Username</IonText>
+                <IonText className=" font-poppins">Email or Username</IonText>
               </IonLabel>
               <IonInput className="custom my-1"></IonInput>
             </IonCol>
           </IonRow>
           <IonRow className="mb-4">
             <IonCol size="12">
-              <IonButton expand="block" onClick={handleForgotPass}>
-                <IonText>Forgot Password</IonText>
+              <IonButton
+                expand="block"
+                onClick={handleForgotPass}
+                className="font-poppins font-bold"
+              >
+                Forgot Password
               </IonButton>
             </IonCol>
           </IonRow>

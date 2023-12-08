@@ -3,9 +3,10 @@ import GroupItem from "./GroupItem";
 import "./GroupItem.css";
 import { GroupType } from "../../types";
 import { useState } from "react";
+import { GroupResponse } from "../../types/group";
 
 export default function GroupsResults(props: {
-  groups: GroupType[];
+  groups?: GroupResponse['get']['data']['group'][];
   handleViewMore?: () => void;
 }) {
   const [showAll, setShowAll] = useState(false);
@@ -18,12 +19,13 @@ export default function GroupsResults(props: {
       <IonText className="pageTitle ion-margin-vertical ion-padding-start">
         Groups
       </IonText>
-      {props.groups.length > 0 && (
+      {props.groups && props.groups.length > 0 && (
         <IonList lines="none">
           {showAll ? (
             <>
               {props.groups.map((group) => (
                 <GroupItem
+                  group={group}
                   key={"group:" + group.id}
                   groupId={group.id}
                   slug={group.vanity_url}
@@ -36,6 +38,7 @@ export default function GroupsResults(props: {
             <>
               {props.groups.slice(0, 3).map((group) => (
                 <GroupItem
+                  group={group}
                   key={"group:" + group.id}
                   groupId={group.id}
                   slug={group.vanity_url}
@@ -47,10 +50,10 @@ export default function GroupsResults(props: {
           )}
         </IonList>
       )}
-      {props.groups.length === 0 && (
+      {props.groups && props.groups.length === 0 && (
         <p className="ion-padding-start">No groups found.</p>
       )}
-      {props.groups.length > 3 && (
+      {props.groups && props.groups.length > 3 && (
         <IonText
           onClick={toggleShowAll}
           color="primary"
@@ -62,26 +65,3 @@ export default function GroupsResults(props: {
     </div>
   );
 }
-
-GroupsResults.defaultProps = {
-  groups: [
-    {
-      groupName: "Software Engineering The Best",
-      groupType: "Irregular",
-      groupCount: 27,
-      slug: "software_engineering_the_best",
-    },
-    {
-      groupName: "Group ni Jay",
-      groupType: "Regular",
-      groupCount: 10,
-      slug: "group_ni_jay",
-    },
-    {
-      groupName: "Potato Corner",
-      groupType: "Regular",
-      groupCount: 7,
-      slug: "potato_corner",
-    },
-  ],
-};

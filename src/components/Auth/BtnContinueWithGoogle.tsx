@@ -10,7 +10,7 @@ export default function BtnContinueWithGoogle(props: IonButtonProps) {
   const { handleGoogle } = useGoogle();
 
   return (
-    <IonButton expand="block" {...rest} onClick={handleGoogle}>
+    <IonButton expand="block" {...rest} onClick={handleGoogle} className="font-poppins font-bold">
       <IonIcon slot="start" icon={logoGoogle} />
       Continue with Google
     </IonButton>

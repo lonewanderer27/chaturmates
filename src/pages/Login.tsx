@@ -56,7 +56,7 @@ export default function Login() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonText>
-              <h1 className="text-2xl font-semibold font-poppins">Hi Klasmeyt!</h1>
+              <h1 className="text-3xl font-semibold font-poppins">Hi Klasmeyt!</h1>
             </IonText>
           </IonRow>
           <IonRow>
@@ -64,11 +64,11 @@ export default function Login() {
               <BtnContinueWithGoogle />
             </IonCol>
             <IonCol size="12" className="ion-text-center">
-              <IonText>or</IonText>
+              <IonText className="font-poppins font-bold">or</IonText>
             </IonCol>
             <IonCol size="12">
               <IonLabel className="my-2">
-                <IonText>Email or Username</IonText>
+                <IonText className="font-poppins">Email or Username</IonText>
               </IonLabel>
               <IonInput
                 className="custom my-1"
@@ -79,7 +79,7 @@ export default function Login() {
           </IonRow>
           <IonRow>
             <IonLabel className="my-1 px-2">
-              <IonText>Password</IonText>
+              <IonText className="font-poppins">Password</IonText>
             </IonLabel>
             <InputGroup className="px-1 customB">
               <Form.Control
@@ -102,6 +102,7 @@ export default function Login() {
           <IonRow>
             <IonCol size="12">
               <IonButton
+                className="font-poppins font-bold"
                 expand="block"
                 onClick={() => handleSubmit(handleLogin)}
               >

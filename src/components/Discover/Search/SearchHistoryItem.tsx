@@ -1,11 +1,12 @@
-import { IonButton, IonIcon, IonItem, IonLabel, IonText } from "@ionic/react";
+import { IonIcon, IonItem, IonText } from "@ionic/react";
 import { closeCircleOutline, timeOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
-import { SearchHistoryType } from "../../../types";
 import useSearchHistory from "../../../hooks/search/useSearchHistory";
 import useSearch from "../../../hooks/search/useSearch";
 import useGroupSearch from "../../../hooks/group/useGroupSearch";
 import useStudentSearch from "../../../hooks/student/useStudentSearch";
+import { useAtom } from "jotai";
+import { searchQueryAtom } from "../../../atoms/search";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
 
@@ -18,7 +19,7 @@ export default function SearchHistoryItem(
     lines: string;
   }
 ) {
-
+  const [query, setQuery] = useAtom(searchQueryAtom);
   const { handleGroupSearch } = useGroupSearch();
   const { handleStudentsSearch } = useStudentSearch();
   const { handleHide } = useSearchHistory();
@@ -30,6 +31,7 @@ export default function SearchHistoryItem(
       slot="start"
       className="cursor-pointer"
       onClick={() => {
+        setQuery(props.title ?? "")
         handleGroupSearch(props.title ?? "")
         handleStudentsSearch(props.title ?? "") 
         handleSearch(props.title ?? "")

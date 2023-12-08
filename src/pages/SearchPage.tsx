@@ -46,7 +46,13 @@ export default function SearchPage() {
                 handleStudentsSearch(ev.detail.value!);
                 handleGroupSearch(ev.detail.value!);
               }}
-              debounce={100}
+              debounce={200}
+              onIonInput={(ev) => {
+                setQuery(ev.detail.value!);
+                handleSearch(ev.detail.value!);
+                handleStudentsSearch(ev.detail.value!);
+                handleGroupSearch(ev.detail.value!);
+              }}
               placeholder='Example Letter "J"'
               mode="md"
               showCancelButton="always"

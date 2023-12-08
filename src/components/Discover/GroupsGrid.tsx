@@ -7,8 +7,8 @@ export default function GroupsGrid(props: { groups?: GroupType[] }) {
   return (
     <IonGrid className="ion-padding-vertical">
       <IonCol size="12" className="ion-padding-vertical">
-        <IonText className="pageTitle">
-          <IonText>Explore Groups</IonText>
+        <IonText className="pageTitle font-poppins">
+          Explore Groups
         </IonText>
       </IonCol>
       <IonCol size="12">

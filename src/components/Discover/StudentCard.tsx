@@ -32,7 +32,7 @@ export default function StudentCard(
 
   return (
     <SwiperSlide>
-      <IonCard className="studentCard ion-padding m-2" onClick={handleView}>
+      <IonCard className="studentCard ion-padding m-2 font-poppins" onClick={handleView}>
         <IonRow>
           <IonCol size="2">
             <IonAvatar>
@@ -51,7 +51,7 @@ export default function StudentCard(
               <span className="studentName text-ellipsis  line-clamp-1">
                 {props.studentName}
               </span>
-              <p className="studentType">
+              <p className="studentType font-light">
                 {S(props.studentType).capitalize().s}
               </p>
             </IonText>
@@ -59,7 +59,7 @@ export default function StudentCard(
         </IonRow>
         <IonRow>
           <IonText>
-            <p className="line-clamp-3">{props.studentDescription}</p>
+            <p className="line-clamp-3  font-medium">{props.studentDescription}</p>
           </IonText>
         </IonRow>
       </IonCard>

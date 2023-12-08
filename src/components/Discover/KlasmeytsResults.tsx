@@ -14,7 +14,7 @@ export default function StudentsResults(props: {
   };
 
   return (
-    <div className="ion-margin-vertical">
+    <div className="ion-margin-vertical px-0 font-poppins">
       <IonText className="pageTitle ion-margin-vertical ion-padding-start">
         Klasmeyts
       </IonText>

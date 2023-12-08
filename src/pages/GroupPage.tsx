@@ -85,14 +85,15 @@ export default function GroupPage() {
                 ></IonIcon>
               )}
             </IonRow>
-            <IonText className="pageTitle">
-              <p style={{ textAlign: "center" }}>{query.data?.group?.name}</p>
+            <IonText className=" font-poppins text-center font-light text-lg">
+              <p className="pageTitle">{query.data?.group?.name}</p>
+              <p>Regular</p>
             </IonText>
             <IonRow className="ion-justify-content-center  ion-margin-vertical">
               {join === false ? (
                 <>
                   <IonButton
-                    className="ion-margin-horizontal"
+                    className="ion-margin-horizontal font-poppins"
                     shape="round"
                     size="small"
                     color="success"
@@ -104,7 +105,7 @@ export default function GroupPage() {
               ) : (
                 <>
                   <IonButton
-                    className="ion-margin-horizontal"
+                    className="ion-margin-horizontal font-poppins"
                     shape="round"
                     size="small"
                     color="danger"
@@ -116,14 +117,14 @@ export default function GroupPage() {
               )}
               <IonButton
                 disabled
-                className="ion-margin-horizontal"
+                className="ion-margin-horizontal font-poppins"
                 shape="round"
                 size="small"
               >
                 <IonText>Message</IonText>
               </IonButton>
             </IonRow>
-            <IonText className="text-center ion-margin-vertical">
+            <IonText className="text-center ion-margin-vertical font-medium font-poppins">
               <p style={{ textAlign: "center" }}>{query.data?.group?.description}</p>
             </IonText>
             <GroupMembers members={query.data?.students.all!} />

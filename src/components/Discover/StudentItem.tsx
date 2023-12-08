@@ -43,7 +43,7 @@ export default function KlasmeytItem(
       ></IonIcon>
       <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
-          <IonText className="studentItemName truncate">
+          <IonText className="studentItemName truncate font-poppins font-semibold">
             {props.studentName}
           </IonText>
           <br/>
@@ -52,8 +52,10 @@ export default function KlasmeytItem(
           </IonText>
         </IonCol>
       </IonRow>
-      <IonButton slot="end">
-        <IonLabel>{props.buttonLabel}</IonLabel>
+      <IonButton slot="end"  className="rounded-3xl">
+        <IonText className="p-2">
+          <span className=" font-poppins font-medium text-base">{props.buttonLabel}</span>
+        </IonText>
       </IonButton>
     </IonItem>
   );

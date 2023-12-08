@@ -1,9 +1,11 @@
 import {
   IonAvatar,
+  IonButton,
   IonCol,
   IonGrid,
   IonIcon,
   IonItem,
+  IonLabel,
   IonRow,
   IonText,
   useIonRouter,
@@ -44,13 +46,18 @@ export default function StudentItem(
       )}
       <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
-          <IonText className="studentItemName ">{props?.full_name}</IonText>
+          <IonText className="studentItemName truncate font-poppins font-semibold">{props?.full_name}</IonText>
           <br />
           <IonText className="studentType">
             {S(props?.type + "").capitalize().s}
           </IonText>
         </IonCol>
       </IonRow>
+      <IonButton slot="end"  className="rounded-3xl">
+        <IonText className="p-2">
+          <span className=" font-poppins font-medium text-sm">{props.buttonLabel}</span>
+        </IonText>
+      </IonButton>
     </IonItem>
   );
 }

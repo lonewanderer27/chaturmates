@@ -70,15 +70,16 @@ export default function StudentPage() {
                 />
               )}
             </IonRow>
-            <IonText className="pageTitle">
-              <p style={{ textAlign: "center" }}>{query.data?.student?.full_name}</p>
+            <IonText className="text-center font-poppins font-light text-lg">
+              <p className="pageTitle">{query.data?.student?.full_name}</p>
+              <p>Regular</p>
             </IonText>
             <IonRow className="ion-justify-content-center ion-margin-vertical">
               <IonButton
                 disabled
                 shape="round"
                 size="small"
-                className="ion-margin-horizontal"
+                className="ion-margin-horizontal font-poppins"
               >
                 Message
               </IonButton>
@@ -87,7 +88,7 @@ export default function StudentPage() {
                   <IonButton
                     shape="round"
                     size="small"
-                    className="ion-margin-horizontal"
+                    className="ion-margin-horizontal font-poppins"
                     onClick={toggleFollow}
                   >
                     Follow
@@ -99,7 +100,7 @@ export default function StudentPage() {
                     color="success"
                     shape="round"
                     size="small"
-                    className="ion-margin-horizontal"
+                    className="ion-margin-horizontal font-poppins"
                     onClick={toggleFollow}
                   >
                     Followed
@@ -107,7 +108,7 @@ export default function StudentPage() {
                 </>
               )}
             </IonRow>
-            <IonText className="studentDescription  ion-margin-vertical">
+            <IonText className="studentDescription  ion-margin-vertical  font-poppins font-medium">
               <p style={{ textAlign: "center" }}>{query.data?.student?.description}</p>
             </IonText>
           </IonGrid>

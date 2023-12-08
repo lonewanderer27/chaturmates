@@ -1,4 +1,4 @@
-import { IonButton, IonIcon, IonItem, IonLabel } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonLabel, IonText } from "@ionic/react";
 import { closeCircleOutline, timeOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import { SearchHistoryType } from "../../../types";
@@ -27,6 +27,7 @@ export default function SearchHistoryItem(
   return (
     <IonItem
       {...props}
+      slot="start"
       className="cursor-pointer"
       onClick={() => {
         handleGroupSearch(props.title ?? "")
@@ -35,8 +36,11 @@ export default function SearchHistoryItem(
       }}
     >
       <IonIcon icon={timeOutline} slot="start"></IonIcon>
-      <IonLabel>{props.title}</IonLabel>
+      <IonText className="font-poppins font-semibold">
+        <p>{props.title}</p>
+      </IonText>
       <IonIcon
+        slot="end"
         onClick={() => handleHide(props.historyId)}
         icon={props.closeIcon}
       ></IonIcon>

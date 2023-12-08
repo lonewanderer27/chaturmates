@@ -53,7 +53,7 @@ function DiscoverPage() {
       <IonContent fullscreen className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonText slot="start" className="pageTitle">
+            <IonText slot="start" className="pageTitle font-poppins">
               Welcome, {nickname}
             </IonText>
             <IonButtons slot="end">
@@ -61,7 +61,7 @@ function DiscoverPage() {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <p className="p-2 text-lg">
+        <p className="p-2 text-lg font-poppins">
           Connect with a group or people like you
         </p>
         <StudentsGrid students={squery.data?.students} />

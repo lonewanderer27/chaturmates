@@ -17,7 +17,7 @@ export default function AddGroupCard() {
         onClick={handleClick}
       >
         <IonIcon className="addIcon mx-auto" src={addCircleOutline}></IonIcon>
-        <IonLabel className="my-2">Create new Group</IonLabel>
+        <IonLabel className="my-2  font-poppins font-medium">Create new Group</IonLabel>
       </IonCard>
     </IonCol>
   );

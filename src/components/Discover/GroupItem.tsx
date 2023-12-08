@@ -52,15 +52,17 @@ export default function GroupItem(
       ></IonIcon>
       <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
-          <IonText className="groupName">{props.groupName}</IonText>
+          <IonText className="groupName truncate font-poppins  font-semibold">{props.groupName}</IonText>
           <br />
           <IonText className="groupCount">
             {query.data?.students.approved.length} Members
           </IonText>
         </IonCol>
       </IonRow>
-      <IonButton slot="end" size="default" className="py-2">
-        <IonLabel>{props.buttonLabel}</IonLabel>
+      <IonButton slot="end" className="rounded-3xl">
+        <IonText className="p-2">
+          <span className=" font-poppins font-medium text-base">{props.buttonLabel}</span>
+        </IonText>
       </IonButton>
     </IonItem>
   );

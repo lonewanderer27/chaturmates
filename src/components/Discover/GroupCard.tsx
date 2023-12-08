@@ -35,7 +35,7 @@ export default function GroupCard(
   return (
     <IonCol size="6" className="flex flex-column w-full cursor-pointer">
       <IonCard
-        className="groupCard ion-padding ion-no-margin w-full"
+        className="groupCard ion-padding ion-no-margin w-full font-poppins"
         onClick={handleView}
       >
         <IonRow>
@@ -48,7 +48,7 @@ export default function GroupCard(
           </IonAvatar>
         </IonRow>
         <IonRow className="ion-margin-vertical">
-          <IonLabel color="primary">
+          <IonLabel color="primary font-medium text-xl">
             <p>{props.name}</p>
           </IonLabel>
         </IonRow>

@@ -18,7 +18,7 @@ export default function SearchHistory(props: {
   }
 
   return (
-    <div className="ion-margin-bottom">
+    <div className="ion-margin-bottom font-poppins mt-2">
       {props.searchHistory.length > 0 && (
         <IonList>
           {showAll
@@ -45,7 +45,7 @@ export default function SearchHistory(props: {
         color="primary"
         className="ion-margin-vertical ion-padding-start  cursor-pointer"
       >
-        {showAll ? "Show Most Recent" : "Show All History"}
+        {showAll ? "Show Most Recent" : "Show More History"}
       </IonText>
     </div>
   );

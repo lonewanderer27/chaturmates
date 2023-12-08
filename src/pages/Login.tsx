@@ -56,7 +56,7 @@ export default function Login() {
         <IonGrid className="ion-padding">
           <IonRow>
             <IonText>
-              <h1 className="text-2xl font-semibold fon">Hi Klasmeyt!</h1>
+              <h1 className="text-2xl font-semibold font-poppins">Hi Klasmeyt!</h1>
             </IonText>
           </IonRow>
           <IonRow>

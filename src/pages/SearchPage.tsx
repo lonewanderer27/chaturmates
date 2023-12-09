@@ -46,7 +46,7 @@ export default function SearchPage() {
                 handleStudentsSearch(ev.detail.value!);
                 handleGroupSearch(ev.detail.value!);
               }}
-              debounce={200}
+              debounce={750}
               onIonInput={(ev) => {
                 setQuery(ev.detail.value!);
                 handleSearch(ev.detail.value!);

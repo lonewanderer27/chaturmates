@@ -1,14 +1,8 @@
 import {
   IonButton,
   IonContent,
-  IonGrid,
-  IonHeader,
-  IonLabel,
   IonPage,
-  IonRow,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import "./MePage.css";
 import { client } from "../client";
@@ -37,7 +31,7 @@ function ProfilePage() {
           <p className="px-4 pt-2 text-center">{student?.description}</p>
         </IonText>
         <StudentInformation student={student} profile={profile} />
-        <IonButton onClick={handleLogout} expand="block" className="p-4 bottom-0">
+        <IonButton onClick={handleLogout} expand="block" className="p-4 bottom-0 font-poppins font-bold">
           Logout
         </IonButton>
       </IonContent>

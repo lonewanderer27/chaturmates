@@ -44,6 +44,27 @@ export interface Database {
           }
         ]
       }
+      colleges: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          title?: string
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           comment: string | null
@@ -81,30 +102,43 @@ export interface Database {
       }
       courses: {
         Row: {
+          college_id: number
           created_at: string
           description: string | null
+          full_title: string | null
           id: number
           profile_url: string | null
           school: number | null
           title: string
         }
         Insert: {
+          college_id: number
           created_at?: string
           description?: string | null
+          full_title?: string | null
           id?: number
           profile_url?: string | null
           school?: number | null
           title: string
         }
         Update: {
+          college_id?: number
           created_at?: string
           description?: string | null
+          full_title?: string | null
           id?: number
           profile_url?: string | null
           school?: number | null
           title?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "courses_college_id_fkey"
+            columns: ["college_id"]
+            isOneToOne: false
+            referencedRelation: "colleges"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "courses_school_fkey"
             columns: ["school"]
@@ -145,6 +179,65 @@ export interface Database {
             columns: ["group_id"]
             isOneToOne: false
             referencedRelation: "groups"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      group_comments: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: number
+          member_id: number
+          parent_comment_id: number | null
+          post_id: number
+          student_id: number
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: number
+          member_id: number
+          parent_comment_id?: number | null
+          post_id: number
+          student_id: number
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: number
+          member_id?: number
+          parent_comment_id?: number | null
+          post_id?: number
+          student_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_comments_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "group_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "group_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "group_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_comments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
             referencedColumns: ["id"]
           }
         ]
@@ -219,45 +312,52 @@ export interface Database {
       }
       group_posts: {
         Row: {
-          author: number
+          content: string | null
           created_at: string
-          description: string | null
           group_id: number
           id: number
+          member_id: number
           pinned: boolean
-          title: string
+          student_id: number
         }
         Insert: {
-          author: number
+          content?: string | null
           created_at?: string
-          description?: string | null
           group_id: number
           id?: number
+          member_id: number
           pinned?: boolean
-          title: string
+          student_id: number
         }
         Update: {
-          author?: number
+          content?: string | null
           created_at?: string
-          description?: string | null
           group_id?: number
           id?: number
+          member_id?: number
           pinned?: boolean
-          title?: string
+          student_id?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "group_posts_author_fkey"
-            columns: ["author"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "group_posts_group_id_fkey"
             columns: ["group_id"]
             isOneToOne: false
             referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_posts_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "group_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_posts_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
             referencedColumns: ["id"]
           }
         ]

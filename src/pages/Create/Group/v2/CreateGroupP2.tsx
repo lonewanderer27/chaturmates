@@ -20,10 +20,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import {
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { GroupCreateInputs } from "../../../../types/group";
 import { arrowBack } from "ionicons/icons";
 import { useAtom } from "jotai";
@@ -38,7 +35,7 @@ export default function CreateGroupP2() {
   const validationSchema = object().shape({
     avatar_url: string().optional().url("Must be a valid photo url"),
     cover_url: string().optional().url("Must be a valid photo url"),
-    vanity_url: string().required("Must be a unique group name"),
+    vanity_id: string().required().min(2),
   });
   const [checkingUrl, setCheckingUrl] = useState(() => false);
   const [newGroup, setNewGroup] = useAtom(newGroupAtom);
@@ -55,12 +52,20 @@ export default function CreateGroupP2() {
     control,
   } = useForm<GroupCreateInputs["step2"]>({
     resolver: yupResolver(validationSchema),
-    defaultValues: newGroup.step2
+    defaultValues: newGroup.step2,
   });
 
   const handleBack = () => {
     console.log("handleBack");
-    rt.goBack();
+    rt.push("/create/v2/group/1", "back");
+  };
+
+  const handleError: SubmitErrorHandler<GroupCreateInputs["step2"]> = (
+    errors,
+    event
+  ) => {
+    console.log("handleError");
+    console.log(errors);
   };
 
   const handleNext: SubmitHandler<GroupCreateInputs["step2"]> = async (
@@ -82,8 +87,8 @@ export default function CreateGroupP2() {
     console.log("checking if the vanity url is unique");
     const res = await client
       .from("groups")
-      .select("vanity_url")
-      .eq("vanity_url", data.vanity_url);
+      .select("vanity_id")
+      .ilike("vanity_id", data.vanity_id);
 
     console.log(res);
 
@@ -92,10 +97,10 @@ export default function CreateGroupP2() {
     // if a group already exists, then the vanity url is not unique
     if (res.data!.length > 0) {
       console.log("vanity url is not unique");
-      setError("vanity_url", {
+      setError("vanity_id", {
         type: "value",
         message:
-          "This unique name is already taken. Please choose another one.",
+          "This ID is already taken. Please choose another one.",
       });
 
       return;
@@ -119,7 +124,7 @@ export default function CreateGroupP2() {
               <IonIcon src={arrowBack}></IonIcon>
             </IonButton>
           </IonButtons>
-          <IonTitle>Customize your Group</IonTitle>
+          <IonTitle>Customize {newGroup.step1.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -139,7 +144,7 @@ export default function CreateGroupP2() {
                     ? "ion-touched ion-invalid border-red-500"
                     : ""
                 }`}
-                placeholder="Profile photo of your group"
+                placeholder={`Profile Photo of ${newGroup.step1.name}`}
                 type="text"
                 errorText={getFieldState("avatar_url").error?.message}
                 {...register("avatar_url")}
@@ -161,7 +166,7 @@ export default function CreateGroupP2() {
                     ? "ion-touched ion-invalid border-red-500"
                     : ""
                 }`}
-                placeholder="Cover photo of your group"
+                placeholder={`Cover Photo of ${newGroup.step1.name}`}
                 errorText={getFieldState("cover_url").error?.message}
                 {...register("cover_url")}
               ></IonInput>
@@ -171,26 +176,26 @@ export default function CreateGroupP2() {
             <IonCol>
               <IonLabel>
                 <IonText className="font-poppins font-semibold text-lg">
-                  Unique ID
+                  Vanity ID
                 </IonText>
               </IonLabel>
               <IonInput
                 className={`custom my-2 text-lg font-poppins ${
-                  getFieldState("vanity_url").isTouched ? "ion-touched" : ""
+                  getFieldState("vanity_id").isTouched ? "ion-touched" : ""
                 } ${
-                  errors.vanity_url
+                  errors.vanity_id
                     ? "ion-touched ion-invalid border-red-500"
                     : ""
                 }`}
-                placeholder="Unique name of your group"
-                errorText={getFieldState("vanity_url").error?.message}
-                {...register("vanity_url")}
+                placeholder={`Vanity ID of ${newGroup.step1.name}`}
+                errorText={getFieldState("vanity_id").error?.message}
+                {...register("vanity_id")}
               ></IonInput>
             </IonCol>
           </IonRow>
         </IonGrid>
         <IonCard className="mt-0">
-          <IonCardContent>This will serve as your Invite ID</IonCardContent>
+          <IonCardContent>This will serve as {newGroup.step1.name}'s Invite ID</IonCardContent>
         </IonCard>
       </IonContent>
       <IonFooter>
@@ -198,7 +203,7 @@ export default function CreateGroupP2() {
           <IonButton
             className="font-poppins font-bold"
             expand="block"
-            onClick={handleSubmit(handleNext)}
+            onClick={handleSubmit(handleNext, handleError)}
           >
             {checkingUrl ? <IonSpinner></IonSpinner> : <span>Next</span>}
           </IonButton>

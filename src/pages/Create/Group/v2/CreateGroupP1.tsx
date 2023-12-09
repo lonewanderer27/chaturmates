@@ -66,6 +66,14 @@ export default function CreateGroupP1() {
     rt.push("/discover", "back");
   };
 
+  const handleError: SubmitErrorHandler<GroupCreateInputs["step1"]> = (
+    errors,
+    event
+  ) => {
+    console.log("handleError");
+    console.log(errors);
+  };
+
   const handleNext: SubmitHandler<GroupCreateInputs["step1"]> = async (
     data
   ) => {
@@ -93,7 +101,7 @@ export default function CreateGroupP1() {
     setNameChecking(() => false);
 
     // if a group already exists, then the name is not unique
-    if (res.data!.length > 0) {
+    if (res.data && res.data?.length > 0) {
       console.log("group name exists");
       setError("name", {
         type: "value",
@@ -107,7 +115,8 @@ export default function CreateGroupP1() {
       show({
         header: "Error",
         message: "Something went wrong. Please try again",
-      });
+        buttons: ['OK']
+      }); 
       return;
     }
 
@@ -161,10 +170,10 @@ export default function CreateGroupP1() {
                 className={`custom my-2 text-lg font-poppins ${
                   getFieldState("name").isTouched ? "ion-touched" : ""
                 } ${
-                  errors.name ? "ion-touched ion-invalid border-red-500" : ""
+                  errors.description ? "ion-touched ion-invalid border-red-500" : ""
                 }`}
-                placeholder="Description of your group"
                 errorText={getFieldState("description").error?.message}
+                placeholder="Description of your group"
                 {...register("description")}
               ></IonTextarea>
             </IonCol>
@@ -184,7 +193,7 @@ export default function CreateGroupP1() {
           <IonButton
             className="font-poppins font-bold"
             expand="block"
-            onClick={handleSubmit(handleNext)}
+            onClick={handleSubmit(handleNext, handleError)}
           >
             {nameChecking ? <IonSpinner></IonSpinner> : <span>Next</span>}
           </IonButton>

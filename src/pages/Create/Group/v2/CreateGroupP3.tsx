@@ -12,29 +12,43 @@ import {
   IonInput,
   IonItem,
   IonLabel,
+  IonNote,
   IonPage,
   IonRow,
   IonSelect,
   IonSelectOption,
+  IonSpinner,
   IonText,
   IonTextarea,
   IonTitle,
   IonToolbar,
+  useIonAlert,
   useIonRouter,
 } from "@ionic/react";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import {
+  Controller,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { GroupCreateInputs } from "../../../../types/group";
 import { arrowBack } from "ionicons/icons";
 import { useAtom } from "jotai";
 import { newGroupAtom } from "../../../../atoms/groups";
-import { object, string, number } from "yup";
+import { object, number } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { client } from "../../../../client";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCourses } from "../../../../services/course";
 import { getAllColleges } from "../../../../services/college";
+import { useMemo, useState } from "react";
+import { CourseType } from "../../../../types";
+import useSelfStudent from "../../../../hooks/student/useSelfStudent";
+import { NEW_GROUP } from "../../../../constants/groups";
 
 export default function CreateGroupP3() {
+  const [show, dismiss] = useIonAlert();
+  const { student } = useSelfStudent();
   const rt = useIonRouter();
   const validationSchema = object().shape({
     school: number().required("Must be a valid school"),
@@ -43,14 +57,23 @@ export default function CreateGroupP3() {
     semester: number().required("Must be a valid semester"),
     academic_year_id: number().required("Must be a valid academic year"),
   });
+  const [creating, setCreating] = useState(() => false);
   const [newGroup, setNewGroup] = useAtom(newGroupAtom);
 
-  const coursesQry = useQuery({
-    queryKey: ["courses"],
-    queryFn: async () => {
-      const res = (await getAllCourses()).data;
-      return res;
-    },
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+    setError,
+    clearErrors,
+    getFieldState,
+    getValues,
+    setValue,
+    formState: { errors },
+    control,
+  } = useForm<GroupCreateInputs["step3"]>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: newGroup.step3,
   });
 
   const collegesQry = useQuery({
@@ -61,29 +84,32 @@ export default function CreateGroupP3() {
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    setFocus,
-    setError,
-    clearErrors,
-    getFieldState,
-    getValues,
-    formState: { errors },
-    control,
-  } = useForm<GroupCreateInputs["step3"]>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: newGroup.step3,
+  const coursesQry = useQuery({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const res = (await getAllCourses()).data;
+      return res;
+    },
   });
+
+  const coursesDrvd: CourseType[] = useMemo(() => {
+    if (collegesQry.data && coursesQry.data) {
+      return coursesQry.data.courses.filter((course) => {
+        return course.college_id === getValues("college");
+      });
+    } else {
+      return [];
+    }
+  }, [getValues("college"), collegesQry.data, coursesQry.data]);
 
   const handleBack = () => {
     console.log("handleBack");
-    rt.goBack();
+    rt.push("/create/v2/group/2", "back");
   };
   const handleNext: SubmitHandler<GroupCreateInputs["step3"]> = async (
     data
   ) => {
-    clearErrors();
+    setCreating(() => true);
 
     console.log("handleNext");
     console.log(data);
@@ -107,8 +133,8 @@ export default function CreateGroupP3() {
         description: newGroup.step1.description,
         name: newGroup.step1.name,
         school: newGroup.step3.school ?? 1,
-        semester: newGroup.step3.semester,
-        vanity_url: newGroup.step2.vanity_url,
+        semester: newGroup.step3.semester ?? 2,
+        vanity_id: newGroup.step2.vanity_id,
       })
       .select("*")
       .single();
@@ -116,8 +142,42 @@ export default function CreateGroupP3() {
     if (!res.data) {
       console.log("error creating group");
       console.log(res.error);
+      setCreating(() => false);
+      return;
     }
+
+    // add the current student to the group
+    const res2 = await client
+      .from("group_members")
+      .insert({
+        student_id: Number(student?.id),
+        group_id: Number(res.data!.id),
+        creator: true,
+        is_admin: true,
+        profile_id: student?.profile_id + ""
+      })
+      .select("*")
+
+    if (!res2.data) {
+      console.log("error creating group");
+      console.log(res.error)
+      show({
+        header: "Error",
+        message: "Something went wrong. Please try again",
+        buttons: ['OK']
+      }); 
+      setCreating(() => false);
+      return;
+    }
+
+    // clear the new group
+    setNewGroup(NEW_GROUP);
+    
+    // redirect the user to their newly created group
+    rt.push(`/group/${res.data?.vanity_id}`, "forward")
   };
+
+  console.log(getValues());
 
   return (
     <IonPage>
@@ -141,17 +201,25 @@ export default function CreateGroupP3() {
                 </IonText>
               </IonLabel>
               <IonItem className="my-2">
-                <IonSelect
-                  value={1}
-                  fill="outline"
-                  interfaceOptions={{
-                    header: "Select the school",
-                  }}
-                >
-                  <IonSelectOption value={1}>
-                    Adamson University
-                  </IonSelectOption>
-                </IonSelect>
+                <Controller
+                  render={({ field }) => (
+                    <IonSelect
+                      label="Select School"
+                      labelPlacement="start"
+                      fill="outline"
+                      interfaceOptions={{
+                        header: "Select school",
+                      }}
+                      className={`font-poppins`}
+                      value={field.value}
+                      onIonChange={(e) => setValue("school", e.detail.value)}
+                    >
+                      <IonSelectOption value={1}>Adamson University</IonSelectOption>
+                    </IonSelect>
+                  )}
+                  control={control}
+                  name="school"
+                />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -163,22 +231,37 @@ export default function CreateGroupP3() {
                 </IonText>
               </IonLabel>
               <IonItem className="my-2">
-                <IonSelect
-                  fill="outline"
-                  interfaceOptions={{
-                    header: "Select college ",
-                  }}
-                  {...register("college")}
-                >
-                  {collegesQry.data?.colleges.map((college) => (
-                    <IonSelectOption
-                      key={"college:" + college.id}
-                      value={college.id}
+                <Controller
+                  render={({ field }) => (
+                    <IonSelect
+                      label="Select College"
+                      labelPlacement="start"
+                      fill="outline"
+                      interfaceOptions={{
+                        header: "Select college ",
+                      }}
+                      className={`font-poppins`}
+                      value={field.value}
+                      onIonChange={(e) => setValue("college", e.detail.value)}
                     >
-                      {college.title}
-                    </IonSelectOption>
-                  ))}
-                </IonSelect>
+                      {collegesQry.data?.colleges.map((college) => (
+                        <IonSelectOption
+                          key={"college:" + college.id}
+                          value={college.id}
+                        >
+                          {college.title}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  )}
+                  control={control}
+                  name="college"
+                />
+                {errors.college && (
+                  <IonNote class="ion-invalid">
+                    {getFieldState("college").error?.message}
+                  </IonNote>
+                )}
               </IonItem>
             </IonCol>
           </IonRow>
@@ -190,22 +273,32 @@ export default function CreateGroupP3() {
                 </IonText>
               </IonLabel>
               <IonItem className="my-2">
-                <IonSelect
-                  fill="outline"
-                  interfaceOptions={{
-                    header: "Select the course",
-                  }}
-                  {...register("course")}
-                >
-                  {coursesQry.data?.courses.map((course) => (
-                    <IonSelectOption
-                      key={"course:" + course.id}
-                      value={course.id}
+                <Controller
+                  render={({ field }) => (
+                    <IonSelect
+                      label="Select Course"
+                      labelPlacement="start"
+                      fill="outline"
+                      interfaceOptions={{
+                        header: "Select the course",
+                      }}
+                      className={`font-poppins`}
+                      value={field.value}
+                      onIonChange={(e) => setValue("course", e.detail.value)}
                     >
-                      {course.title}
-                    </IonSelectOption>
-                  ))}
-                </IonSelect>
+                      {coursesDrvd.map((course) => (
+                        <IonSelectOption
+                          key={"course:" + course.id}
+                          value={course.id}
+                        >
+                          {course.title}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  )}
+                  control={control}
+                  name="course"
+                />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -218,10 +311,13 @@ export default function CreateGroupP3() {
               </IonLabel>
               <IonItem className="my-2">
                 <IonSelect
+                  label="Select Semester"
+                  labelPlacement="start"
                   fill="outline"
                   interfaceOptions={{
                     header: "Select the semester",
                   }}
+                  className={`font-poppins`}
                   {...register("semester")}
                 >
                   <IonSelectOption value={1}>First Semester</IonSelectOption>
@@ -238,16 +334,26 @@ export default function CreateGroupP3() {
                 </IonText>
               </IonLabel>
               <IonItem className="my-2">
-                <IonSelect
-                  value={1}
-                  fill="outline"
-                  interfaceOptions={{
-                    header: "Select the academic year",
-                  }}
-                  {...register("academic_year_id")}
-                >
-                  <IonSelectOption value={1}>2023-2024</IonSelectOption>
-                </IonSelect>
+                <Controller
+                  render={({ field }) => (
+                    <IonSelect
+                      label="Select A.Y."
+                      labelPlacement="start"
+                      fill="outline"
+                      interfaceOptions={{
+                        header: "Select the academic year",
+                      }}
+                      value={field.value}
+                      onIonChange={(e) =>
+                        setValue("academic_year_id", e.detail.value)
+                      }
+                    >
+                      <IonSelectOption value={1}>2023-2024</IonSelectOption>
+                    </IonSelect>
+                  )}
+                  control={control}
+                  name="academic_year_id"
+                />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -260,7 +366,7 @@ export default function CreateGroupP3() {
             expand="block"
             onClick={handleSubmit(handleNext)}
           >
-            <span>Create Group</span>
+            {creating ? <IonSpinner></IonSpinner> : <span>Create Group</span>}
           </IonButton>
         </IonToolbar>
       </IonFooter>

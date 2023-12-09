@@ -22,6 +22,7 @@ export default function StudentsResults(props: {
         {showAll
           ? props.klasmeyts.map((klasmeyt, index) => (
               <KlasmeytItem
+                student={klasmeyt}
                 key={klasmeyt.id}
                 studentId={klasmeyt.id}
                 slug={"klasmeyt-" + index}
@@ -33,6 +34,7 @@ export default function StudentsResults(props: {
               .slice(0, 3)
               .map((klasmeyt, index) => (
                 <KlasmeytItem
+                  student={klasmeyt}
                   key={klasmeyt.id}
                   studentId={klasmeyt.id}
                   slug={"klasmeyt-" + index}
@@ -57,11 +59,3 @@ export default function StudentsResults(props: {
     </div>
   );
 }
-
-StudentsResults.defaultProps = {
-  klasmeyts: [
-    { studentName: "Johnna Doe", studentType: "Regular" },
-    { studentName: "Johnna Doe", studentType: "Regular" },
-    { studentName: "Johnna Doe", studentType: "Regular" },
-  ],
-};

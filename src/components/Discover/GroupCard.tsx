@@ -16,12 +16,14 @@ import { GroupType } from "../../types";
 import getStudentsInGroup from "../../services/group/students";
 
 export default function GroupCard(
-  props: GroupType
+  props: GroupType & {
+    icon: string
+  }
 ) {
   const rt = useIonRouter();
 
   function handleView() {
-    rt.push("/group/" + props.vanity_url);
+    rt.push("/group/" + props.vanity_url, "forward");
   }
 
   const { data } = useQuery({
@@ -32,6 +34,15 @@ export default function GroupCard(
     }
   })
 
+  const isValidUrl = (urlString: string | URL) => {
+    try { 
+      return Boolean(new URL(urlString)); 
+    }
+    catch(e){ 
+      return false; 
+    }
+}
+
   return (
     <IonCol size="6" className="flex flex-column w-full cursor-pointer">
       <IonCard
@@ -40,17 +51,17 @@ export default function GroupCard(
       >
         <IonRow>
           <IonAvatar>
-            {props.avatar_url ? (
+            {props.avatar_url && isValidUrl(props.avatar_url) ? (
               <img src={props.avatar_url} />
             ) : (
-              <IonIcon className="groupCardIcon" src={props.avatar_url!}></IonIcon>
+              <IonIcon className="groupCardIcon" src={props.icon}></IonIcon>
             )}
           </IonAvatar>
         </IonRow>
         <IonRow className="ion-margin-vertical">
-          <IonLabel color="primary font-medium text-xl">
+          <IonText className="font-medium text-lg font-poppins">
             <p>{props.name}</p>
-          </IonLabel>
+          </IonText>
         </IonRow>
         <IonRow>
           {data?.students && data?.students.approved.length > 4 && (

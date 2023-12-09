@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonCol,
   IonContent,
+  IonFooter,
   IonGrid,
   IonHeader,
   IonIcon,
@@ -17,10 +18,10 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { arrowBack } from "ionicons/icons";
-import "./GroupCreatePage.css";
-import useCreateGroup from "../../hooks/group/useCreateGroup";
+import "./CreateGroupPage.css";
+import useCreateGroup from "../../../../hooks/group/useCreateGroup";
 
-export default function GroupCreatePage() {
+export default function CreateGroupPage() {
   const { handleCreate, success, register, handleSubmit, getValues } =
     useCreateGroup();
 
@@ -40,7 +41,7 @@ export default function GroupCreatePage() {
               <IonIcon src={arrowBack}></IonIcon>
             </IonButton>
           </IonButtons>
-          <IonTitle>Create New Group</IonTitle>
+          <IonTitle>Create Group</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -48,10 +49,13 @@ export default function GroupCreatePage() {
           <IonRow>
             <IonCol>
               <IonLabel>
-                <IonText>Name</IonText>
+                <IonText className="font-poppins font-semibold text-lg">
+                  Name
+                </IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+                className="custom my-2 text-lg font-poppins"
+                placeholder="Name of your group"
                 type="text"
                 {...register("name", { required: true })}
               ></IonInput>
@@ -60,11 +64,14 @@ export default function GroupCreatePage() {
           <IonRow>
             <IonCol>
               <IonLabel>
-                <IonText>Description</IonText>
+                <IonText className="font-poppins font-semibold text-lg">
+                  Description
+                </IonText>
               </IonLabel>
               <IonTextarea
                 autoGrow={true}
-                className="custom"
+                className="custom my-2 font-poppins text-lg"
+                placeholder="Description of your group"
                 {...register("description", { required: true })}
               ></IonTextarea>
             </IonCol>
@@ -72,10 +79,11 @@ export default function GroupCreatePage() {
           <IonRow>
             <IonCol>
               <IonLabel>
-                <IonText>Profile URL</IonText>
+                <IonText className="font-poppins font-semibold text-lg">Profile URL</IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+              placeholder="Profile picture of your group"
+                className="custom my-2 font-poppins text-lg"
                 type="text"
                 {...register("avatar_url", { required: true })}
               ></IonInput>
@@ -84,24 +92,32 @@ export default function GroupCreatePage() {
           <IonRow>
             <IonCol>
               <IonLabel>
-                <IonText>Unique Name</IonText>
+                <IonText className="font-poppins font-semibold text-lg">Unique Name</IonText>
               </IonLabel>
               <IonInput
-                className="custom"
+                className="custom my-2 font-poppins text-lg"
                 type="text"
+                placeholder="Link of your group"
                 {...register("vanity_url", { required: true })}
               ></IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="12">
-              <IonButton expand="block" onClick={handleSubmit(handleCreate)}>
-                <span>Create Group</span>
-              </IonButton>
-            </IonCol>
+            <IonCol size="12"></IonCol>
           </IonRow>
         </IonGrid>
       </IonContent>
+      <IonFooter>
+        <IonToolbar className="p-2">
+          <IonButton
+            className="font-poppins font-bold"
+            expand="block"
+            onClick={handleSubmit(handleCreate)}
+          >
+            <span>Create Group</span>
+          </IonButton>
+        </IonToolbar>
+      </IonFooter>
     </IonPage>
   );
 }

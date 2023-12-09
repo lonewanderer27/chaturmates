@@ -1,10 +1,8 @@
 import {
   IonButton,
   IonCol,
-  IonGrid,
   IonIcon,
   IonItem,
-  IonLabel,
   IonRow,
   IonText,
   useIonRouter,
@@ -12,14 +10,14 @@ import {
 import { personCircleOutline } from "ionicons/icons";
 import { ComponentProps } from "react";
 import "./StudentItem.css";
-import ItemListButton from "../ItemListButton";
 import S from "string";
-import { useAtom } from "jotai";
+import { StudentType } from "../../types";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
 
 export default function KlasmeytItem(
   props: IonItemProps & {
+    student?: StudentType;
     studentId: number;
     slug: string;
     size: string;

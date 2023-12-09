@@ -1,5 +1,23 @@
 import { GroupMemberType, GroupType, StudentType } from ".";
 
+export interface GroupCreateInputs {
+  step1: {
+    name: string;
+    description: string;
+  },
+  step2: {
+    avatar_url?: string;
+    cover_url?: string;
+    vanity_url: string;
+  },
+  step3: {
+    school: number;
+    course: number;
+    semester: number;
+    academic_year_id: number;
+  }
+}
+
 export interface CreateGroupInputs {
   academic_year_id: number;
   avatar_url: string | null;

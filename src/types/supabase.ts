@@ -366,7 +366,8 @@ export interface Database {
         Row: {
           academic_year_id: number
           avatar_url: string | null
-          course: number
+          college: number | null
+          course: number | null
           cover_url: string | null
           created_at: string
           description: string | null
@@ -379,7 +380,8 @@ export interface Database {
         Insert: {
           academic_year_id: number
           avatar_url?: string | null
-          course: number
+          college?: number | null
+          course?: number | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -392,7 +394,8 @@ export interface Database {
         Update: {
           academic_year_id?: number
           avatar_url?: string | null
-          course?: number
+          college?: number | null
+          course?: number | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -408,6 +411,13 @@ export interface Database {
             columns: ["academic_year_id"]
             isOneToOne: false
             referencedRelation: "academic_years"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "groups_college_fkey"
+            columns: ["college"]
+            isOneToOne: false
+            referencedRelation: "colleges"
             referencedColumns: ["id"]
           },
           {

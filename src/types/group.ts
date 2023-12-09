@@ -1,4 +1,4 @@
-import { GroupMemberType, GroupType, StudentType } from ".";
+import { CollegeType, CourseType, GroupMemberType, GroupType, StudentType } from ".";
 
 export interface GroupCreateInputs {
   step1: {
@@ -13,6 +13,7 @@ export interface GroupCreateInputs {
   step3: {
     school: number;
     course: number;
+    college: number;
     semester: number;
     academic_year_id: number;
   }
@@ -47,6 +48,8 @@ export interface GroupResponse {
       group: GroupType & {
         memberCount?: number;
       }
+      college?: CollegeType;
+      course?: CourseType;
       members: {
         all: GroupMemberType[];
         approved: GroupMemberType[];

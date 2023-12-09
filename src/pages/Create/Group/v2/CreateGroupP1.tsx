@@ -58,6 +58,7 @@ export default function CreateGroupP1() {
     control,
   } = useForm<GroupCreateInputs["step1"]>({
     resolver: yupResolver(validationSchema),
+    defaultValues: newGroup.step1
   });
 
   const handleBack = () => {

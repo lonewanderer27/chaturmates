@@ -16,6 +16,7 @@ export const newGroupAtom = atom<GroupCreateInputs>({
   },
   step3: {
     school: 0,
+    college: 0,
     course: 0,
     semester: 0,
     academic_year_id: 0,

@@ -22,11 +22,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import {
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { GroupCreateInputs } from "../../../../types/group";
 import { arrowBack } from "ionicons/icons";
 import { useAtom } from "jotai";
@@ -34,16 +30,36 @@ import { newGroupAtom } from "../../../../atoms/groups";
 import { object, string, number } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { client } from "../../../../client";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCourses } from "../../../../services/course";
+import { getAllColleges } from "../../../../services/college";
 
 export default function CreateGroupP3() {
   const rt = useIonRouter();
   const validationSchema = object().shape({
     school: number().required("Must be a valid school"),
+    college: number().required("Must be a valid college"),
     course: number().required("Must be a valid course"),
     semester: number().required("Must be a valid semester"),
     academic_year_id: number().required("Must be a valid academic year"),
   });
   const [newGroup, setNewGroup] = useAtom(newGroupAtom);
+
+  const coursesQry = useQuery({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const res = (await getAllCourses()).data;
+      return res;
+    },
+  });
+
+  const collegesQry = useQuery({
+    queryKey: ["colleges"],
+    queryFn: async () => {
+      const res = (await getAllColleges()).data;
+      return res;
+    },
+  });
 
   const {
     register,
@@ -57,13 +73,16 @@ export default function CreateGroupP3() {
     control,
   } = useForm<GroupCreateInputs["step3"]>({
     resolver: yupResolver(validationSchema),
+    defaultValues: newGroup.step3,
   });
 
   const handleBack = () => {
     console.log("handleBack");
     rt.goBack();
   };
-  const handleNext: SubmitHandler<GroupCreateInputs["step3"]> = (data) => {
+  const handleNext: SubmitHandler<GroupCreateInputs["step3"]> = async (
+    data
+  ) => {
     clearErrors();
 
     console.log("handleNext");
@@ -78,7 +97,7 @@ export default function CreateGroupP3() {
     });
 
     // create group
-    client
+    const res = await client
       .from("groups")
       .insert({
         academic_year_id: newGroup.step3.academic_year_id ?? 1,
@@ -93,6 +112,11 @@ export default function CreateGroupP3() {
       })
       .select("*")
       .single();
+
+    if (!res.data) {
+      console.log("error creating group");
+      console.log(res.error);
+    }
   };
 
   return (
@@ -135,18 +159,52 @@ export default function CreateGroupP3() {
             <IonCol>
               <IonLabel>
                 <IonText className="font-poppins font-semibold text-lg">
+                  College
+                </IonText>
+              </IonLabel>
+              <IonItem className="my-2">
+                <IonSelect
+                  fill="outline"
+                  interfaceOptions={{
+                    header: "Select college ",
+                  }}
+                  {...register("college")}
+                >
+                  {collegesQry.data?.colleges.map((college) => (
+                    <IonSelectOption
+                      key={"college:" + college.id}
+                      value={college.id}
+                    >
+                      {college.title}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
+              </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonLabel>
+                <IonText className="font-poppins font-semibold text-lg">
                   Course
                 </IonText>
               </IonLabel>
               <IonItem className="my-2">
                 <IonSelect
-                  value={2}
                   fill="outline"
                   interfaceOptions={{
                     header: "Select the course",
                   }}
+                  {...register("course")}
                 >
-                  <IonSelectOption value={2}>Computer Science</IonSelectOption>
+                  {coursesQry.data?.courses.map((course) => (
+                    <IonSelectOption
+                      key={"course:" + course.id}
+                      value={course.id}
+                    >
+                      {course.title}
+                    </IonSelectOption>
+                  ))}
                 </IonSelect>
               </IonItem>
             </IonCol>
@@ -160,11 +218,11 @@ export default function CreateGroupP3() {
               </IonLabel>
               <IonItem className="my-2">
                 <IonSelect
-                  value={2}
                   fill="outline"
                   interfaceOptions={{
                     header: "Select the semester",
                   }}
+                  {...register("semester")}
                 >
                   <IonSelectOption value={1}>First Semester</IonSelectOption>
                   <IonSelectOption value={2}>Second Semester</IonSelectOption>
@@ -186,6 +244,7 @@ export default function CreateGroupP3() {
                   interfaceOptions={{
                     header: "Select the academic year",
                   }}
+                  {...register("academic_year_id")}
                 >
                   <IonSelectOption value={1}>2023-2024</IonSelectOption>
                 </IonSelect>

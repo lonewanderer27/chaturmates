@@ -21,12 +21,10 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import {
-  SubmitErrorHandler,
   SubmitHandler,
   useForm,
-  Controller,
 } from "react-hook-form";
-import { CreateGroupInputs, GroupCreateInputs } from "../../../../types/group";
+import { GroupCreateInputs } from "../../../../types/group";
 import { arrowBack } from "ionicons/icons";
 import { useAtom } from "jotai";
 import { newGroupAtom } from "../../../../atoms/groups";
@@ -57,6 +55,7 @@ export default function CreateGroupP2() {
     control,
   } = useForm<GroupCreateInputs["step2"]>({
     resolver: yupResolver(validationSchema),
+    defaultValues: newGroup.step2
   });
 
   const handleBack = () => {
@@ -172,7 +171,7 @@ export default function CreateGroupP2() {
             <IonCol>
               <IonLabel>
                 <IonText className="font-poppins font-semibold text-lg">
-                  Unique URL
+                  Unique ID
                 </IonText>
               </IonLabel>
               <IonInput
@@ -191,7 +190,7 @@ export default function CreateGroupP2() {
           </IonRow>
         </IonGrid>
         <IonCard className="mt-0">
-          <IonCardContent>This will serve as your invite url</IonCardContent>
+          <IonCardContent>This will serve as your Invite ID</IonCardContent>
         </IonCard>
       </IonContent>
       <IonFooter>

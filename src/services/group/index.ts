@@ -37,6 +37,20 @@ export async function getGroupByVanityUrl(
     return Promise.reject("Group not found");
   }
 
+  // fetch the college from the database
+  const college = await client
+    .from("colleges")
+    .select("*")
+    .eq("id", group.data?.college! ?? undefined)
+    .single();
+
+  // fetch the course from the database
+  const course = await client
+    .from("courses")
+    .select("*")
+    .eq("id", group.data?.course! ?? undefined)
+    .single();
+
   // fetch the group members from the database
   const groupMembers = await client
     .from("group_members")
@@ -130,6 +144,8 @@ export async function getGroupByVanityUrl(
         ...group.data!,
         memberCount: approvedStudents.data?.length,
       },
+      college: college.data ?? undefined,
+      course: course.data ?? undefined,
       chat_urls: groupChatUrls.data!,
       posts: groupPosts.data!,
       members: {

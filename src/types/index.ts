@@ -15,3 +15,6 @@ export type GroupCommentType = Database["public"]["Tables"]["group_comments"]["R
 
 export type ThreadType = Database["public"]["Tables"]["threads"]["Row"];
 export type ThreadMessageType = Database["public"]["Tables"]["threads_messages"]["Row"];
+
+export type CollegeType = Database["public"]["Tables"]["colleges"]["Row"];
+export type CourseType = Database["public"]["Tables"]["courses"]["Row"];

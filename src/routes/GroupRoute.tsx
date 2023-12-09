@@ -5,7 +5,7 @@ import GroupPage from "../pages/GroupPage";
 export default function GroupRoute() {
   return (
     <IonRouterOutlet id="group">
-      <Route path="/group/:vanity_url" render={() => <GroupPage />} />
+      <Route path="/group/:vanity_id" render={() => <GroupPage />} />
     </IonRouterOutlet>
   );
 }

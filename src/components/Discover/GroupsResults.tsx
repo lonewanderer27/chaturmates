@@ -28,7 +28,7 @@ export default function GroupsResults(props: {
                   group={group}
                   key={"group:" + group.id}
                   groupId={group.id}
-                  slug={group.vanity_url}
+                  slug={group.vanity_id}
                   groupType={"Regular"}
                   groupName={group.name}
                 />
@@ -41,7 +41,7 @@ export default function GroupsResults(props: {
                   group={group}
                   key={"group:" + group.id}
                   groupId={group.id}
-                  slug={group.vanity_url}
+                  slug={group.vanity_id}
                   groupType={"Regular"}
                   groupName={group.name}
                 />

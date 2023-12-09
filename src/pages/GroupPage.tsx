@@ -27,17 +27,17 @@ import { getGroupByVanityUrl } from "../services/group";
 export default function GroupPage() {
   const [show, close] = useIonLoading();
   const { student } = useSelfStudent();
-  const { vanity_url } = useParams<{ vanity_url: string }>();
+  const { vanity_id } = useParams<{ vanity_id: string }>();
 
   const query = useQuery({
-    queryKey: ["group", vanity_url],
+    queryKey: ["group", vanity_id],
     queryFn: async () => {
       await show();
-      const res = (await getGroupByVanityUrl(vanity_url)).data;
+      const res = (await getGroupByVanityUrl(vanity_id)).data;
       await close();
       return res;
     },
-    enabled: !!vanity_url,
+    enabled: !!vanity_id,
   });
   
   console.log("groupMembers: ", query.data?.members);

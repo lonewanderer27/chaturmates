@@ -85,7 +85,7 @@ export default function GroupCreateModal(
               <IonInput
                 className="custom"
                 type="text"
-                {...register("vanity_url", { required: true })}
+                {...register("vanity_id", { required: true })}
               ></IonInput>
             </IonCol>
           </IonRow>

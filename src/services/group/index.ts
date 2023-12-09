@@ -21,16 +21,16 @@ export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
     return Promise.reject("Group not found");
   }
 
-  return await getGroupByVanityUrl(group.data!.vanity_url);
+  return await getGroupByVanityUrl(group.data!.vanity_id);
 }
 
 export async function getGroupByVanityUrl(
-  vanity_url: string
+  vanity_id: string
 ): Promise<GroupResponse["get"]> {
   const group = await client
     .from("groups")
     .select("*")
-    .eq("vanity_url", vanity_url)
+    .eq("vanity_id", vanity_id)
     .single();
 
   if (!group) {

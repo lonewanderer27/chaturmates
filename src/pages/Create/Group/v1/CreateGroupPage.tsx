@@ -98,7 +98,7 @@ export default function CreateGroupPage() {
                 className="custom my-2 font-poppins text-lg"
                 type="text"
                 placeholder="Link of your group"
-                {...register("vanity_url", { required: true })}
+                {...register("vanity_id", { required: true })}
               ></IonInput>
             </IonCol>
           </IonRow>

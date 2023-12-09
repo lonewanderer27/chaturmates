@@ -375,7 +375,7 @@ export interface Database {
           name: string
           school: number
           semester: number
-          vanity_url: string
+          vanity_id: string
         }
         Insert: {
           academic_year_id: number
@@ -389,7 +389,7 @@ export interface Database {
           name: string
           school: number
           semester: number
-          vanity_url: string
+          vanity_id: string
         }
         Update: {
           academic_year_id?: number
@@ -403,7 +403,7 @@ export interface Database {
           name?: string
           school?: number
           semester?: number
-          vanity_url?: string
+          vanity_id?: string
         }
         Relationships: [
           {
@@ -691,7 +691,7 @@ export interface Database {
           id: number
           name: string
           profile_url: string | null
-          vanity_url: string
+          vanity_id: string
         }
         Insert: {
           created_at?: string
@@ -699,7 +699,7 @@ export interface Database {
           id?: number
           name: string
           profile_url?: string | null
-          vanity_url: string
+          vanity_id: string
         }
         Update: {
           created_at?: string
@@ -707,7 +707,7 @@ export interface Database {
           id?: number
           name?: string
           profile_url?: string | null
-          vanity_url?: string
+          vanity_id?: string
         }
         Relationships: []
       }

@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { GroupType } from "../../types";
 import { client } from "../../client";
 
-export default function useGroup(vanity_url?: string) {
+export default function useGroup(vanity_id?: string) {
   const [group, setGroup] = useState<GroupType>();
 
   async function get() {
-    if (vanity_url) {
+    if (vanity_id) {
       const response = await client
         .from("groups")
         .select("*")
-        .eq("vanity_url", vanity_url)
+        .eq("vanity_id", vanity_id)
         .single();
       console.log("useGroup response", response);
       setGroup(response.data as GroupType);
@@ -19,7 +19,7 @@ export default function useGroup(vanity_url?: string) {
 
   useEffect(() => {
     get();
-  }, [vanity_url]);
+  }, [vanity_id]);
 
   return {
     group,

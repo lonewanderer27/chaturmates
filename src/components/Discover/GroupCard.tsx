@@ -23,11 +23,11 @@ export default function GroupCard(
   const rt = useIonRouter();
 
   function handleView() {
-    rt.push("/group/" + props.vanity_url, "forward");
+    rt.push("/group/" + props.vanity_id, "forward");
   }
 
   const { data } = useQuery({
-    queryKey: ['group', props.vanity_url],
+    queryKey: ['group', props.vanity_id],
     queryFn: async () => {
       const res =  (await getStudentsInGroup(props.id+"")).data;
       return res;

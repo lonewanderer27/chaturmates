@@ -57,7 +57,7 @@ export default function useCreateGroup() {
               if (response.status === 201) {
                 console.log(response.data);
                 setSuccess(true);
-                rt.push("/group/" + getValues("vanity_url"), "forward");
+                rt.push("/group/" + getValues("vanity_id"), "forward");
               }
               if (response.error) {
                 console.log(response.error);

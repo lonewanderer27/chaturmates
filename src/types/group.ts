@@ -8,7 +8,7 @@ export interface GroupCreateInputs {
   step2: {
     avatar_url?: string;
     cover_url?: string;
-    vanity_url: string;
+    vanity_id: string;
   },
   step3: {
     school: number;
@@ -28,7 +28,7 @@ export interface CreateGroupInputs {
   name: string;
   school: number;
   semester: number;
-  vanity_url: string;
+  vanity_id: string;
 }
 
 export interface GroupsResponse {

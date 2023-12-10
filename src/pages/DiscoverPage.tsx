@@ -34,6 +34,7 @@ function DiscoverPage() {
       return res.data;
     },
   });
+  
   const squery = useQuery({
     queryKey: ["students"],
     queryFn: async () => {

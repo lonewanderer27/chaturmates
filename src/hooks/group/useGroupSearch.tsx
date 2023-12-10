@@ -11,9 +11,11 @@ export default function useGroupSearch() {
     const response = await client
       .from("groups")
       .select("*, group_members(*)")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: true });
     console.log("groupsResults response:", response);
-    setGroupsResults(response.data as GroupsResponse['getAll']['data']['groups']);
+    setGroupsResults(
+      response.data as GroupsResponse["getAll"]["data"]["groups"]
+    );
   }
 
   const handleGroupSearch = async (query: string) => {
@@ -26,9 +28,9 @@ export default function useGroupSearch() {
           .from("groups")
           .select("*, group_members(*)")
           .ilike("name", `%${query}%`)
-          .order("created_at", { ascending: false })
+          .order("created_at", { ascending: true })
       ).data;
-      setGroupsResults(response as GroupsResponse['getAll']['data']['groups']);
+      setGroupsResults(response as GroupsResponse["getAll"]["data"]["groups"]);
     }
   };
 

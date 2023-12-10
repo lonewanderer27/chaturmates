@@ -6,7 +6,7 @@ import { useState } from "react";
 import { GroupResponse } from "../../types/group";
 
 export default function GroupsResults(props: {
-  groups?: GroupResponse['get']['data']['group'][];
+  groups?: GroupResponse["get"]["data"]["group"][];
   handleViewMore?: () => void;
 }) {
   const [showAll, setShowAll] = useState(false);
@@ -24,27 +24,13 @@ export default function GroupsResults(props: {
           {showAll ? (
             <>
               {props.groups.map((group) => (
-                <GroupItem
-                  group={group}
-                  key={"group:" + group.id}
-                  groupId={group.id}
-                  slug={group.vanity_id}
-                  groupType={"Regular"}
-                  groupName={group.name}
-                />
+                <GroupItem group={group} key={group.id} />
               ))}
             </>
           ) : (
             <>
               {props.groups.slice(0, 3).map((group) => (
-                <GroupItem
-                  group={group}
-                  key={"group:" + group.id}
-                  groupId={group.id}
-                  slug={group.vanity_id}
-                  groupType={"Regular"}
-                  groupName={group.name}
-                />
+                <GroupItem group={group} key={group.id} />
               ))}
             </>
           )}

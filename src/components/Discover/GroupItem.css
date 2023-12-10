@@ -2,6 +2,11 @@
   font-size: 55px
 }
 
+.groupItemLogo {
+  width: 45px;
+  height: auto;
+}
+
 .groupName {
   font-weight: bold;
   margin: 10px 0;

@@ -1,7 +1,7 @@
 import { IonList, IonText, useIonRouter } from "@ionic/react";
-import KlasmeytItem from "./StudentItem";
 import { StudentType } from "../../types";
 import { useState } from "react";
+import StudentItem from "../Group/StudentItem";
 
 export default function StudentsResults(props: {
   klasmeyts: StudentType[];
@@ -21,26 +21,12 @@ export default function StudentsResults(props: {
       <IonList>
         {showAll
           ? props.klasmeyts.map((klasmeyt, index) => (
-              <KlasmeytItem
-                student={klasmeyt}
-                key={klasmeyt.id}
-                studentId={klasmeyt.id}
-                slug={"klasmeyt-" + index}
-                studentName={klasmeyt.full_name! + ""}
-                studentType={klasmeyt.type ?? "Regular"}
-              />
+              <StudentItem student={klasmeyt} key={klasmeyt.id} />
             ))
           : props.klasmeyts
               .slice(0, 3)
-              .map((klasmeyt, index) => (
-                <KlasmeytItem
-                  student={klasmeyt}
-                  key={klasmeyt.id}
-                  studentId={klasmeyt.id}
-                  slug={"klasmeyt-" + index}
-                  studentName={klasmeyt.full_name! + ""}
-                  studentType={klasmeyt.type ?? "Regular"}
-                />
+              .map((klasmeyt) => (
+                <StudentItem student={klasmeyt} key={klasmeyt.id} />
               ))}
       </IonList>
       {props.klasmeyts.length === 0 && (

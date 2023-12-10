@@ -19,12 +19,12 @@ export default function GroupMembers(props: { members?: StudentType[] }) {
         <IonList lines="inset">
           {showAll
             ? props.members!.map((klasmeyt) => (
-                <StudentItem key={klasmeyt.id} {...klasmeyt} />
+                <StudentItem key={klasmeyt.id} student={klasmeyt} />
               ))
-            : props.members!
-                .slice(0, 3)
+            : props
+                .members!.slice(0, 3)
                 .map((klasmeyt) => (
-                  <StudentItem key={klasmeyt.id} {...klasmeyt} />
+                  <StudentItem key={klasmeyt.id} student={klasmeyt} />
                 ))}
         </IonList>
       )}

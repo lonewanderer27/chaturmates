@@ -1,0 +1,13 @@
+.studentItemIcon {
+  font-size: 55px;
+}
+
+.studentItemLogo {
+  width: 45px;
+  height: auto;
+}
+
+.studentItemName {
+  font-weight: bold;
+  margin: 10px 0;
+}

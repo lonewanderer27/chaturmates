@@ -8,15 +8,10 @@ import { StudentType } from "../../types";
 export default function StudentsGrid(props: { students?: StudentType[] }) {
   return (
     <div className="ion-padding-vertical flex overflow-x-auto overflow-scroll">
-      {props.students && props.students.map((student) => (
-        <StudentCard
-          slug={student.id + ""}
-          key={student.id}
-          studentName={student.full_name ?? ""}
-          studentDescription={student.description}
-          studentType={student.type ?? ""}
-        />
-      ))}
+      {props.students &&
+        props.students.map((student) => (
+          <StudentCard key={student.id} student={student} />
+        ))}
     </div>
   );
 }

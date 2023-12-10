@@ -8,58 +8,55 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { personCircleOutline } from "ionicons/icons";
-import { ComponentProps } from "react";
 import { SwiperSlide } from "swiper/react";
 import "./StudentCard.css";
 import S from "string";
+import { StudentType } from "../../types";
 
-// TODO: design StudentCard
-type StudentCardProps = ComponentProps<typeof IonCard>;
-
-export default function StudentCard(
-  props: StudentCardProps & {
-    logo: string;
-    slug: string;
-    studentName: string;
-    studentType: string;
-    studentDescription: string | null;
-  }
-) {
+export default function StudentCard(props: {
+  student: StudentType;
+  icon?: string;
+}) {
   const rt = useIonRouter();
   function handleView() {
-    rt.push("/student/" + props.slug);
+    rt.push("/student/" + props.student.id, "forward");
   }
 
   return (
     <SwiperSlide>
-      <IonCard className="studentCard ion-padding m-2 font-poppins" onClick={handleView}>
+      <IonCard
+        className="studentCard ion-padding m-2 font-poppins"
+        onClick={handleView}
+      >
         <IonRow>
           <IonCol size="2">
-            <IonAvatar>
-              {props.logo ? (
-                <img src={props.logo} />
-              ) : (
-                <IonIcon
-                  className="studentIcon"
-                  src={personCircleOutline}
-                ></IonIcon>
-              )}
-            </IonAvatar>
+            {props.student.avatar_url ? (
+              <IonAvatar slot="start" className="mr-1 ml-[-5px]">
+                <img src={props!.student.avatar_url} />
+              </IonAvatar>
+            ) : (
+              <IonIcon
+                className="studentIcon ml-[-10px]"
+                src={props.icon}
+              ></IonIcon>
+            )}
           </IonCol>
-          <IonCol style={{ display: "flex" }}>
-            <IonText>
-              <span className="studentName text-ellipsis  line-clamp-1">
-                {props.studentName}
-              </span>
-              <p className="studentType font-light">
-                {S(props.studentType).capitalize().s}
+          <IonCol className="flex ml-[10px]">
+            <IonText className="justify-content-center">
+              <p className="studentName text-ellipsis line-clamp-1">
+                {props.student.full_name}
+              </p>
+              <p className="studentType font-light mt-[-5px]">
+                {S(props.student.type).capitalize().s}
               </p>
             </IonText>
           </IonCol>
         </IonRow>
         <IonRow>
           <IonText>
-            <p className="line-clamp-3  font-medium">{props.studentDescription}</p>
+            <p className="line-clamp-3 font-medium">
+              {props.student.description}
+            </p>
           </IonText>
         </IonRow>
       </IonCard>
@@ -68,10 +65,5 @@ export default function StudentCard(
 }
 
 StudentCard.defaultProps = {
-  logo: "johnna_doe.png",
-  slug: "johnna-doe",
-  studentName: "Johnna Doe",
-  studentType: "Irregular",
-  studentDescription:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  icon: personCircleOutline,
 };

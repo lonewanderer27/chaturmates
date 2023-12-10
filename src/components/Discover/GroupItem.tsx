@@ -36,7 +36,7 @@ export default function GroupItem(props: {
   }
 
   return (
-    <IonItem onClick={handleView} className="cursor-pointer">
+    <IonItem lines="none" onClick={handleView} className="cursor-pointer">
       {props.group.avatar_url && isValidUrl ? (
         <IonAvatar slot="start" className="mr-3 groupItemLogo">
           <img className="groupItemLogo" src={props.group.avatar_url} />

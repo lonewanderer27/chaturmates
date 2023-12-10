@@ -39,7 +39,7 @@ export default function SearchPage() {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonSearchbar
-              className="custom font-poppins font-semibold"
+              className="custom px-0 mx-0 font-poppins font-semibold"
               onIonChange={(ev) => {
                 setQuery(ev.detail.value!);
                 handleSearch(ev.detail.value!);

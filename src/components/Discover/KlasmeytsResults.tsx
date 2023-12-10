@@ -1,7 +1,7 @@
 import { IonList, IonText, useIonRouter } from "@ionic/react";
 import { StudentType } from "../../types";
 import { useState } from "react";
-import StudentItem from "../Group/StudentItem";
+import StudentItem from "./Search/StudentItem";
 
 export default function StudentsResults(props: {
   klasmeyts: StudentType[];

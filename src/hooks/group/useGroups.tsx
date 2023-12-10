@@ -9,7 +9,7 @@ export default function useGroups() {
   const [groups, setGroups] = useAtom(groupsAtom);
 
   async function getAll() {
-    const response = await client.from("groups").select("*, group_members(*)");
+    const response = await client.from("groups").select("*, group_members(*, students(*))");
     console.log("groups response:", response);
     setGroups(response.data as GroupsResponse['getAll']['data']['groups']);
   }

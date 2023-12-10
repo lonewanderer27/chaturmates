@@ -1,7 +1,7 @@
 import { IonText, IonList } from "@ionic/react";
 import { StudentType } from "../../types";
 import { useState } from "react";
-import StudentItem from "./StudentItem";
+import StudentItem from "../Discover/Search/StudentItem";
 
 export default function GroupMembers(props: { members?: StudentType[] }) {
   const [showAll, setShowAll] = useState(false);

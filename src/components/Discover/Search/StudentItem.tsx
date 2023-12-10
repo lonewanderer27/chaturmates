@@ -1,20 +1,17 @@
 import {
   IonAvatar,
-  IonButton,
   IonCol,
-  IonGrid,
   IonIcon,
   IonItem,
-  IonLabel,
   IonRow,
   IonText,
   useIonRouter,
 } from "@ionic/react";
-import { StudentType } from "../../types";
+import { StudentType } from "../../../types";
 import { mail, personCircleOutline } from "ionicons/icons";
 import S from "string";
 import "./StudentItem.css";
-import ItemListButton from "../ItemListButton";
+import ItemListButton from "../../ItemListButton";
 import { useMemo } from "react";
 
 export default function StudentItem(props: {

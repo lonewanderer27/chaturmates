@@ -1,22 +1,28 @@
-import { CollegeType, CourseType, GroupMemberType, GroupType, StudentType } from ".";
+import {
+  CollegeType,
+  CourseType,
+  GroupMemberType,
+  GroupType,
+  StudentType,
+} from ".";
 
 export interface GroupCreateInputs {
   step1: {
     name: string;
     description: string;
-  },
+  };
   step2: {
     avatar_url?: string;
     cover_url?: string;
     vanity_id: string;
-  },
+  };
   step3: {
     school: number;
     course: number;
     college: number;
     semester: number;
     academic_year_id: number;
-  }
+  };
 }
 
 export interface CreateGroupInputs {
@@ -42,13 +48,16 @@ export interface GroupsResponse {
   };
 }
 
+export interface ExpandedGroupMemberType extends GroupMemberType {
+  students: StudentType
+}
+
 export interface GroupResponse {
   get: {
     data: {
       group: GroupType & {
         memberCount?: number;
-        group_members: GroupMemberType[];
-      }
+      };
       college?: CollegeType;
       course?: CourseType;
       members: {
@@ -76,7 +85,7 @@ export interface GroupResponse {
           approved: StudentType[];
           pending: StudentType[];
         };
-      }
-    }
+      };
+    };
   };
 }

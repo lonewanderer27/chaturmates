@@ -2,13 +2,13 @@ import { client } from "../../client";
 import { GroupResponse, GroupsResponse } from "../../types/group";
 
 export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
-  const groups = await client.from('groups').select("*, group_members(*)");
+  const groups = await client.from('groups').select("*, group_members(*, students(*))");
 
   console.log("groups: ", groups.data)
 
   return Promise.resolve({
     data: {
-      groups: groups.data!
+      groups: groups.data!,
     },
     message: "Groups fetched successfully",
     error: null,
@@ -17,7 +17,7 @@ export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
 }
 
 export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
-  const group = await client.from("groups").select("*, group_members(*)").eq("id", id).single();
+  const group = await client.from("groups").select("*, group_members(*, students(*))").eq("id", id).single();
 
   if (!group) {
     return Promise.reject("Group not found");

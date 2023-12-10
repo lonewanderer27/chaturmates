@@ -1,6 +1,6 @@
 import { IonList, IonText, useIonRouter } from "@ionic/react";
-import GroupItem from "./GroupItem";
-import "./GroupItem.css";
+import GroupItem from "./Search/GroupItem";
+import "./Search/GroupItem.css";
 import { GroupType } from "../../types";
 import { useState } from "react";
 import { GroupResponse } from "../../types/group";

@@ -1,4 +1,4 @@
-import "./GroupItem.css";
+import "../Search/GroupItem.css";
 import {
   IonAvatar,
   IonButton,
@@ -10,9 +10,9 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { peopleCircleOutline } from "ionicons/icons";
-import { GroupResponse } from "../../types/group";
+import { GroupResponse } from "../../../types/group";
 import { useMemo } from "react";
-import ItemListButton from "../ItemListButton";
+import ItemListButton from "../../ItemListButton";
 
 export default function GroupItem(props: {
   group: GroupResponse["get"]["data"]["group"];

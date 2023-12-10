@@ -12,6 +12,7 @@ import {
 import { peopleCircleOutline } from "ionicons/icons";
 import { GroupResponse } from "../../types/group";
 import { useMemo } from "react";
+import ItemListButton from "../ItemListButton";
 
 export default function GroupItem(props: {
   group: GroupResponse["get"]["data"]["group"];
@@ -35,7 +36,7 @@ export default function GroupItem(props: {
   }
 
   return (
-    <IonItem onClick={handleView}>
+    <IonItem onClick={handleView} className="cursor-pointer">
       {props.group.avatar_url && isValidUrl ? (
         <IonAvatar slot="start" className="mr-3 groupItemLogo">
           <img className="groupItemLogo" src={props.group.avatar_url} />
@@ -58,13 +59,7 @@ export default function GroupItem(props: {
           </IonText>
         </IonCol>
       </IonRow>
-      <IonButton slot="end" className="rounded-3xl">
-        <IonText className="p-2">
-          <span className=" font-poppins font-medium text-base">
-            {props.buttonLabel}
-          </span>
-        </IonText>
-      </IonButton>
+      <ItemListButton buttonLabel={props.buttonLabel} />
     </IonItem>
   );
 }

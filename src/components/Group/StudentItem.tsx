@@ -11,9 +11,10 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { StudentType } from "../../types";
-import { mail, mailOutline, personCircleOutline } from "ionicons/icons";
+import { mail, personCircleOutline } from "ionicons/icons";
 import S from "string";
 import "./MemberItem.css";
+import ItemListButton from "../ItemListButton";
 
 export default function StudentItem(
   props: {
@@ -55,12 +56,7 @@ export default function StudentItem(
           </IonText>
         </IonCol>
       </IonRow>
-      <IonButton slot="end"  className="rounded-3xl">
-        <IonIcon icon={props.buttonIcon} className=" text-3xl m-1"></IonIcon>
-        {/* <IonText className="p-2">
-          <span className=" font-poppins font-medium text-sm">{props.buttonLabel}</span>
-        </IonText> */}
-      </IonButton>
+      <ItemListButton buttonIcon={props.buttonIcon} />
     </IonItem>
   );
 }

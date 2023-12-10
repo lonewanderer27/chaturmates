@@ -1,4 +1,5 @@
-import { FollowType, GroupType, StudentType } from ".";
+import { FollowType, GroupMemberType, GroupType, StudentType } from ".";
+import { GroupResponse } from "./group";
 
 export interface StudentsResponse {
   getAll: {
@@ -13,7 +14,7 @@ export interface StudentResponse {
   get: {
     data: {
       student: StudentType;
-      groups: GroupType[];
+      groups: GroupResponse['get']['data']['group'][];
       followers: StudentType[];
       following: StudentType[];
     };
@@ -36,7 +37,7 @@ export interface StudentResponse {
     getAll: {
       data: {
         student: StudentType;
-        groups: GroupType[];
+        groups: GroupResponse['get']['data']['group'][];
       };
       error: any;
       success: boolean;

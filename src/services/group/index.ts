@@ -2,7 +2,9 @@ import { client } from "../../client";
 import { GroupResponse, GroupsResponse } from "../../types/group";
 
 export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
-  const groups = await client.from('groups').select("*");
+  const groups = await client.from('groups').select("*, group_members(*)");
+
+  console.log("groups: ", groups.data)
 
   return Promise.resolve({
     data: {
@@ -15,7 +17,7 @@ export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
 }
 
 export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
-  const group = await client.from("groups").select("*").eq("id", id).single();
+  const group = await client.from("groups").select("*, group_members(*)").eq("id", id).single();
 
   if (!group) {
     return Promise.reject("Group not found");
@@ -29,13 +31,15 @@ export async function getGroupByVanityUrl(
 ): Promise<GroupResponse["get"]> {
   const group = await client
     .from("groups")
-    .select("*")
+    .select("*, group_members(*)")
     .eq("vanity_id", vanity_id)
     .single();
 
   if (!group) {
     return Promise.reject("Group not found");
   }
+
+  console.log("group: ", group.data);
 
   // fetch the college from the database
   const college = await client
@@ -52,10 +56,7 @@ export async function getGroupByVanityUrl(
     .single();
 
   // fetch the group members from the database
-  const groupMembers = await client
-    .from("group_members")
-    .select("*")
-    .eq("group_id", group.data!.id);
+  const groupMembers = group.data!.group_members;
 
   // fetch the approved group members from the database
   const approvedGroupMembers = await client
@@ -77,7 +78,7 @@ export async function getGroupByVanityUrl(
     .select("*")
     .in(
       "id",
-      groupMembers.data!.map((groupMember) => groupMember.student_id)
+      groupMembers!.map((groupMember) => groupMember.student_id)
     );
 
   // fetch the students based on the approved group members from the database
@@ -149,7 +150,7 @@ export async function getGroupByVanityUrl(
       chat_urls: groupChatUrls.data!,
       posts: groupPosts.data!,
       members: {
-        all: groupMembers.data!,
+        all: groupMembers!,
         approved: approvedGroupMembers.data!,
         pending: pendingGroupMembers.data!,
       },

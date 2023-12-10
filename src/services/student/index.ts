@@ -63,7 +63,7 @@ export async function getStudentById(
   // fetch the groups of the student from the database
   const groups = await client
     .from("groups")
-    .select("*")
+    .select("*, group_members(*)")
     .in("id", group_ids.data!.map((group_id) => group_id.group_id));
 
   // return the student, followers, following, and groups

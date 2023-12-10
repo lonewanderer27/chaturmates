@@ -47,6 +47,7 @@ export interface GroupResponse {
     data: {
       group: GroupType & {
         memberCount?: number;
+        group_members: GroupMemberType[];
       }
       college?: CollegeType;
       course?: CourseType;

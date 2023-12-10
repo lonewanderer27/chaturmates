@@ -5,17 +5,12 @@ import {
   IonCol,
   IonIcon,
   IonItem,
-  IonLabel,
   IonRow,
   IonText,
   useIonRouter,
 } from "@ionic/react";
 import { peopleCircleOutline } from "ionicons/icons";
-import { useQuery } from "@tanstack/react-query";
-import { getGroupById } from "../../services/group";
 import { GroupResponse } from "../../types/group";
-import useGroupMembers from "../../hooks/group/useGroupMembers";
-
 type IonItemProps = ComponentProps<typeof IonItem>;
 
 export default function GroupItem(
@@ -36,15 +31,6 @@ export default function GroupItem(
     rt.push("/group/" + props.slug);
   }
 
-  const query = useQuery({
-    queryKey: ["group", props.slug],
-    queryFn: async () => {
-      const res = (await getGroupById(props.groupId+"")).data;
-      return res;
-    },
-    enabled: !!props.groupId && !props.group.memberCount,
-  });
-
   return (
     <IonItem onClick={handleView}>
       <IonIcon
@@ -57,7 +43,7 @@ export default function GroupItem(
           <IonText className="groupName truncate font-poppins  font-semibold">{props.groupName}</IonText>
           <br />
           <IonText className="groupCount">
-            {props.group.memberCount ?? query.data?.group.memberCount} Members
+            {props.group.group_members.length} Members
           </IonText>
         </IonCol>
       </IonRow>

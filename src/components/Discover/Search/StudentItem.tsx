@@ -17,6 +17,8 @@ import { useMemo } from "react";
 export default function StudentItem(props: {
   student: StudentType;
   icon?: string;
+  showType?: boolean;
+  showBtn?: boolean;
   buttonLabel?: string;
   buttonIcon?: string;
 }) {
@@ -32,33 +34,41 @@ export default function StudentItem(props: {
 
   function handleClick() {
     rt.push("/student/" + props.student.id);
-  }  
+  }
+
+  function handleMe() {
+    rt.push("/me");
+  }
 
   return (
     <IonItem lines="none" onClick={handleClick} className="cursor-pointer">
       {props?.student.avatar_url && isValidUrl ? (
-          <IonAvatar slot="start" className="mr-3 studentItemLogo">
-            <img className="studentItemLogo" src={props!.student.avatar_url} />
-          </IonAvatar>
+        <IonAvatar slot="start" className="mr-3 studentItemLogo">
+          <img className="studentItemLogo" src={props!.student.avatar_url} />
+        </IonAvatar>
       ) : (
-          <IonIcon
-            className="studentItemIcon mr-1 ml-[-5px]"
-            slot="start"
-            icon={props.icon}
-          ></IonIcon>
+        <IonIcon
+          className="studentItemIcon mr-1 ml-[-5px]"
+          slot="start"
+          icon={props.icon}
+        ></IonIcon>
       )}
       <IonRow className="ion-align-items-center ml-[-5px]">
         <IonCol>
           <IonText className="studentItemName truncate font-poppins font-semibold">
             {props?.student.full_name}
           </IonText>
-          <br />
-          <IonText className="studentType">
-            {S(props?.student.type + "").capitalize().s}
-          </IonText>
+          {props.showType && (
+            <>
+              <br />
+              <IonText className="studentType text-sm">
+                {S(props?.student.type + "").capitalize().s}
+              </IonText>
+            </>
+          )}
         </IonCol>
       </IonRow>
-      <ItemListButton buttonIcon={props.buttonIcon} />
+      {props.showBtn && <ItemListButton buttonIcon={props.buttonIcon} />}
     </IonItem>
   );
 }
@@ -67,4 +77,6 @@ StudentItem.defaultProps = {
   icon: personCircleOutline,
   buttonLabel: "Message",
   buttonIcon: mail,
+  showBtn: true,
+  showType: true,
 };

@@ -46,34 +46,60 @@ export default function GroupCard(props: {
           </IonAvatar>
         </IonRow>
         <IonRow className="ion-margin-vertical">
-          <IonText className="font-medium text-lg font-poppins">
+          <IonText className="font-medium text-lg font-poppins truncate">
             <p>{props.group.name}</p>
           </IonText>
         </IonRow>
         <IonRow>
           {props.group.group_members.length > 4 && (
             <>
-              {props.group.group_members.slice(0, 4).map((member, index) => (
-                <IonIcon
-                  key={"ionicon:members:" + index}
-                  className="groupMemberIcon"
-                  src={personCircleOutline}
-                ></IonIcon>
-              ))}
+              {props.group.group_members.slice(0, 4).map((member, index) => {
+                if (member.students.avatar_url) {
+                  return (
+                    <IonAvatar
+                      key={"avatar:" + index}
+                      className="groupMemberAvatar"
+                    >
+                      <img src={member.students.avatar_url} />
+                    </IonAvatar>
+                  );
+                } else {
+                  return (
+                    <IonIcon
+                      key={"ionicon:members:" + index}
+                      className="groupMemberIcon"
+                      src={personCircleOutline}
+                    ></IonIcon>
+                  );
+                }
+              })}
               <IonBadge color="light" className="groupCountBadge">
-                <IonText>+ {props.group.group_members.length - 4}</IonText>
+                <IonText>+{props.group.group_members.length - 4}</IonText>
               </IonBadge>
             </>
           )}
-          {props.group.group_members.length < 4 && (
+          {props.group.group_members.length <= 4 && (
             <>
-              {props.group.group_members.map((member, index) => (
-                <IonIcon
-                  key={"ionicon:members:" + index}
-                  className="groupMemberIcon"
-                  src={personCircleOutline}
-                ></IonIcon>
-              ))}
+              {props.group.group_members.map((member, index) => {
+                if (member.students.avatar_url) {
+                  return (
+                    <IonAvatar
+                      key={"avatar:" + index}
+                      className="groupMemberAvatar"
+                    >
+                      <img src={member.students.avatar_url} />
+                    </IonAvatar>
+                  );
+                } else {
+                  return (
+                    <IonIcon
+                      key={"ionicon:members:" + index}
+                      className="groupMemberIcon"
+                      src={personCircleOutline}
+                    ></IonIcon>
+                  );
+                }
+              })}
             </>
           )}
         </IonRow>
@@ -83,24 +109,5 @@ export default function GroupCard(props: {
 }
 
 GroupCard.defaultProps = {
-  slug: "software_engineering_the_best",
-  groupName: "Software Engineering The Best",
   icon: peopleCircleOutline,
-  groupMembers: [
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-    { name: "Johnna Doe", icon: personCircleOutline },
-  ],
 };

@@ -9,6 +9,11 @@
   font-size: x-large;
 }
 
+.groupMemberAvatar {
+  width: 25px;
+  height: auto;
+}
+
 .groupCountBadge {
   border-radius: 100%;
   font-size: xx-small;

@@ -22,13 +22,13 @@ export default function GroupMembers(props: { members?: StudentType[] }) {
                 <StudentItem key={klasmeyt.id} student={klasmeyt} />
               ))
             : props
-                .members!.slice(0, 3)
+                .members!.slice(0, 4)
                 .map((klasmeyt) => (
                   <StudentItem key={klasmeyt.id} student={klasmeyt} />
                 ))}
         </IonList>
       )}
-      {props.members && props.members.length > 3 && (
+      {props.members && props.members.length > 4 && (
         <IonText
           onClick={toggleShowAll}
           color="primary"

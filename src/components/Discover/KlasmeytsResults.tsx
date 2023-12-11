@@ -24,7 +24,7 @@ export default function StudentsResults(props: {
               <StudentItem student={klasmeyt} key={klasmeyt.id} />
             ))
           : props.klasmeyts
-              .slice(0, 3)
+              .slice(0, 4)
               .map((klasmeyt) => (
                 <StudentItem student={klasmeyt} key={klasmeyt.id} />
               ))}
@@ -32,7 +32,7 @@ export default function StudentsResults(props: {
       {props.klasmeyts.length === 0 && (
         <p className="ion-padding-start">No klasmeyts found.</p>
       )}
-      {props.klasmeyts.length > 3 && (
+      {props.klasmeyts.length > 4 && (
         <IonText
           onClick={toggleShowAll}
           color="primary"

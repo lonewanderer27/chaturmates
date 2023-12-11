@@ -10,6 +10,7 @@ import {
   IonHeader,
   IonIcon,
   IonPage,
+  IonProgressBar,
   IonRow,
   IonText,
   IonToolbar,
@@ -34,9 +35,7 @@ export default function GroupPage() {
   const query = useQuery({
     queryKey: ["group", vanity_id],
     queryFn: async () => {
-      await show();
       const res = (await getGroupByVanityUrl(vanity_id)).data;
-      await close();
       return res;
     },
     enabled: !!vanity_id,
@@ -71,15 +70,9 @@ export default function GroupPage() {
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton className="font-poppins" />
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent fullscreen className="groupPage">
         <IonCard className="groupPageCard ion-padding">
+          {!query.data && <IonProgressBar type="indeterminate" />}
           {<IonFabButton
             size="small"
             className="mb-[-50px]"

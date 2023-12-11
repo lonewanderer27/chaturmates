@@ -11,6 +11,7 @@ import {
   IonHeader,
   IonIcon,
   IonPage,
+  IonProgressBar,
   IonRow,
   IonText,
   IonToolbar,
@@ -32,7 +33,6 @@ import GroupsResults from "../components/Discover/GroupsResults";
 
 export default function StudentPage() {
   const rt = useIonRouter();
-  const [show, close] = useIonLoading();
   const [follow, setFollow] = useState(false);
 
   const toggleFollow = () => {
@@ -44,9 +44,7 @@ export default function StudentPage() {
     queryKey: ["student", student_id],
     queryFn: async () => {
       console.log("useQuery");
-      await show();
       const res = await getStudentById(student_id);
-      await close();
       console.log("data", res.data);
       return res.data;
     },
@@ -60,18 +58,20 @@ export default function StudentPage() {
     rt.push("/discover", "back");
   };
 
-
   return (
     <IonPage>
       <IonContent className="studentPage">
         <IonCard className="studentPageCard ion-padding">
-          {rt.canGoBack() && <IonFabButton
-            size="small"
-            className="mb-[-50px]"
-            onClick={handleBack}
-          >
-            <IonIcon src={chevronBack}></IonIcon>
-          </IonFabButton>}
+          {!query.data && <IonProgressBar type="indeterminate" />}
+          {rt.canGoBack() && (
+            <IonFabButton
+              size="small"
+              className="mb-[-50px]"
+              onClick={handleBack}
+            >
+              <IonIcon src={chevronBack}></IonIcon>
+            </IonFabButton>
+          )}
           <IonGrid>
             <IonRow className="ion-justify-content-center">
               {query.data?.student?.avatar_url ? (

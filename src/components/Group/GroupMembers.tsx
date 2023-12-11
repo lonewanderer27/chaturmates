@@ -13,7 +13,7 @@ export default function GroupMembers(props: { members?: StudentType[] }) {
   return (
     <div className="ion-margin-vertical  font-poppins">
       <IonText className="pageTitle ion-margin-vertical ion-padding-start">
-        Klasmeyts ({props.members?.length})
+        Klasmeyts ({props.members?.length ?? 0})
       </IonText>
       {props.members && props.members.length > 0 && (
         <IonList lines="inset">

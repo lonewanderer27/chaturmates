@@ -39,7 +39,7 @@ export default function GroupCard(props: {
         <IonRow>
           <IonAvatar>
             {props.group.avatar_url && isValidUrl(props.group.avatar_url) ? (
-              <img src={props.group.avatar_url} />
+              <img className="groupCardAvatar" src={props.group.avatar_url} />
             ) : (
               <IonIcon className="groupCardIcon" src={props.icon}></IonIcon>
             )}

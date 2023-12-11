@@ -5,6 +5,11 @@
   font-size: 50px;
 }
 
+.groupCardAvatar {
+  width: 50px;
+  height: auto;
+}
+
 .groupMemberIcon {
   font-size: x-large;
 }

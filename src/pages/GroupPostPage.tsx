@@ -8,6 +8,7 @@ import {
   IonContent,
   IonFabButton,
   IonFooter,
+  IonHeader,
   IonIcon,
   IonInput,
   IonItem,
@@ -15,10 +16,12 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonList,
+  IonModal,
   IonPage,
   IonProgressBar,
   IonText,
   IonTextarea,
+  IonTitle,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
@@ -29,7 +32,7 @@ import {
   getGroupPostById,
   getGroupPostComments,
 } from "../services/group/posts";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CommentList, {
   ExtendedCommentType,
 } from "../components/Group/Post/Comment/CommentList";
@@ -95,6 +98,11 @@ export default function GroupPostPage() {
       })
     ),
   });
+
+  const handleGroupRules = () => {
+    rt.push(`/group/${vanity_id}/rules`);
+  };
+
   const handlePostComment: SubmitHandler<{ comment: string }> = async (
     data
   ) => {
@@ -137,82 +145,121 @@ export default function GroupPostPage() {
     setValue("comment", "");
   };
 
+  const page = useRef(null);
+  const [presentingElement, setPresentingElement] =
+    useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setPresentingElement(page.current);
+  }, []);
+  const modal = useRef<HTMLIonModalElement>(null);
+
   return (
-    <IonPage>
-      <IonContent>
-        <IonFabButton className="m-3" size="small" onClick={handleBack}>
-          <IonIcon src={chevronBack}></IonIcon>
-        </IonFabButton>
-        <IonCard className="postPageCard">
-          {pquery.isLoading && <IonProgressBar type="indeterminate" />}
-          <IonCardHeader>
-            <IonCardTitle className="font-poppins text-xl">
-              {pquery.data?.title}
-            </IonCardTitle>
-            <IonCardSubtitle>
-              {timestamp.toDateString()} {timestamp.getHours()}:
-              {timestamp.getMinutes()}
-            </IonCardSubtitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonText className="font-poppins">
-              <p>{pquery.data?.content}</p>
-            </IonText>
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          {pquery.isLoading && <IonProgressBar type="indeterminate" />}
-          <IonCardHeader>
-            <IonCardSubtitle>Comments:</IonCardSubtitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonList>
-              {cquery.data &&
-                cquery.data.map((comment) => (
-                  <GroupPostComment
-                    student={comment.students! ?? null}
-                    comment={comment}
-                  />
-                ))}
-            </IonList>
-          </IonCardContent>
-        </IonCard>
-      </IonContent>
-      <IonFooter>
-        {posting && <IonProgressBar type="indeterminate" />}
-        <IonToolbar className="p-2">
-          <Controller
-            render={({ field }) => (
-              <IonTextarea
-                className={`custom ${
-                  getFieldState("comment").error
-                    ? "ion-touched ion-invalid border-red-500"
-                    : ""
-                }`}
-                disabled={posting}
-                value={field.value}
-                onIonChange={(e) => setValue("comment", e.detail.value ?? "")}
-                autoGrow
-                placeholder="Write a comment"
-                errorText={getFieldState("comment").error?.message}
-              />
-            )}
-            control={control}
-            name="comment"
-          />
-        </IonToolbar>
-        <IonToolbar className="px-2 mt-[-10px]">
-          <IonButton
-            disabled={posting}
-            slot="end"
-            size="small"
-            fill="clear"
-            onClick={handleSubmit(handlePostComment)}
-          >
-            <IonIcon src={send}></IonIcon>
-          </IonButton>
-        </IonToolbar>
-      </IonFooter>
-    </IonPage>
+    <>
+      <IonPage ref={page}>
+        <IonContent>
+          <IonFabButton className="m-3" size="small" onClick={handleBack}>
+            <IonIcon src={chevronBack}></IonIcon>
+          </IonFabButton>
+          <IonCard className="postPageCard">
+            {pquery.isLoading && <IonProgressBar type="indeterminate" />}
+            <IonCardHeader>
+              <IonCardTitle className="font-poppins text-xl">
+                {pquery.data?.title}
+              </IonCardTitle>
+              <IonCardSubtitle>
+                {timestamp.toDateString()} {timestamp.getHours()}:
+                {timestamp.getMinutes()}
+              </IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonText className="font-poppins">
+                <p>{pquery.data?.content}</p>
+              </IonText>
+            </IonCardContent>
+          </IonCard>
+          <IonCard>
+            {pquery.isLoading && <IonProgressBar type="indeterminate" />}
+            <IonCardHeader>
+              <IonCardSubtitle>Comments:</IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonList>
+                {cquery.data &&
+                  cquery.data.map((comment) => (
+                    <GroupPostComment
+                      student={comment.students! ?? null}
+                      comment={comment}
+                    />
+                  ))}
+              </IonList>
+            </IonCardContent>
+          </IonCard>
+        </IonContent>
+        <IonFooter>
+          {posting && <IonProgressBar type="indeterminate" />}
+          <IonToolbar className="p-2">
+            <Controller
+              render={({ field }) => (
+                <IonTextarea
+                  className={`custom ${
+                    getFieldState("comment").error
+                      ? "ion-touched ion-invalid border-red-500"
+                      : ""
+                  }`}
+                  disabled={posting}
+                  value={field.value}
+                  onIonChange={(e) => setValue("comment", e.detail.value ?? "")}
+                  autoGrow
+                  placeholder="Write a comment"
+                  errorText={getFieldState("comment").error?.message}
+                />
+              )}
+              control={control}
+              name="comment"
+            />
+          </IonToolbar>
+          <IonToolbar className="px-2 mt-[-10px]">
+            <IonButton
+              disabled={posting}
+              slot="end"
+              size="small"
+              fill="clear"
+              onClick={handleSubmit(handlePostComment)}
+            >
+              <IonIcon src={send}></IonIcon>
+            </IonButton>
+            <IonButton
+              className="font-poppins font-bold"
+              size="small"
+              fill="clear"
+              id="group_rules"
+            >
+              Group Rules
+            </IonButton>
+            <IonModal
+              ref={modal}
+              trigger="group_rules"
+              // presentingElement={presentingElement!}
+              initialBreakpoint={0.25} breakpoints={[0, 0.25, 0.5, 0.75]}
+            >
+              <IonHeader collapse="condense">
+                <IonToolbar>
+                  {/* <IonText slot="start" className="pageTitle">
+                    Group Rules
+                  </IonText> */}
+                  <IonTitle>
+                    <h1 className="font-poppins font-bold">Group Rules</h1>
+                  </IonTitle>
+                  <IonButton slot="end" fill="clear" onClick={() => modal.current?.dismiss()}>
+                    OK
+                  </IonButton>
+                </IonToolbar>
+              </IonHeader>
+              <IonContent className="ion-padding"></IonContent>
+            </IonModal>
+          </IonToolbar>
+        </IonFooter>
+      </IonPage>
+    </>
   );
 }

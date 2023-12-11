@@ -13,6 +13,7 @@ import { peopleCircleOutline } from "ionicons/icons";
 import { GroupResponse } from "../../../types/group";
 import { useMemo } from "react";
 import ItemListButton from "../../ItemListButton";
+import useSelfStudent from "../../../hooks/student/useSelfStudent";
 
 export default function GroupItem(props: {
   group: GroupResponse["get"]["data"]["group"];
@@ -20,19 +21,23 @@ export default function GroupItem(props: {
   buttonLabel?: string;
 }) {
   const rt = useIonRouter();
+  const { groups } = useSelfStudent();
 
   const isValidUrl = useMemo(() => {
     try {
-      new URL(props.group.avatar_url+"");
+      new URL(props.group.avatar_url + "");
       return true;
     } catch (_) {
       return false;
     }
   }, [props.group.avatar_url]);
 
-
   function handleView() {
     rt.push("/group/" + props.group.vanity_id);
+  }
+
+  function handleJoin() {
+    // TODO: Join functionality
   }
 
   return (
@@ -59,7 +64,12 @@ export default function GroupItem(props: {
           </IonText>
         </IonCol>
       </IonRow>
-      <ItemListButton buttonLabel={props.buttonLabel} />
+      {/* Only show join button if group is not found in the groups array */}
+      {groups && groups.find((group) => group.id === props.group.id) ? (
+        <ItemListButton buttonLabel={"Visit"} />
+      ) : (
+        <ItemListButton buttonLabel={props.buttonLabel} onClick={handleJoin} />
+      )}
     </IonItem>
   );
 }

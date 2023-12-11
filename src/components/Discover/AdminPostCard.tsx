@@ -16,11 +16,14 @@ export default function AdminPostCard(props: {
 }) {
   const rt = useIonRouter();
   const handleClick = () => {
-    rt.push(`/groups/${props.group?.vanity_id}/post/${props.post?.id}`);
+    rt.push(`/group/${props.group?.vanity_id}/post/${props.post?.id}`);
   };
 
   return (
-    <IonCard className="studentCard ion-padding m-2 font-poppins">
+    <IonCard
+      className="studentCard ion-padding m-2 font-poppins"
+      onClick={handleClick}
+    >
       <IonRow>
         <IonCol size="1">
           <IonIcon

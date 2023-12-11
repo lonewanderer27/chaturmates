@@ -319,6 +319,7 @@ export interface Database {
           member_id: number
           pinned: boolean
           student_id: number
+          title: string | null
         }
         Insert: {
           content?: string | null
@@ -328,6 +329,7 @@ export interface Database {
           member_id: number
           pinned?: boolean
           student_id: number
+          title?: string | null
         }
         Update: {
           content?: string | null
@@ -337,6 +339,7 @@ export interface Database {
           member_id?: number
           pinned?: boolean
           student_id?: number
+          title?: string | null
         }
         Relationships: [
           {

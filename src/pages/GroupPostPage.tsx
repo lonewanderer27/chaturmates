@@ -169,20 +169,10 @@ export default function GroupPostPage() {
             <IonList>
               {cquery.data &&
                 cquery.data.map((comment) => (
-                  <IonItemSliding>
-                    <IonItem lines="none" className="mx-[-5px] px-[5px]">
-                      <GroupPostComment
-                        student={comment.students! ?? null}
-                        comment={comment}
-                      />
-                    </IonItem>
-                    <IonItemOptions side="end">
-                      <IonItemOption color="danger">Delete</IonItemOption>
-                    </IonItemOptions>
-                    <IonItemOptions side="start">
-                      <IonItemOption color="tertiary">Edit</IonItemOption>
-                    </IonItemOptions>
-                  </IonItemSliding>
+                  <GroupPostComment
+                    student={comment.students! ?? null}
+                    comment={comment}
+                  />
                 ))}
             </IonList>
           </IonCardContent>

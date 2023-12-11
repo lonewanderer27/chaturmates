@@ -28,10 +28,11 @@ export default function useSelfStudent() {
       const res = (
         await client
           .from("students")
-          .select("*")
+          .select("*, groups(*)")
           .eq("profile_id", profile!.id)
           .single()
       ).data;
+      console.log("useSelfStudent res", res);
       return res;
     },
     enabled: !!profile && !!session,
@@ -49,7 +50,7 @@ export default function useSelfStudent() {
   return {
     profile: profile,
     student: query.data ?? null,
-    groups: query2.data?.groups ?? null,
+    groups: query.data?.groups,
     followers: query2.data?.followers ?? null,
     following: query2.data?.following ?? null,
   };

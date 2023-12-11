@@ -21,9 +21,13 @@ import GroupCreateModal from "../components/Group/GroupCreateModal";
 import useStudents from "../hooks/student/useStudents";
 import { getAllGroups } from "../services/group";
 import { getAllStudents } from "../services/student";
+import AdminPostsGrid from "../components/Discover/AdminPostsGrid";
+import { getAdminPosts } from "../services/group/admin/posts";
+import useSelfStudent from "../hooks/student/useSelfStudent";
 
 function DiscoverPage() {
   const { session, nickname } = useSession();
+  const { student } = useSelfStudent();
   const query = useQuery({
     queryKey: ["groups"],
     queryFn: async () => {
@@ -46,6 +50,16 @@ function DiscoverPage() {
     },
   });
 
+  const iaQuery = useQuery({
+    queryKey: ["important_announcements"],
+    queryFn: async () => {
+      const res = await getAdminPosts(student!.school+"");
+      console.log("adminPosts", res);
+      return res.data;
+    },
+    enabled: !!student?.id
+  })
+
   const { page, modal, presentingElement, toggleShowCreateGroup } =
     useCreateGroupModal();
 
@@ -55,16 +69,14 @@ function DiscoverPage() {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonText slot="start" className="pageTitle font-poppins">
-              Welcome, {nickname}
+              Welcome {nickname}
             </IonText>
             <IonButtons slot="end">
               <BtnSearch />
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <p className="p-2 text-lg font-poppins">
-          Connect with a group or people like you
-        </p>
+        <AdminPostsGrid group={iaQuery.data} posts={iaQuery.data?.group_posts} />
         <StudentsGrid students={squery.data?.students} />
         <GroupsGrid groups={query.data?.groups} />
         <GroupCreateModal

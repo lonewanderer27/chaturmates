@@ -79,6 +79,7 @@ export async function getStudentById(
     );
 
   // return the student, followers, following, and groups
+  // @ts-ignore
   return Promise.resolve({
     data: {
       student: student.data!,

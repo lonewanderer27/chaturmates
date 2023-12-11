@@ -1,10 +1,13 @@
 import { client } from "../../client";
 import { GroupResponse, GroupsResponse } from "../../types/group";
 
-export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
-  const groups = await client.from('groups').select("*, group_members(*, students(*))");
+export async function getAllGroups(): Promise<GroupsResponse["getAll"]> {
+  const groups = await client
+    .from("groups")
+    .select("*, group_members(*, students(*))")
+    .eq("admin_uni_group", false);
 
-  console.log("groups: ", groups.data)
+  console.log("groups: ", groups.data);
 
   return Promise.resolve({
     data: {
@@ -13,11 +16,16 @@ export async function getAllGroups(): Promise<GroupsResponse['getAll']> {
     message: "Groups fetched successfully",
     error: null,
     success: true,
-  })
+  });
 }
 
 export async function getGroupById(id: string): Promise<GroupResponse["get"]> {
-  const group = await client.from("groups").select("*, group_members(*, students(*))").eq("id", id).single();
+  const group = await client
+    .from("groups")
+    .select("*, group_members(*, students(*))")
+    .eq("id", id)
+    .eq("admin_uni_group", false)
+    .single();
 
   if (!group) {
     return Promise.reject("Group not found");
@@ -136,7 +144,7 @@ export async function getGroupByVanityUrl(
       admins.data!.map((admin) => admin.student_id)
     );
 
-  console.log("approved members count: ", approvedStudents.data?.length)
+  console.log("approved members count: ", approvedStudents.data?.length);
 
   // return the group, members, admins, students, chat urls, and posts
   return Promise.resolve({

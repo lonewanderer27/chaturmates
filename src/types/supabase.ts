@@ -364,7 +364,8 @@ export interface Database {
       }
       groups: {
         Row: {
-          academic_year_id: number
+          academic_year_id: number | null
+          admin_uni_group: boolean
           avatar_url: string | null
           college: number | null
           course: number | null
@@ -374,11 +375,12 @@ export interface Database {
           id: number
           name: string
           school: number
-          semester: number
+          semester: number | null
           vanity_id: string
         }
         Insert: {
-          academic_year_id: number
+          academic_year_id?: number | null
+          admin_uni_group?: boolean
           avatar_url?: string | null
           college?: number | null
           course?: number | null
@@ -388,11 +390,12 @@ export interface Database {
           id?: number
           name: string
           school: number
-          semester: number
+          semester?: number | null
           vanity_id: string
         }
         Update: {
-          academic_year_id?: number
+          academic_year_id?: number | null
+          admin_uni_group?: boolean
           avatar_url?: string | null
           college?: number | null
           course?: number | null
@@ -402,7 +405,7 @@ export interface Database {
           id?: number
           name?: string
           school?: number
-          semester?: number
+          semester?: number | null
           vanity_id?: string
         }
         Relationships: [
@@ -691,7 +694,7 @@ export interface Database {
           id: number
           name: string
           profile_url: string | null
-          vanity_id: string
+          vanity_url: string
         }
         Insert: {
           created_at?: string
@@ -699,7 +702,7 @@ export interface Database {
           id?: number
           name: string
           profile_url?: string | null
-          vanity_id: string
+          vanity_url: string
         }
         Update: {
           created_at?: string
@@ -707,7 +710,7 @@ export interface Database {
           id?: number
           name?: string
           profile_url?: string | null
-          vanity_id?: string
+          vanity_url?: string
         }
         Relationships: []
       }

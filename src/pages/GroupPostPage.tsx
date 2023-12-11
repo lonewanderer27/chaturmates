@@ -170,7 +170,7 @@ export default function GroupPostPage() {
               {cquery.data &&
                 cquery.data.map((comment) => (
                   <IonItemSliding>
-                    <IonItem lines="none" className="mx-0 px-0">
+                    <IonItem lines="none" className="mx-[-5px] px-[5px]">
                       <GroupPostComment
                         student={comment.students! ?? null}
                         comment={comment}

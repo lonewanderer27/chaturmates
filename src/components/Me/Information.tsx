@@ -6,6 +6,7 @@ import {
   IonRow,
 } from "@ionic/react";
 import { ProfileType, StudentType } from "../../types";
+import S from "string";
 
 export default function StudentInformation(props: {
   student?: StudentType | null;
@@ -25,13 +26,17 @@ export default function StudentInformation(props: {
         <IonLabel>{props.student?.academic_year_id ?? ""}</IonLabel>
       </IonItem>
       <IonItem>
-        <IonLabel>AdU Email</IonLabel>
+        <IonLabel>School Email</IonLabel>
         <IonLabel>{props.student?.school_email ?? ""}</IonLabel>
       </IonItem>
       <IonItem>
-        <IonLabel>Phone Number</IonLabel>
-        <IonLabel>09983084812</IonLabel>
+        <IonLabel>Type</IonLabel>
+        <IonLabel>{S(props.student?.type + "").capitalize().s}</IonLabel>
       </IonItem>
+      {/* <IonItem>
+        <IonLabel>Phone Number</IonLabel>
+        <IonLabel>{props.student.}</IonLabel>
+      </IonItem> */}
     </IonList>
   );
 }

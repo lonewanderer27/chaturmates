@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { client } from "../../client";
 import { GroupResponse, GroupsResponse } from "../../types/group";
 

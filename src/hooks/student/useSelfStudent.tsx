@@ -28,7 +28,7 @@ export default function useSelfStudent() {
       const res = (
         await client
           .from("students")
-          .select("*, groups(*)")
+          .select("*")
           .eq("profile_id", profile!.id)
           .single()
       ).data;
@@ -50,7 +50,7 @@ export default function useSelfStudent() {
   return {
     profile: profile,
     student: query.data ?? null,
-    groups: query.data?.groups,
+    groups: query2.data?.groups ?? null,
     followers: query2.data?.followers ?? null,
     following: query2.data?.following ?? null,
   };

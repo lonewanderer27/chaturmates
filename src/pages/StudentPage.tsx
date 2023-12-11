@@ -93,23 +93,23 @@ export default function StudentPage() {
   return (
     <IonPage>
       <IonContent className="studentPage">
-        <IonCard className="studentPageCard ion-padding">
+        <IonCard className="studentPageCard">
           {!query.data && <IonProgressBar type="indeterminate" />}
           {rt.canGoBack() && (
             <IonFabButton
-              size="small"
-              className="mb-[-50px]"
-              onClick={handleBack}
-            >
-              <IonIcon src={chevronBack}></IonIcon>
-            </IonFabButton>
+            size="small"
+            className="ml-3 mt-3 mb-[-70px]"
+            onClick={handleBack}
+          >
+            <IonIcon src={chevronBack}></IonIcon>
+          </IonFabButton>
           )}
           <IonGrid>
-            <IonRow className="ion-justify-content-center">
+            <IonRow className="ion-justify-content-center ion-padding">
               {query.data?.student?.avatar_url ? (
                 <IonCol size="4">
                   <img
-                    className="studentPageLogo"
+                    className="studentPageLogo rounded-full"
                     src={query.data?.student.avatar_url}
                   />
                 </IonCol>
@@ -164,7 +164,7 @@ export default function StudentPage() {
               </IonRow>
             )}
             <IonText className="studentDescription  ion-margin-vertical  font-poppins font-medium">
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: "center" }} className=" ion-padding">
                 {query.data?.student?.description}
               </p>
             </IonText>

@@ -1,4 +1,5 @@
 import {
+  IonAvatar,
   IonBackButton,
   IonButton,
   IonButtons,
@@ -71,23 +72,23 @@ export default function GroupPage() {
   return (
     <IonPage>
       <IonContent fullscreen className="groupPage">
-        <IonCard className="groupPageCard ion-padding">
+        <IonCard className="groupPageCard">
           {!query.data && <IonProgressBar type="indeterminate" />}
           {
             <IonFabButton
               size="small"
-              className="mb-[-50px]"
+              className="ml-3 mt-3 mb-[-70px]"
               onClick={handleBack}
             >
               <IonIcon src={chevronBack}></IonIcon>
             </IonFabButton>
           }
           <IonGrid>
-            <IonRow className="ion-justify-content-center">
+            <IonRow className="ion-justify-content-center ion-padding">
               {query.data?.group?.avatar_url ? (
                 <IonCol size="4">
                   <img
-                    className="groupPageLogo"
+                    className="groupPageLogo rounded-full"
                     src={query.data?.group?.avatar_url}
                   />
                 </IonCol>
@@ -140,7 +141,7 @@ export default function GroupPage() {
               </IonRow>
             )}
             <IonText className="text-center ion-margin-vertical font-medium font-poppins">
-              <p style={{ textAlign: "center" }}>
+              <p style={{ textAlign: "center" }} className="px-2">
                 {query.data?.group?.description}
               </p>
             </IonText>

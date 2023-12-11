@@ -25,20 +25,23 @@ import {
 } from "ionicons/icons";
 import { GROUPS } from "../constants/groups";
 import "./StudentPage.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { getStudentById } from "../services/student";
+import S from "string";
 import GroupsResults from "../components/Discover/GroupsResults";
+import useSelfStudent from "../hooks/student/useSelfStudent";
 
 export default function StudentPage() {
   const rt = useIonRouter();
   const [follow, setFollow] = useState(false);
 
-  const toggleFollow = () => {
-    setFollow(!follow);
-  };
+  // const toggleFollow = () => {
+  //   setFollow(!follow);
+  // };
 
+  const { student } = useSelfStudent();
   const { student_id } = useParams<{ student_id: string }>();
   const query = useQuery({
     queryKey: ["student", student_id],
@@ -57,6 +60,35 @@ export default function StudentPage() {
     }
     rt.push("/discover", "back");
   };
+
+  const handleMessage = () => {
+    rt.push(`/threads`, "forward");
+  };
+
+  const followed = useMemo(() => {
+    // if the current student already follows this student
+    // then set the follow button to followed
+    // else set the follow button to follow
+
+    // check if it's the current student
+    if (student?.id === Number(student_id)) {
+      return false;
+    }
+
+    if (!query.data) {
+      return false;
+    }
+
+    const currentStudent = query.data?.followers?.find(
+      (follower) => follower.id === student?.id
+    );
+
+    if (currentStudent) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [query.data]);
 
   return (
     <IonPage>
@@ -90,42 +122,47 @@ export default function StudentPage() {
             </IonRow>
             <IonText className="text-center font-poppins font-light text-lg">
               <p className="pageTitle">{query.data?.student?.full_name}</p>
-              <p>Regular</p>
-            </IonText>
-            <IonRow className="ion-justify-content-center ion-margin-vertical">
-              <IonButton
-                disabled
-                shape="round"
-                size="small"
-                className="ion-margin-horizontal font-poppins"
-              >
-                Message
-              </IonButton>
-              {follow === false ? (
-                <>
-                  <IonButton
-                    shape="round"
-                    size="small"
-                    className="ion-margin-horizontal font-poppins"
-                    onClick={toggleFollow}
-                  >
-                    Follow
-                  </IonButton>
-                </>
-              ) : (
-                <>
-                  <IonButton
-                    color="success"
-                    shape="round"
-                    size="small"
-                    className="ion-margin-horizontal font-poppins"
-                    onClick={toggleFollow}
-                  >
-                    Followed
-                  </IonButton>
-                </>
+              {query.data && (
+                <p>{S(query.data?.student.type).capitalize().s}</p>
               )}
-            </IonRow>
+            </IonText>
+            {query.data && (
+              <IonRow className="ion-justify-content-center ion-margin-vertical">
+                <IonButton
+                  // disabled
+                  shape="round"
+                  size="small"
+                  className="ion-margin-horizontal font-poppins"
+                  onClick={handleMessage}
+                >
+                  Message
+                </IonButton>
+                {followed === false ? (
+                  <>
+                    <IonButton
+                      shape="round"
+                      size="small"
+                      className="ion-margin-horizontal font-poppins"
+                      // onClick={toggleFollow}
+                    >
+                      Follow
+                    </IonButton>
+                  </>
+                ) : (
+                  <>
+                    <IonButton
+                      color="success"
+                      shape="round"
+                      size="small"
+                      className="ion-margin-horizontal font-poppins"
+                      // onClick={toggleFollow}
+                    >
+                      Followed
+                    </IonButton>
+                  </>
+                )}
+              </IonRow>
+            )}
             <IonText className="studentDescription  ion-margin-vertical  font-poppins font-medium">
               <p style={{ textAlign: "center" }}>
                 {query.data?.student?.description}

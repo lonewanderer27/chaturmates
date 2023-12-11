@@ -5,6 +5,7 @@ import {
   IonCard,
   IonCol,
   IonContent,
+  IonFabButton,
   IonGrid,
   IonHeader,
   IonIcon,
@@ -16,7 +17,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import "./Group.css";
-import { peopleCircleOutline } from "ionicons/icons";
+import { chevronBack, peopleCircleOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import GroupMembers from "../components/Group/GroupMembers";
@@ -25,6 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getGroupByVanityUrl } from "../services/group";
 
 export default function GroupPage() {
+  const rt = useIonRouter();
   const [show, close] = useIonLoading();
   const { student } = useSelfStudent();
   const { vanity_id } = useParams<{ vanity_id: string }>();
@@ -39,7 +41,7 @@ export default function GroupPage() {
     },
     enabled: !!vanity_id,
   });
-  
+
   console.log("groupMembers: ", query.data?.members);
   console.log("admins", query.data?.admins);
 
@@ -56,27 +58,43 @@ export default function GroupPage() {
     }
   }, [query.data?.members]);
 
+  const handleBack = () => {
+    if (rt.canGoBack()) {
+      rt.goBack();
+    }
+    rt.push("/discover", "back");
+  };
+
   const toggleJoin = () => {
     setJoin(!join);
   };
 
   return (
     <IonPage>
+      {/* <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton className="font-poppins" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader> */}
       <IonContent fullscreen className="groupPage">
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonBackButton></IonBackButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        {/* TODO: Fix back button above this card */}
         <IonCard className="groupPageCard ion-padding">
+          {<IonFabButton
+            size="small"
+            className="mb-[-50px]"
+            onClick={handleBack}
+          >
+            <IonIcon src={chevronBack}></IonIcon>
+          </IonFabButton>}
           <IonGrid>
             <IonRow className="ion-justify-content-center">
               {query.data?.group?.avatar_url ? (
                 <IonCol size="4">
-                  <img className="groupPageLogo" src={query.data?.group?.avatar_url} />
+                  <img
+                    className="groupPageLogo"
+                    src={query.data?.group?.avatar_url}
+                  />
                 </IonCol>
               ) : (
                 <IonIcon
@@ -89,7 +107,7 @@ export default function GroupPage() {
               <p className="pageTitle">{query.data?.group?.name}</p>
               <p>Regular</p>
             </IonText>
-            <IonRow className="ion-justify-content-center  ion-margin-vertical">
+            <IonRow className="ion-justify-content-center ion-margin-vertical">
               {join === false ? (
                 <>
                   <IonButton
@@ -125,7 +143,9 @@ export default function GroupPage() {
               </IonButton>
             </IonRow>
             <IonText className="text-center ion-margin-vertical font-medium font-poppins">
-              <p style={{ textAlign: "center" }}>{query.data?.group?.description}</p>
+              <p style={{ textAlign: "center" }}>
+                {query.data?.group?.description}
+              </p>
             </IonText>
             <GroupMembers members={query.data?.students.all!} />
           </IonGrid>

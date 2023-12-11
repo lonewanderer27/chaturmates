@@ -6,6 +6,7 @@ import {
   IonCard,
   IonCol,
   IonContent,
+  IonFabButton,
   IonGrid,
   IonHeader,
   IonIcon,
@@ -14,8 +15,13 @@ import {
   IonText,
   IonToolbar,
   useIonLoading,
+  useIonRouter,
 } from "@ionic/react";
-import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
+import {
+  chevronBack,
+  peopleCircleOutline,
+  personCircleOutline,
+} from "ionicons/icons";
 import { GROUPS } from "../constants/groups";
 import "./StudentPage.css";
 import { useState } from "react";
@@ -25,6 +31,7 @@ import { getStudentById } from "../services/student";
 import GroupsResults from "../components/Discover/GroupsResults";
 
 export default function StudentPage() {
+  const rt = useIonRouter();
   const [show, close] = useIonLoading();
   const [follow, setFollow] = useState(false);
 
@@ -46,23 +53,33 @@ export default function StudentPage() {
     enabled: !!student_id,
   });
 
+  const handleBack = () => {
+    if (rt.canGoBack()) {
+      rt.goBack();
+    }
+    rt.push("/discover", "back");
+  };
+
+
   return (
     <IonPage>
       <IonContent className="studentPage">
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonButtons>
-              <IonBackButton></IonBackButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        {/* TODO: Fix back button above this card */}
         <IonCard className="studentPageCard ion-padding">
+          {rt.canGoBack() && <IonFabButton
+            size="small"
+            className="mb-[-50px]"
+            onClick={handleBack}
+          >
+            <IonIcon src={chevronBack}></IonIcon>
+          </IonFabButton>}
           <IonGrid>
             <IonRow className="ion-justify-content-center">
               {query.data?.student?.avatar_url ? (
                 <IonCol size="4">
-                  <img className="studentPageLogo" src={query.data?.student.avatar_url} />
+                  <img
+                    className="studentPageLogo"
+                    src={query.data?.student.avatar_url}
+                  />
                 </IonCol>
               ) : (
                 <IonIcon
@@ -110,11 +127,11 @@ export default function StudentPage() {
               )}
             </IonRow>
             <IonText className="studentDescription  ion-margin-vertical  font-poppins font-medium">
-              <p style={{ textAlign: "center" }}>{query.data?.student?.description}</p>
+              <p style={{ textAlign: "center" }}>
+                {query.data?.student?.description}
+              </p>
             </IonText>
-              <GroupsResults
-                groups={query.data?.groups}
-              />
+            <GroupsResults groups={query.data?.groups} />
           </IonGrid>
         </IonCard>
       </IonContent>

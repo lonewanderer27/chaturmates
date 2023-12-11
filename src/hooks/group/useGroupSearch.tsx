@@ -11,6 +11,7 @@ export default function useGroupSearch() {
     const response = await client
       .from("groups")
       .select("*, group_members(*)")
+      .eq("admin_uni_group", false)
       .order("created_at", { ascending: true });
     console.log("groupsResults response:", response);
     setGroupsResults(
@@ -28,6 +29,7 @@ export default function useGroupSearch() {
           .from("groups")
           .select("*, group_members(*)")
           .ilike("name", `%${query}%`)
+          .eq("admin_uni_group", false)
           .order("created_at", { ascending: true })
       ).data;
       setGroupsResults(response as GroupsResponse["getAll"]["data"]["groups"]);

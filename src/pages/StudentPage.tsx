@@ -10,9 +10,11 @@ import {
   IonGrid,
   IonHeader,
   IonIcon,
+  IonLoading,
   IonPage,
   IonProgressBar,
   IonRow,
+  IonSpinner,
   IonText,
   IonToolbar,
   useIonLoading,
@@ -25,17 +27,19 @@ import {
 } from "ionicons/icons";
 import { GROUPS } from "../constants/groups";
 import "./StudentPage.css";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import { getStudentById } from "../services/student";
 import S from "string";
 import GroupsResults from "../components/Discover/GroupsResults";
 import useSelfStudent from "../hooks/student/useSelfStudent";
+import { followStudent, unfollowStudent } from "../services/student/following";
 
 export default function StudentPage() {
   const rt = useIonRouter();
-  const [follow, setFollow] = useState(false);
+  const [followOperation, setfollowOperation] = useState(() => false);
+  const [follow, setFollow] = useState(() => false);
 
   // const toggleFollow = () => {
   //   setFollow(!follow);
@@ -90,6 +94,36 @@ export default function StudentPage() {
     }
   }, [query.data]);
 
+  const handleFollow = async () => {
+    try {
+      setfollowOperation(() => true);
+      const res = await followStudent(student?.id + "", student_id);
+      setfollowOperation(() => false);
+      console.log("follow", res.data);
+      if (res.data.student) {
+        setfollowOperation(() => false);
+        setFollow(() => true);
+      }
+    } catch {
+      console.log("error");
+      setfollowOperation(() => false);
+    }
+    query.refetch();
+  };
+
+  const handleUnfollow = async () => {
+    setfollowOperation(() => true);
+    try {
+      const res = await unfollowStudent(student?.id + "", student_id);
+      setFollow(() => false);
+    } catch {
+      console.log("error");
+      setfollowOperation(() => false);
+    }
+    setfollowOperation(() => false);
+    query.refetch();
+  };
+
   return (
     <IonPage>
       <IonContent className="studentPage">
@@ -97,12 +131,12 @@ export default function StudentPage() {
           {!query.data && <IonProgressBar type="indeterminate" />}
           {rt.canGoBack() && (
             <IonFabButton
-            size="small"
-            className="ml-3 mt-3 mb-[-70px]"
-            onClick={handleBack}
-          >
-            <IonIcon src={chevronBack}></IonIcon>
-          </IonFabButton>
+              size="small"
+              className="ml-3 mt-3 mb-[-70px]"
+              onClick={handleBack}
+            >
+              <IonIcon src={chevronBack}></IonIcon>
+            </IonFabButton>
           )}
           <IonGrid>
             <IonRow className="ion-justify-content-center ion-padding">
@@ -137,27 +171,34 @@ export default function StudentPage() {
                 >
                   Message
                 </IonButton>
-                {followed === false ? (
+                {!query.data?.followers?.find(
+                  (follower) => follower.id === student?.id
+                ) ? (
                   <>
                     <IonButton
+                      disabled={followOperation}
                       shape="round"
                       size="small"
                       className="ion-margin-horizontal font-poppins"
-                      // onClick={toggleFollow}
+                      onClick={handleFollow}
                     >
-                      Follow
+                      {followOperation ? <IonSpinner name="dots" /> : "Follow"}
                     </IonButton>
                   </>
                 ) : (
                   <>
                     <IonButton
-                      color="success"
+                      disabled={followOperation}
                       shape="round"
                       size="small"
                       className="ion-margin-horizontal font-poppins"
-                      // onClick={toggleFollow}
+                      onClick={handleUnfollow}
                     >
-                      Followed
+                      {followOperation ? (
+                        <IonSpinner name="dots" />
+                      ) : (
+                        "Unfollow"
+                      )}
                     </IonButton>
                   </>
                 )}

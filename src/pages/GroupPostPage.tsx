@@ -41,6 +41,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 import GroupPostComment from "../components/Group/Post/Comment/Comment";
+import useSelfStudent from "../hooks/student/useSelfStudent";
 
 export default function GroupPostPage() {
   const rt = useIonRouter();
@@ -77,11 +78,13 @@ export default function GroupPostPage() {
 
   const timestamp = useMemo(() => {
     if (pquery.data?.created_at) {
-      return new Date(pquery.data?.created_at!);
+      return new Date(pquery.data?.created_at!)
     } else {
       return new Date();
     }
   }, [pquery.data?.created_at]);
+
+  const { student, profile } = useSelfStudent();
 
   const [posting, setPosting] = useState(() => false);
   const {
@@ -118,16 +121,25 @@ export default function GroupPostPage() {
     }
 
     // post the new comment
+    // const res = await client
+    //   .from("group_comments")
+    //   .insert({
+    //     post_id: pquery.data!.id!,
+    //     member_id: profile!.id!+"",
+    //     student_id: student!.id!+"",
+    //     content: data.comment!,
+    //   })
+    //   .select("*")
+    //   .single();
+
     const res = await client
-      .from("group_comments")
-      .insert({
-        post_id: pquery.data!.id!,
-        member_id: pquery.data!.member_id,
-        student_id: pquery!.data!.student_id,
-        content: data.comment!,
-      })
-      .select("*")
-      .single();
+    .from("group_comments")
+    .insert({
+      post_id: pquery.data!.id!,
+      member_id: Number(profile!.id!),
+      student_id: student!.id!,
+      content: data.comment!,
+    }).select("*").single();
 
     if (!res.data) {
       console.log("Error posting comment");

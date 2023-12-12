@@ -3,6 +3,7 @@ import {
   IonCard,
   IonCol,
   IonIcon,
+  IonImg,
   IonRow,
   IonText,
   useIonRouter,
@@ -31,8 +32,11 @@ export default function StudentCard(props: {
         <IonRow>
           <IonCol size="2">
             {props.student.avatar_url ? (
-              <IonAvatar slot="start" className="mr-1 ml-[-5px]">
-                <img src={props!.student.avatar_url} />
+              <IonAvatar>
+                <IonImg
+                  className="rounded-full studentAvatar ml-[-5px]"
+                  src={props!.student.avatar_url}
+                />
               </IonAvatar>
             ) : (
               <IonIcon

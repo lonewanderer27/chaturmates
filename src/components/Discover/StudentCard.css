@@ -2,6 +2,11 @@
   font-size: 64px;
 }
 
+.studentAvatar {
+  width: 55px !important;
+  height: auto;
+}
+
 .studentName {
   font-size:x-large;
   font-weight: bold;

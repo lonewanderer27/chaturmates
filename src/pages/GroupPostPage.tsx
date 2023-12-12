@@ -78,7 +78,7 @@ export default function GroupPostPage() {
 
   const timestamp = useMemo(() => {
     if (pquery.data?.created_at) {
-      return new Date(pquery.data?.created_at!)
+      return new Date(pquery.data?.created_at!);
     } else {
       return new Date();
     }
@@ -120,26 +120,42 @@ export default function GroupPostPage() {
       return;
     }
 
-    // post the new comment
-    // const res = await client
-    //   .from("group_comments")
-    //   .insert({
-    //     post_id: pquery.data!.id!,
-    //     member_id: profile!.id!+"",
-    //     student_id: student!.id!+"",
-    //     content: data.comment!,
-    //   })
-    //   .select("*")
-    //   .single();
+    // check if the group is an admin group
+    if (pquery.data?.groups?.admin_uni_group) {
+      // if it's an admin group, check if the student is not a member
+      if (
+        !pquery.data?.groups?.group_members?.find((m) => m.id === student?.id)
+      ) {
+        // add the student to the group
+        const res = await client
+          .from("group_members")
+          .insert({
+            group_id: pquery.data!.group_id,
+            student_id: student!.id!,
+            profile_id: profile!.id!,
+          })
+          .select("*")
+          .single();
+        if (!res.data) {
+          console.log("Error adding student to group");
+          console.log(res.error);
+          setPosting(() => false);
+          return;
+        }
+      }
+    }
 
+    // post the new comment
     const res = await client
-    .from("group_comments")
-    .insert({
-      post_id: pquery.data!.id!,
-      member_id: Number(profile!.id!),
-      student_id: student!.id!,
-      content: data.comment!,
-    }).select("*").single();
+      .from("group_comments")
+      .insert({
+        post_id: pquery.data!.id!,
+        member_id: Number(profile!.id!),
+        student_id: student!.id!,
+        content: data.comment!,
+      })
+      .select("*")
+      .single();
 
     if (!res.data) {
       console.log("Error posting comment");
@@ -252,7 +268,8 @@ export default function GroupPostPage() {
               ref={modal}
               trigger="group_rules"
               // presentingElement={presentingElement!}
-              initialBreakpoint={0.25} breakpoints={[0, 0.25, 0.5, 0.75]}
+              initialBreakpoint={0.25}
+              breakpoints={[0, 0.25, 0.5, 0.75]}
             >
               <IonHeader collapse="condense">
                 <IonToolbar>
@@ -262,7 +279,11 @@ export default function GroupPostPage() {
                   <IonTitle>
                     <h1 className="font-poppins font-bold">Group Rules</h1>
                   </IonTitle>
-                  <IonButton slot="end" fill="clear" onClick={() => modal.current?.dismiss()}>
+                  <IonButton
+                    slot="end"
+                    fill="clear"
+                    onClick={() => modal.current?.dismiss()}
+                  >
                     OK
                   </IonButton>
                 </IonToolbar>

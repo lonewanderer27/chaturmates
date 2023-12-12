@@ -12,7 +12,7 @@ export default function BtnSearch(props: BtnSearchProps) {
   }
 
   return (
-    <IonButton {...props} onClick={handleClick}>
+    <IonButton {...props} onClick={handleClick} size="large">
       <IonIcon src={search} />
     </IonButton>
   )

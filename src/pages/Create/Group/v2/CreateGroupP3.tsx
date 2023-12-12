@@ -92,16 +92,6 @@ export default function CreateGroupP3() {
     },
   });
 
-  const coursesDrvd: CourseType[] = useMemo(() => {
-    if (collegesQry.data && coursesQry.data) {
-      return coursesQry.data.courses.filter((course) => {
-        return course.college_id === getValues("college");
-      });
-    } else {
-      return [];
-    }
-  }, [getValues("college"), collegesQry.data, coursesQry.data]);
-
   const handleBack = () => {
     console.log("handleBack");
     rt.push("/create/v2/group/2", "back");
@@ -286,7 +276,7 @@ export default function CreateGroupP3() {
                       value={field.value}
                       onIonChange={(e) => setValue("course", e.detail.value)}
                     >
-                      {coursesDrvd.map((course) => (
+                      {coursesQry.data?.courses.map((course) => (
                         <IonSelectOption
                           key={"course:" + course.id}
                           value={course.id}

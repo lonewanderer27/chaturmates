@@ -10,6 +10,7 @@ import {
   IonText,
   IonTextarea,
   useIonRouter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import {useEffect, useState} from "react";
 
@@ -45,6 +46,10 @@ function ProfilePage() {
     return () => {
       setEdit(false);
     }
+  }, []);
+
+  useIonViewWillEnter(() => {
+    document.title = "My Profile | Klasmeyt";
   }, []);
 
   // @ts-ignore

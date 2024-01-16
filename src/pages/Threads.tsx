@@ -1,3 +1,5 @@
+import "./Messages.css";
+
 import {
   IonContent,
   IonHeader,
@@ -5,16 +7,21 @@ import {
   IonSearchbar,
   IonText,
   IonToolbar,
+  useIonViewWillEnter,
 } from "@ionic/react";
-import "./Messages.css";
+
 import RecentContacts from "../components/Messages/RecentContacts";
-import useStudents from "../hooks/student/useStudents";
 import ThreadsList from "../components/Messages/ThreadsList";
+import useStudents from "../hooks/student/useStudents";
 import useThreads from "../hooks/threads/useThreads";
 
 function Threads() {
   const { students } = useStudents();
   const { threads } = useThreads();
+
+  useIonViewWillEnter(() => {
+    document.title = "Threads | Klasmeyt";
+  }, []);
 
   return (
     <IonPage>

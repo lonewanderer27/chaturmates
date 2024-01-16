@@ -11,6 +11,7 @@ import {
   IonPage,
   IonText,
   IonToolbar,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { notifications, notificationsCircleOutline, notificationsOutline, notificationsSharp } from "ionicons/icons";
 
@@ -66,6 +67,10 @@ function DiscoverPage() {
 
   const { page, modal, presentingElement, toggleShowCreateGroup } =
     useCreateGroupModal();
+
+  useIonViewWillEnter(() => {
+    document.title = "Discover | Klasmeyt";
+  }, []);
 
   return (
     <IonPage ref={page}>

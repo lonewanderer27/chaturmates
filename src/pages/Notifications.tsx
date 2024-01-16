@@ -1,16 +1,21 @@
-import {IonContent, IonHeader, IonPage, IonText, IonToolbar,} from "@ionic/react";
 import "./Notifications.css";
-import {useState} from "react";
-import {NOTIFICATION_CATEGORY} from "../enums/notifications";
-import NotificationsCategory from "../components/Notifications/Category";
+
+import {IonContent, IonHeader, IonPage, IonText, IonToolbar, useIonViewWillEnter,} from "@ionic/react";
+
 import All from "../components/Notifications/All";
 import Archived from "../components/Notifications/Archived";
 import Following from "../components/Notifications/Following";
+import {NOTIFICATION_CATEGORY} from "../enums/notifications";
+import NotificationsCategory from "../components/Notifications/Category";
 import Pinned from "../components/Notifications/Pinned";
-
+import {useState} from "react";
 
 function Notifications() {
   const [activeSegment, setActiveSegment] = useState(NOTIFICATION_CATEGORY.ALL);
+
+  useIonViewWillEnter(() => {
+    document.title = "Notifications | Klasmeyt";
+  }, []);
 
   return (
       <IonPage>

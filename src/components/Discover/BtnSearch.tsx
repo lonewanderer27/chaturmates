@@ -1,6 +1,7 @@
 import { IonButton, IonIcon, useIonRouter } from "@ionic/react"
-import { search } from "ionicons/icons"
+
 import { ComponentProps } from "react"
+import { search } from "ionicons/icons"
 
 type BtnSearchProps = ComponentProps<typeof IonButton>
 
@@ -12,7 +13,7 @@ export default function BtnSearch(props: BtnSearchProps) {
   }
 
   return (
-    <IonButton {...props} onClick={handleClick} size="large">
+    <IonButton {...props} onClick={handleClick} size="large" className="ml-4">
       <IonIcon src={search} />
     </IonButton>
   )

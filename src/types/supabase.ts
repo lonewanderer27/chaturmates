@@ -453,33 +453,22 @@ export interface Database {
         Row: {
           code: string
           created_at: string | null
-          expiry_at: string | null
+          email: string
           id: number
-          student_id: number
         }
         Insert: {
           code: string
           created_at?: string | null
-          expiry_at?: string | null
+          email: string
           id?: number
-          student_id: number
         }
         Update: {
           code?: string
           created_at?: string | null
-          expiry_at?: string | null
+          email?: string
           id?: number
-          student_id?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "otp_codes_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       posts: {
         Row: {
@@ -696,6 +685,7 @@ export interface Database {
           email: string
           id: number
           name: string
+          nickname: string | null
           profile_url: string | null
           vanity_url: string
         }
@@ -704,6 +694,7 @@ export interface Database {
           email: string
           id?: number
           name: string
+          nickname?: string | null
           profile_url?: string | null
           vanity_url: string
         }
@@ -712,6 +703,7 @@ export interface Database {
           email?: string
           id?: number
           name?: string
+          nickname?: string | null
           profile_url?: string | null
           vanity_url?: string
         }

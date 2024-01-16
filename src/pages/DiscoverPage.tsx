@@ -1,3 +1,5 @@
+import "./Discover.css";
+
 import {
   IonButtons,
   IonContent,
@@ -10,20 +12,22 @@ import {
   IonText,
   IonToolbar,
 } from "@ionic/react";
-import "./Discover.css";
+import { notifications, notificationsCircleOutline, notificationsOutline, notificationsSharp } from "ionicons/icons";
+
+import AdminPostsGrid from "../components/Discover/AdminPostsGrid";
 import BtnSearch from "../components/Discover/BtnSearch";
-import useSession from "../hooks/auth/useSession";
-import GroupsGrid from "../components/Discover/GroupsGrid";
-import StudentsGrid from "../components/Discover/StudentsGrid";
-import { useQuery } from "@tanstack/react-query";
-import useCreateGroupModal from "../hooks/group/useCreateGroupModal";
 import GroupCreateModal from "../components/Group/GroupCreateModal";
-import useStudents from "../hooks/student/useStudents";
+import GroupsGrid from "../components/Discover/GroupsGrid";
+import NavBtn from "../components/Discover/NavBtn";
+import StudentsGrid from "../components/Discover/StudentsGrid";
+import { getAdminPosts } from "../services/group/admin/posts";
 import { getAllGroups } from "../services/group";
 import { getAllStudents } from "../services/student";
-import AdminPostsGrid from "../components/Discover/AdminPostsGrid";
-import { getAdminPosts } from "../services/group/admin/posts";
+import useCreateGroupModal from "../hooks/group/useCreateGroupModal";
+import { useQuery } from "@tanstack/react-query";
 import useSelfStudent from "../hooks/student/useSelfStudent";
+import useSession from "../hooks/auth/useSession";
+import useStudents from "../hooks/student/useStudents";
 
 function DiscoverPage() {
   const { session, nickname } = useSession();
@@ -73,6 +77,10 @@ function DiscoverPage() {
             </IonText>
             <IonButtons slot="end">
               <BtnSearch />
+              <NavBtn
+                route="/notifications"
+                icon={notificationsSharp}
+              />
             </IonButtons>
           </IonToolbar>
         </IonHeader>

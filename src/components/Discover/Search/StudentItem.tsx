@@ -1,18 +1,12 @@
-import {
-  IonAvatar,
-  IonCol,
-  IonIcon,
-  IonItem,
-  IonRow,
-  IonText,
-  useIonRouter,
-} from "@ionic/react";
-import { StudentType } from "../../../types";
-import { mail, personCircleOutline } from "ionicons/icons";
-import S from "string";
 import "./StudentItem.css";
+
+import {IonAvatar, IonCol, IonIcon, IonItem, IonRow, IonText, useIonRouter,} from "@ionic/react";
+import {mail, personCircleOutline} from "ionicons/icons";
+
 import ItemListButton from "../../ItemListButton";
-import { useMemo } from "react";
+import S from "string";
+import {StudentType} from "../../../types";
+import {useMemo} from "react";
 
 export default function StudentItem(props: {
   student: StudentType;
@@ -48,7 +42,7 @@ export default function StudentItem(props: {
         </IonAvatar>
       ) : (
         <IonIcon
-          className="studentItemIcon mr-1 ml-[-5px]"
+          className="studentItemIcon"
           slot="start"
           icon={props.icon}
         ></IonIcon>
@@ -68,7 +62,7 @@ export default function StudentItem(props: {
           )}
         </IonCol>
       </IonRow>
-      {props.showBtn && <ItemListButton buttonIcon={props.buttonIcon} />}
+      {/* {props.showBtn && <ItemListButton buttonIcon={props.buttonIcon} />} */}
     </IonItem>
   );
 }

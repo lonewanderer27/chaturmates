@@ -1,8 +1,7 @@
-import { IonList } from "@ionic/react";
+import {IonList, IonReorderGroup} from "@ionic/react";
 import GenericItem from "./GenericItem";
-import { peopleCircleOutline, personCircleOutline } from "ionicons/icons";
-import { notifications } from "../../constants/notifications";
-import { useState } from "react";
+import {notifications} from "../../constants/notifications";
+import {useState} from "react";
 
 const ns = [
   notifications[0],
@@ -16,23 +15,25 @@ export default function Archived() {
   const [nnns, setNotifications] = useState(() => ns);
 
   const handleRemove = (id: string) => {
-    setNotifications((prev) => prev.filter((n) => n.id+"" !== id));
+    setNotifications((prev) => prev.filter((n) => n.id + "" !== id));
   }
 
   return (
-    <IonList lines="full">
-      {nnns.map((notification) => (
-        <GenericItem
-          key={notification.id}
-          id={notification.id + ""}
-          title={notification.title}
-          description={notification.description}
-          date={notification.date}
-          icon={notification.icon}
-          buttons={notification.buttons}
-          handleRemove={handleRemove}
-        />
-      ))}
-    </IonList>
+      <IonReorderGroup>
+        <IonList lines="full">
+          {nnns.map((notification) => (
+              <GenericItem
+                  key={notification.id}
+                  id={notification.id + ""}
+                  title={notification.title}
+                  description={notification.description}
+                  date={notification.date}
+                  icon={notification.icon}
+                  buttons={notification.buttons}
+                  handleRemove={handleRemove}
+              />
+          ))}
+        </IonList>
+      </IonReorderGroup>
   );
 }

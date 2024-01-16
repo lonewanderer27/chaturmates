@@ -1,13 +1,31 @@
 import { client } from "../../../client";
 import { GroupResponse } from "../../../types/group";
 
-export default async function getStudentsInGroup(id: string): Promise<GroupResponse['students']['getAll']> {
+export async function approveGroupMember(id: number, studentId: number) {
   // verify if the group exists
   const group = await client.from("groups").select("*").eq("id", id).single();
 
   // if the group is not found, return an error
   if (!group) {
-    return Promise.reject("Group not found")
+    return Promise.reject("Group not found");
+  }
+
+  return client
+    .from("group_members")
+    .update({ approved: true })
+    .eq("id", id)
+    .single();
+}
+
+export default async function getStudentsInGroup(
+  id: string
+): Promise<GroupResponse["students"]["getAll"]> {
+  // verify if the group exists
+  const group = await client.from("groups").select("*").eq("id", id).single();
+
+  // if the group is not found, return an error
+  if (!group) {
+    return Promise.reject("Group not found");
   }
 
   // fetch the group members from the database
@@ -70,5 +88,5 @@ export default async function getStudentsInGroup(id: string): Promise<GroupRespo
     message: "Group students fetched successfully",
     success: true,
     error: null,
-  })
+  });
 }

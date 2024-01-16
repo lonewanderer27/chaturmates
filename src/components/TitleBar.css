@@ -20,7 +20,7 @@
 
 .backgroundBox {
   margin: auto;
-  background-color: #7BC5F0;
+  /* background-color: #7BC5F0; */
   padding-inline: 8px;
   padding-block: 2px;
   border-radius: 5px;
@@ -33,7 +33,7 @@
 .chatur {
   font-size: xx-large;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #294964;
   margin: 0;
 }
 

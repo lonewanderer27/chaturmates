@@ -1,5 +1,5 @@
-import { IonRouterOutlet } from "@ionic/react";
-import { Route } from "react-router";
+import {IonRouterOutlet} from "@ionic/react";
+import {Route} from "react-router";
 import MePage from "../pages/MePage";
 
 export default function ProfileRoute() {

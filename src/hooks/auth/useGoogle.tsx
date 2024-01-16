@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { client } from "../../client";
 import { OAuthResponse } from "@supabase/supabase-js";
+import { client } from "../../client";
 import { useIonRouter } from "@ionic/react";
+import { useState } from "react";
 
 export default function useGoogle() {
   const rt = useIonRouter();

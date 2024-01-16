@@ -69,31 +69,6 @@ export default function StudentPage() {
     rt.push(`/threads`, "forward");
   };
 
-  const followed = useMemo(() => {
-    // if the current student already follows this student
-    // then set the follow button to followed
-    // else set the follow button to follow
-
-    // check if it's the current student
-    if (student?.id === Number(student_id)) {
-      return false;
-    }
-
-    if (!query.data) {
-      return false;
-    }
-
-    const currentStudent = query.data?.followers?.find(
-      (follower) => follower.id === student?.id
-    );
-
-    if (currentStudent) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [query.data]);
-
   const handleFollow = async () => {
     try {
       setfollowOperation(() => true);

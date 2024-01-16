@@ -19,6 +19,8 @@ import { searchCategoryAtom, searchQueryAtom } from "../atoms/search";
 import useGroupSearch from "../hooks/group/useGroupSearch";
 import SearchCategory from "../components/Discover/Search/SearchCategory";
 import { SEARCH_CATEGORY } from "../enums/search";
+import usePostSearch from "../hooks/post/usePostSearch";
+import PostsResults from "../components/Discover/PostsResults";
 
 export default function SearchPage() {
   const rt = useIonRouter();
@@ -29,6 +31,7 @@ export default function SearchPage() {
   const { searchHistory } = useSearchHistory();
   const { handleStudentsSearch, studentsResults } = useStudentSearch();
   const { handleGroupSearch, groupsResults } = useGroupSearch();
+  const { handlePostSearch, groupPosts } = usePostSearch();
   const { handleSearch } = useSearch();
 
   const [activePage, setActivePage] = useAtom(searchCategoryAtom);
@@ -45,6 +48,7 @@ export default function SearchPage() {
                 handleSearch(ev.detail.value!);
                 handleStudentsSearch(ev.detail.value!);
                 handleGroupSearch(ev.detail.value!);
+                handlePostSearch(ev.detail.value!);
               }}
               debounce={750}
               onIonInput={(ev) => {
@@ -52,6 +56,7 @@ export default function SearchPage() {
                 handleSearch(ev.detail.value!);
                 handleStudentsSearch(ev.detail.value!);
                 handleGroupSearch(ev.detail.value!);
+                handlePostSearch(ev.detail.value!);
               }}
               placeholder='Example Letter "J"'
               mode="md"
@@ -73,6 +78,10 @@ export default function SearchPage() {
         {activePage === SEARCH_CATEGORY.ALL ||
           activePage === SEARCH_CATEGORY.GROUPS ? (
             <GroupsResults groups={groupsResults} />
+          ) : null}
+        {activePage === SEARCH_CATEGORY.ALL ||
+          activePage === SEARCH_CATEGORY.POST ? (
+            <PostsResults posts={groupPosts} />
           ) : null}
       </IonContent>
     </IonPage>

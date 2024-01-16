@@ -8,26 +8,32 @@ import {
   IonLabel,
   IonPage,
   IonRow,
+  IonSpinner,
   IonText,
+  useIonAlert,
+  useIonRouter,
 } from "@ionic/react";
-import TitleBar from "../components/TitleBar";
+import {useEffect, useRef, useState} from "react";
+
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
-import { close } from "ionicons/icons";
-import { useHistory } from "react-router";
-import { useState, useEffect, useRef } from "react";
 import SignupModal from "../components/Auth/SignupModal";
-import { client } from "../client";
-import useSession from "../hooks/auth/useSession";
+import TitleBar from "../components/TitleBar";
+import {client} from "../client";
+import {close} from "ionicons/icons";
+import {passwordResetEmailAtom} from "../atoms/auth";
+import {useAtom} from "jotai";
+import {useHistory} from "react-router";
 
 export default function ForgotMyPassword() {
-  const { session } = useSession();
+  const [show, hide] = useIonAlert();
   const page = useRef<HTMLElement>();
   const hst = useHistory();
+  const rt = useIonRouter();
 
   const modal = useRef<HTMLIonModalElement>(null);
 
   const [presentingElement, setPresentingElement] = useState<
-    HTMLElement | undefined
+      HTMLElement | undefined
   >();
   const [showSignup, setShowSignup] = useState(false);
 
@@ -50,80 +56,101 @@ export default function ForgotMyPassword() {
     };
   }, []);
 
+  const [processing, setProcessing] = useState(false);
+  const [resetEmail, setResetEmail] = useAtom(passwordResetEmailAtom);
+
   const handleForgotPass = async () => {
-    // TODO: implement logic
+    // set processing to true
+    setProcessing(true);
+
     const response = await client.auth.resetPasswordForEmail(
-      session?.user.email!
+        resetEmail!,
+        {
+          redirectTo: "/me",
+        }
     );
 
     if (response.error) {
+      console.log("forgotpass error", response.error);
+      show({
+        header: "Error",
+        message: response.error.message,
+        buttons: ["Ok"],
+      });
+      setProcessing(false);
       return;
     }
 
     // if the backend returns success, then
     // push the user to forgot my pass confirm page
-    console.log("response.data", response.data);
+    console.log("forgotpass response", response);
+    setResetEmail(null);
+    setProcessing(false);
     hst.push("/forgotpass/confirm");
   };
 
   return (
-    <IonPage ref={page}>
-      <IonContent fullscreen className="forgotMyPassPage">
-        <TitleBar />
-        <IonGrid className="ion-padding">
-          <IonRow>
-            <IonButton
-              className="ml-[-18px]"
-              fill="clear"
-              onClick={() =>
-                hst.push("/login", {
-                  direction: "back",
-                })
-              }
-            >
-              <IonIcon src={close} />
-            </IonButton>
-          </IonRow>
-          <IonRow className="px-1">
-            <IonText>
-              <h1 className="text-2xl font-semibold  font-poppins">
-                Oh no, I forgot!
-              </h1>
-            </IonText>
-            <IonText className=" font-poppins">
-              <p>
-                Enter your email, or username and we'll send you a link to
-                change a new password
-              </p>
-            </IonText>
-          </IonRow>
-          <IonRow className="mt-4">
-            <IonCol size="12">
-              <IonLabel className="my-2">
-                <IonText className=" font-poppins">Email or Username</IonText>
-              </IonLabel>
-              <IonInput className="custom my-1"></IonInput>
-            </IonCol>
-          </IonRow>
-          <IonRow className="mb-4">
-            <IonCol size="12">
+      <IonPage ref={page}>
+        <IonContent fullscreen className="forgotMyPassPage">
+          <TitleBar/>
+          <IonGrid className="ion-padding">
+            <IonRow>
               <IonButton
-                expand="block"
-                onClick={handleForgotPass}
-                className="font-poppins font-bold"
+                  className="ml-[-18px]"
+                  fill="clear"
+                  onClick={() =>
+                      hst.push("/login", {
+                        direction: "back",
+                      })
+                  }
               >
-                Forgot Password
+                <IonIcon src={close}/>
               </IonButton>
-            </IonCol>
-          </IonRow>
-          <DontHaveAnAccount handleClick={toggleShowSignup} />
-          <SignupModal
-            handleToggle={toggleShowSignup}
-            presentingElementRef={presentingElement}
-            modalRef={modal}
-          />
-        </IonGrid>
-      </IonContent>
-    </IonPage>
+            </IonRow>
+            <IonRow className="px-1">
+              <IonText>
+                <h1 className="text-2xl font-semibold  font-poppins">
+                  Oh no, I forgot!
+                </h1>
+              </IonText>
+              <IonText className=" font-poppins">
+                <p>
+                  Enter your email, or username and we'll send you a link to
+                  change a new password
+                </p>
+              </IonText>
+            </IonRow>
+            <IonRow className="mt-4">
+              <IonCol size="12">
+                <IonLabel className="my-2">
+                  <IonText className=" font-poppins">Email </IonText>
+                </IonLabel>
+                <IonInput disabled={processing} type="email" onIonInput={e => setResetEmail(e.target.value + '')}
+                          value={resetEmail}
+                          className="custom my-1 font-poppins" placeholder="Enter Email"></IonInput>
+              </IonCol>
+            </IonRow>
+            <IonRow className="mb-4">
+              <IonCol size="12">
+                <IonButton
+                    expand="block"
+                    onClick={handleForgotPass}
+                    className="font-poppins font-bold"
+                    disabled={resetEmail?.length === 0 || processing}
+                >
+                  {processing && <IonSpinner name="lines-small"/>}
+                  Send Reset Link
+                </IonButton>
+              </IonCol>
+            </IonRow>
+            <DontHaveAnAccount handleClick={toggleShowSignup}/>
+            <SignupModal
+                handleToggle={toggleShowSignup}
+                presentingElementRef={presentingElement}
+                modalRef={modal}
+            />
+          </IonGrid>
+        </IonContent>
+      </IonPage>
   );
 }

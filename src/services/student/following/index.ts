@@ -41,10 +41,9 @@ export async function followStudent(
     .eq("follower_id", student_id)
     .eq("following_id", following_id)
     .single();
-  // console.log("Already following:", alreadyFollowing);
 
   // if the student is already following the student to be followed, return an error
-  if (alreadyFollowing.data?.id) {
+  if (alreadyFollowing.data && alreadyFollowing.data.id) {
     return Promise.reject("You already follow this student");
   }
 
@@ -58,12 +57,14 @@ export async function followStudent(
     })
     .select("*")
     .single();
-  console.log("Followed:", followed);
+  
 
   // if the student could not be followed, reject the promise
   if (!followed.data) {
     return Promise.reject("Could not follow");
   }
+
+  console.log("Followed:", followed);
 
   return Promise.resolve({
     error: null,

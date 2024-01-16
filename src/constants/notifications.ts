@@ -1,4 +1,4 @@
-import { personCircleOutline } from "ionicons/icons";
+import {personCircleOutline} from "ionicons/icons";
 
 export const notifications = [
   {
@@ -71,4 +71,18 @@ export const notifications = [
       },
     ],
   },
+  {
+    id: 8,
+    title: "TBI for 1st Semester is now available",
+    description: "Heads up, Klasmeyts! Please be informed that the Teacher’s Behavior Inventory (TBI) for the 1st Semester is now available.",
+    date: new Date(),
+    icon: personCircleOutline,
+  },
+  {
+    id: 9,
+    title: "TBI Procedures for Clearance Due to Non-compliance",
+    description: "Procedures for Clearance Due to Non-compliance with the Teacher’s Behavior Inventory (TBI) of the 1st Semester of SY 2023-2024",
+    date: new Date(),
+    icon: personCircleOutline,
+  }
 ];

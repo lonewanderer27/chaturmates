@@ -1,10 +1,8 @@
-import { StudentType, ProfileType } from "../../types";
-import { useEffect, useState } from "react";
 import useSession from "../auth/useSession";
-import { client } from "../../client";
+import {client} from "../../client";
 import useProfile from "../profile/useProfile";
-import { useQuery } from "@tanstack/react-query";
-import { getStudentById } from "../../services/student";
+import {useQuery} from "@tanstack/react-query";
+import {getStudentById} from "../../services/student";
 
 export function useFindStudent(student_id: string) {
   const query = useQuery({
@@ -28,7 +26,7 @@ export default function useSelfStudent() {
       const res = (
         await client
           .from("students")
-          .select("*")
+          .select("*, schools(*), academic_years(*)")
           .eq("profile_id", profile!.id)
           .single()
       ).data;
@@ -53,5 +51,7 @@ export default function useSelfStudent() {
     groups: query2.data?.groups ?? null,
     followers: query2.data?.followers ?? null,
     following: query2.data?.following ?? null,
+    school: query.data?.schools ?? null,
+    academic_year: query.data?.academic_years ?? null,
   };
 }

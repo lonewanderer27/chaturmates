@@ -1,6 +1,7 @@
 import {
   CollegeType,
   CourseType,
+  GroupChatUrlType,
   GroupMemberType,
   GroupType,
   StudentType,
@@ -59,6 +60,7 @@ export interface GroupResponse {
         memberCount?: number;
         group_members: ExpandedGroupMemberType[];
       };
+      chat_urls: GroupChatUrlType[];
       college?: CollegeType;
       course?: CourseType;
       members: {

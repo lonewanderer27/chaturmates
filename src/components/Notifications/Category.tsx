@@ -1,6 +1,6 @@
-import { IonSegment, IonSegmentButton, IonLabel } from "@ionic/react";
-import { NOTIFICATION_CATEGORY } from "../../enums/notifications";
-import { ComponentProps } from "react";
+import {IonLabel, IonSegment, IonSegmentButton} from "@ionic/react";
+import {NOTIFICATION_CATEGORY} from "../../enums/notifications";
+import {ComponentProps} from "react";
 
 type IonSegmentProps = ComponentProps<typeof IonSegment>;
 
@@ -25,6 +25,9 @@ export default function NotificationsCategory(
       </IonSegmentButton>
       <IonSegmentButton value={NOTIFICATION_CATEGORY.ARCHIVE}>
         <IonLabel>Archive</IonLabel>
+      </IonSegmentButton>
+      <IonSegmentButton value={NOTIFICATION_CATEGORY.PINNED}>
+        <IonLabel>Pinned</IonLabel>
       </IonSegmentButton>
     </IonSegment>
   );

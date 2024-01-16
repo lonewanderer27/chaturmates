@@ -1,39 +1,37 @@
+import "./Group.css";
+
 import {
-  IonAvatar,
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonCard,
-  IonCol,
   IonContent,
-  IonFabButton,
-  IonGrid,
-  IonHeader,
-  IonIcon,
   IonPage,
   IonProgressBar,
   IonRow,
+  IonSpinner,
   IonText,
-  IonToolbar,
   useIonLoading,
   useIonRouter,
 } from "@ionic/react";
-import "./Group.css";
-import { chevronBack, peopleCircleOutline } from "ionicons/icons";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import GroupMembers from "../components/Group/GroupMembers";
+import {getGroupByVanityUrl, groupJoin, groupLeave} from "../services/group";
+import {useEffect, useState} from "react";
+
+import ApprovedGroupMembers from "../components/Group/ApprovedGroupMembers";
+import GroupChatUrls from "../components/Group/GroupChatUrls";
+import GroupDescription from "../components/Group/GroupDescription";
+import GroupHeader from "../components/Group/GroupHeader";
+import PendingGroupMembers from "../components/Group/PendingGroupMembers";
+import {useParams} from "react-router";
+import {useQuery} from "@tanstack/react-query";
 import useSelfStudent from "../hooks/student/useSelfStudent";
-import { useQuery } from "@tanstack/react-query";
-import { getGroupByVanityUrl } from "../services/group";
 
 export default function GroupPage() {
   const rt = useIonRouter();
   const [show, close] = useIonLoading();
-  const { student } = useSelfStudent();
-  const { vanity_id } = useParams<{ vanity_id: string }>();
+  const {student} = useSelfStudent();
+  const [joining, setJoining] = useState(false);
+  const {vanity_id} = useParams<{ vanity_id: string }>();
 
-  const query = useQuery({
+  const q = useQuery({
     queryKey: ["group", vanity_id],
     queryFn: async () => {
       const res = (await getGroupByVanityUrl(vanity_id)).data;
@@ -42,21 +40,21 @@ export default function GroupPage() {
     enabled: !!vanity_id,
   });
 
-  console.log("groupMembers: ", query.data?.members);
-  console.log("admins", query.data?.admins);
+  console.log("groupMembers: ", q.data?.members);
+  console.log("admins", q.data?.admins);
 
   const [join, setJoin] = useState(true);
 
   useEffect(() => {
-    const stud = query.data?.members?.all.find(
-      (member) => member.student_id === student?.id
+    const stud = q.data?.members?.all.find(
+        (member) => member.student_id === student?.id
     );
     if (stud) {
       setJoin(true);
     } else {
       setJoin(false);
     }
-  }, [query.data?.members]);
+  }, [q.data?.members]);
 
   const handleBack = () => {
     if (rt.canGoBack()) {
@@ -65,90 +63,111 @@ export default function GroupPage() {
     rt.push("/discover", "back");
   };
 
-  const toggleJoin = () => {
-    setJoin(!join);
+  const handleMessage = () => {
+    rt.push("/threads");
   };
 
+  const delay = (delayInms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, delayInms));
+  };
+
+  const handleJoin = async () => {
+    setJoining(() => true);
+    await delay(1000);
+    try {
+      const res = await groupJoin(
+          student?.id!,
+          q.data?.group?.id!,
+          student!.profile_id!
+      );
+      console.log("join group: ", res.data);
+      setJoining(() => false);
+    } catch {
+      setJoining(() => false);
+    }
+
+    await q.refetch();
+    setJoining(() => false);
+  };
+
+  const handleLeave = async () => {
+    setJoining(() => true);
+    await delay(1000);
+    try {
+      const res = await groupLeave(
+          student?.id!,
+          q.data?.group?.id!,
+          student!.profile_id!
+      );
+      console.log("leave group: ", res);
+      setJoining(() => false);
+    } catch {
+      setJoining(() => false);
+    }
+    await q.refetch();
+    setJoining(() => false);
+  };
+
+
+
   return (
-    <IonPage>
-      <IonContent fullscreen className="groupPage">
-        <IonCard className="groupPageCard">
-          {!query.data && <IonProgressBar type="indeterminate" />}
-          {
-            <IonFabButton
-              size="small"
-              className="ml-3 mt-3 mb-[-70px]"
-              onClick={handleBack}
-            >
-              <IonIcon src={chevronBack}></IonIcon>
-            </IonFabButton>
-          }
-          <IonGrid>
-            <IonRow className="ion-justify-content-center ion-padding">
-              {query.data?.group?.avatar_url ? (
-                <IonCol size="4">
-                  <img
-                    className="groupPageLogo rounded-full"
-                    src={query.data?.group?.avatar_url}
-                  />
-                </IonCol>
-              ) : (
-                <IonIcon
-                  className="groupPageIcon"
-                  src={peopleCircleOutline}
-                ></IonIcon>
-              )}
-            </IonRow>
-            <IonText className=" font-poppins text-center font-light text-lg">
-              <p className="pageTitle">{query.data?.group?.name}</p>
-              <p>Regular</p>
-            </IonText>
-            {query.data && (
-              <IonRow className="ion-justify-content-center ion-margin-vertical">
-                {join === false ? (
-                  <>
-                    <IonButton
+      <IonPage>
+        <IonContent fullscreen className="groupPage">
+          <IonCard className="groupPageCard">
+            {q.isLoading && <IonProgressBar type="indeterminate"/>}
+            <GroupHeader handleBack={handleBack} groupName={q.data?.group.name} isLoading={q.isLoading}/>
+            {q.data && (
+                <IonRow className="ion-justify-content-center ion-margin-vertical">
+                  {!q.data.students.all.find(
+                      (std) => std.id === student?.id
+                  ) ? (
+                      <IonButton
+                          disabled={joining}
+                          className="ion-margin-horizontal font-poppins"
+                          shape="round"
+                          size="small"
+                          color="success"
+                          onClick={handleJoin}
+                      >
+                        {joining ? (
+                            <IonSpinner name="lines"/>
+                        ) : (
+                            <IonText>Join</IonText>
+                        )}
+                      </IonButton>
+                  ) : (
+                      <IonButton
+                          disabled={joining}
+                          className="ion-margin-horizontal font-poppins"
+                          shape="round"
+                          size="small"
+                          color="danger"
+                          onClick={handleLeave}
+                      >
+                        {joining ? (
+                            <IonSpinner name="lines"/>
+                        ) : (
+                            <IonText>Leave</IonText>
+                        )}
+                      </IonButton>
+                  )}
+                  <IonButton
+                      onClick={handleMessage}
                       className="ion-margin-horizontal font-poppins"
                       shape="round"
                       size="small"
-                      color="success"
-                      onClick={toggleJoin}
-                    >
-                      <IonText>Join</IonText>
-                    </IonButton>
-                  </>
-                ) : (
-                  <>
-                    <IonButton
-                      className="ion-margin-horizontal font-poppins"
-                      shape="round"
-                      size="small"
-                      color="danger"
-                      onClick={toggleJoin}
-                    >
-                      <IonText>Leave</IonText>
-                    </IonButton>
-                  </>
-                )}
-                <IonButton
-                  disabled
-                  className="ion-margin-horizontal font-poppins"
-                  shape="round"
-                  size="small"
-                >
-                  <IonText>Message</IonText>
-                </IonButton>
-              </IonRow>
+                  >
+                    <IonText>Message</IonText>
+                  </IonButton>
+                </IonRow>
             )}
-            <IonText className="text-center ion-margin-vertical font-medium font-poppins">
-              <p style={{ textAlign: "center" }} className="px-2">
-                {query.data?.group?.description}
-              </p>
-            </IonText>
-            <GroupMembers members={query.data?.students.all!} />
-          </IonGrid>
-        </IonCard>
-      </IonContent>
-    </IonPage>
+
+            <GroupDescription isLoading={q.isLoading} groupDescription={q.data?.group.description}/>
+            <ApprovedGroupMembers members={q.data?.students.approved!} isLoading={q.isLoading}/>
+            <PendingGroupMembers vanity_id={q.data?.group.vanity_id} members={q.data?.students.pending} isLoading={q.isLoading}/>
+            <GroupChatUrls groupChatUrls={q.data?.chat_urls} isLoading={q.isLoading}/>
+          </IonCard>
+        </IonContent>
+      </IonPage>
   );
 }

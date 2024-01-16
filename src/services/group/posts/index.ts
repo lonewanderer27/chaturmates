@@ -15,7 +15,7 @@ export async function getGroupPostsByVanityUrl(vanity_id: string) {}
 export async function getGroupPostById(post_id: string) {
   const post = await client
     .from("group_posts")
-    .select("*, groups(*, group_members(*), students(*))")
+    .select("*, groups(*)")
     .eq("id", post_id)
     .single();
 

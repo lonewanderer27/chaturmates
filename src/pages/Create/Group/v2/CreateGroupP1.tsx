@@ -112,7 +112,7 @@ export default function CreateGroupP1() {
 
     if (res.error) {
       console.log(res.error.message);
-      show({
+      await show({
         header: "Error",
         message: "Something went wrong. Please try again",
         buttons: ['OK']

@@ -1,7 +1,59 @@
 // @ts-nocheck
 
-import { client } from "../../client";
-import { GroupResponse, GroupsResponse } from "../../types/group";
+import {client} from "../../client";
+import {GroupResponse, GroupsResponse} from "../../types/group";
+
+export async function groupLeave(
+  student_id: number,
+  group_id: number,
+  profile_id: string
+) {
+  const group_member = await client
+    .from("group_members")
+    .eq("student_id", student_id)
+    .eq("group_id", group_id)
+    .eq("profile_id", profile_id)
+    .delete();
+
+  if (!group_member.data) {
+    return Promise.reject("Failed to leave group");
+  }
+
+  return {
+    message: "Group left successfully",
+    error: null,
+    success: true,
+  };
+}
+
+export async function groupJoin(
+  student_id: number,
+  group_id: number,
+  profile_id: string
+) {
+  const group_member = await client
+    .from("group_members")
+    .insert({
+      student_id,
+      group_id,
+      profile_id,
+    })
+    .select("*")
+    .single();
+
+  if (!group_member.data) {
+    return Promise.reject("Failed to join group");
+  }
+
+  return {
+    data: {
+      group_member: group_member.data,
+    },
+    message: "Group joined successfully",
+    error: null,
+    success: true,
+  };
+}
 
 export async function getAllGroups(): Promise<GroupsResponse["getAll"]> {
   const groups = await client

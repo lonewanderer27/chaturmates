@@ -10,11 +10,6 @@ import {
   IonFooter,
   IonHeader,
   IonIcon,
-  IonInput,
-  IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
   IonList,
   IonModal,
   IonPage,
@@ -25,21 +20,15 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { useQuery } from "@tanstack/react-query";
-import { chevronBack, send, sendOutline } from "ionicons/icons";
-import { useParams } from "react-router";
-import {
-  getGroupPostById,
-  getGroupPostComments,
-} from "../services/group/posts";
-import { useEffect, useMemo, useRef, useState } from "react";
-import CommentList, {
-  ExtendedCommentType,
-} from "../components/Group/Post/Comment/CommentList";
-import { client } from "../client";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string } from "yup";
+import {useQuery} from "@tanstack/react-query";
+import {chevronBack, send} from "ionicons/icons";
+import {useParams} from "react-router";
+import {getGroupPostById, getGroupPostComments,} from "../services/group/posts";
+import {useEffect, useMemo, useRef, useState} from "react";
+import {client} from "../client";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {object, string} from "yup";
 import GroupPostComment from "../components/Group/Post/Comment/Comment";
 import useSelfStudent from "../hooks/student/useSelfStudent";
 
@@ -92,6 +81,7 @@ export default function GroupPostPage() {
     control,
     handleSubmit,
     setError,
+    clearErrors,
     getFieldState,
     formState: { errors },
   } = useForm<{ comment: string }>({
@@ -110,6 +100,7 @@ export default function GroupPostPage() {
     data
   ) => {
     setPosting(() => true);
+    clearErrors("comment");
 
     // check if the comment's empty
     if (data.comment.length === 0) {
@@ -120,57 +111,113 @@ export default function GroupPostPage() {
       return;
     }
 
-    // check if the group is an admin group
-    if (pquery.data?.groups?.admin_uni_group) {
-      // if it's an admin group, check if the student is not a member
-      if (
-        !pquery.data?.groups?.group_members?.find((m) => m.id === student?.id)
-      ) {
-        // add the student to the group
-        const res = await client
+    try {
+      // post the new comment
+      // check if the student is a member of the group
+      const isMember = await client
+        .from("group_members")
+        .select("*")
+        .eq("group_id", pquery.data!.group_id)
+        .eq("student_id", student!.id!)
+        .single();
+
+      // if the student is not a member of the group
+      // but the group is a public group for the university
+      // then add the student to the group
+
+      if (!isMember.data && pquery.data!.groups!.admin_uni_group) {
+        // the student is not a member of the group
+        // but the group is a public group for the university
+        // so add the student to the group
+        console.log("student is not a member, but the group is a public group");
+        console.log("adding student to the group");
+
+        const newGroupMember = await client
           .from("group_members")
           .insert({
             group_id: pquery.data!.group_id,
             student_id: student!.id!,
-            profile_id: profile!.id!,
+            profile_id: student!.profile_id!,
           })
           .select("*")
           .single();
+
+        if (!newGroupMember.data) {
+          console.log("Error joining group");
+          console.log(newGroupMember.error);
+          setPosting(() => false);
+          return;
+        }
+
+        // joining the group was successful
+        // now post the comment
+
+        const res = await client
+          .from("group_comments")
+          .insert({
+            post_id: pquery.data!.id!,
+            member_id: newGroupMember.data.id!,
+            student_id: student!.id!,
+            content: data.comment!,
+          })
+          .select("*")
+          .single();
+
         if (!res.data) {
-          console.log("Error adding student to group");
+          console.log("Error posting comment");
           console.log(res.error);
           setPosting(() => false);
           return;
         }
+
+        // posting the comment was successful
+        // refetch the latest comments
+        await pquery.refetch();
+        setPosting(() => false);
+
+        // clear the comment box
+        setValue("comment", "");
+      } else {
+        // the student is already a member of the group
+        // assign the newGroupMember variable
+        // to the isMember variable
+        console.log("student is already a member of the group");
+        console.log("posting comment");
+
+        const res = await client
+          .from("group_comments")
+          .insert({
+            post_id: pquery.data!.id!,
+            member_id: Number.parseInt(profile!.id! + ""),
+            student_id: student!.id!,
+            content: data.comment!,
+          })
+          .select("*")
+          .single();
+
+        if (!res.data) {
+          console.log("Error posting comment");
+          console.log(res.error);
+          setPosting(() => false);
+          return;
+        }
+
+        // posting the comment was successful
+        // refetch the latest comments
+        await pquery.refetch();
+        setPosting(() => false);
+
+        // clear the comment box
+        setValue("comment", "");
       }
-    }
-
-    // post the new comment
-    const res = await client
-      .from("group_comments")
-      .insert({
-        post_id: pquery.data!.id!,
-        member_id: Number(profile!.id!),
-        student_id: student!.id!,
-        content: data.comment!,
-      })
-      .select("*")
-      .single();
-
-    if (!res.data) {
+    } catch {
+      setError("comment", {
+        type: "custom",
+        message: "Error posting comment",
+      });
       console.log("Error posting comment");
-      console.log(res.error);
       setPosting(() => false);
-      return;
     }
-
-    // posting the comment was successful
-    // refetch the latest comments
-    await pquery.refetch();
-    setPosting(() => false);
-
-    // clear the comment box
-    setValue("comment", "");
   };
 
   const page = useRef(null);
@@ -185,6 +232,9 @@ export default function GroupPostPage() {
     <>
       <IonPage ref={page}>
         <IonContent>
+          <IonToolbar>
+            
+          </IonToolbar>
           <IonFabButton className="m-3" size="small" onClick={handleBack}>
             <IonIcon src={chevronBack}></IonIcon>
           </IonFabButton>
@@ -215,6 +265,7 @@ export default function GroupPostPage() {
                 {cquery.data &&
                   cquery.data.map((comment) => (
                     <GroupPostComment
+                      key={comment.id}
                       student={comment.students! ?? null}
                       comment={comment}
                     />

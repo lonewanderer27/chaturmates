@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
-import useSession from "../auth/useSession"
-import { ProfileType } from "../../types";
 import { client } from "../../client";
+import { useQuery } from "@tanstack/react-query";
+import useSession from "../auth/useSession"
 
 export default function useProfile() {
   const { session } = useSession();
-  const [profile, setProfile] = useState<ProfileType>();
 
-  useEffect(() => {
-    (async () => {
-      if (session) {
-        const response = (await client.from("profiles").select("*").eq("id", session.user.id).single()).data;
-        setProfile(response as ProfileType);
-      }
-    })();
-  }, [session])
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const response = (await client.from("profiles").select("*, students(*)").eq("id", session!.user.id).single()).data;
+      console.log("profile response:", response)
+      return response;
+    },
+    enabled: session !== undefined && session !== null
+  });
 
   return {
     profile

@@ -7,7 +7,7 @@ export default function GroupPostComment(props: {
   comment: GroupCommentType;
 }) {
   return (
-    <div className="my-2">
+    <div className="my-2 px-0">
       <div className="mx-[-20px] mb-[-3px]">
         {props.student && (
           <StudentItem

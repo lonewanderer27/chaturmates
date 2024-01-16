@@ -1,6 +1,5 @@
 import {
   IonButton,
-  IonCol,
   IonGrid,
   IonIcon,
   IonItem,
@@ -8,10 +7,11 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonReorder,
   IonRow,
 } from "@ionic/react";
-import { notificationsOutline, removeOutline } from "ionicons/icons";
-import { ComponentProps } from "react";
+import {notificationsOutline} from "ionicons/icons";
+import {ComponentProps} from "react";
 import "./GenericItem.css";
 
 type IonItemProps = ComponentProps<typeof IonItem>;
@@ -64,6 +64,7 @@ export default function GenericItem(
             ))}
           </IonRow>
         </IonGrid>
+        <IonReorder slot={"end"}/>
       </IonItem>
     </IonItemSliding>
   );

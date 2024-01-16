@@ -1,5 +1,5 @@
-import { FollowType, GroupMemberType, GroupType, StudentType } from ".";
-import { GroupResponse } from "./group";
+import {AcademicYearType, FollowType, GroupType, SchoolType, StudentType} from ".";
+import {GroupResponse} from "./group";
 
 export interface StudentsResponse {
   getAll: {
@@ -17,6 +17,8 @@ export interface StudentResponse {
       groups: GroupResponse['get']['data']['group'][];
       followers: StudentType[];
       following: StudentType[];
+      school: SchoolType;
+      academic_year: AcademicYearType;
     };
     error: any;
     success: boolean;

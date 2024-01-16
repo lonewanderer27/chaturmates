@@ -1,7 +1,7 @@
-import { IonList } from "@ionic/react";
+import {IonList, IonReorderGroup} from "@ionic/react";
 import GenericItem from "./GenericItem";
-import { notifications } from "../../constants/notifications";
-import { memo, useMemo, useState } from "react";
+import {notifications} from "../../constants/notifications";
+import {memo, useState} from "react";
 
 function All() {
   const [nnns, setNotifications] = useState(() => notifications);
@@ -11,20 +11,22 @@ function All() {
   };
 
   return (
-    <IonList lines="full">
-      {nnns.map((notification) => (
-        <GenericItem
-          key={notification.id}
-          id={notification.id + ""}
-          title={notification.title}
-          description={notification.description}
-          date={notification.date}
-          icon={notification.icon}
-          buttons={notification.buttons}
-          handleRemove={handleRemove}
-        />
-      ))}
-    </IonList>
+      <IonList lines="full">
+        <IonReorderGroup>
+          {nnns.map((notification) => (
+              <GenericItem
+                  key={notification.id}
+                  id={notification.id + ""}
+                  title={notification.title}
+                  description={notification.description}
+                  date={notification.date}
+                  icon={notification.icon}
+                  buttons={notification.buttons}
+                  handleRemove={handleRemove}
+              />
+          ))}
+        </IonReorderGroup>
+      </IonList>
   );
 }
 

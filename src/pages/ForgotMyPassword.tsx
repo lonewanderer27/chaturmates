@@ -12,6 +12,7 @@ import {
   IonText,
   useIonAlert,
   useIonRouter,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import {useEffect, useRef, useState} from "react";
 
@@ -88,6 +89,10 @@ export default function ForgotMyPassword() {
     setProcessing(false);
     hst.push("/forgotpass/confirm");
   };
+  
+  useIonViewWillEnter(() => {
+    document.title = "Forgot My Password | Klasmeyt";
+  }, []);
 
   return (
       <IonPage ref={page}>

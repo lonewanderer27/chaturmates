@@ -12,7 +12,10 @@ import {
   IonSpinner,
   IonText,
   useIonRouter,
+  useIonViewWillEnter,
 } from "@ionic/react";
+import React, {useState} from "react";
+import {eye, eyeOff} from "ionicons/icons";
 
 import BtnContinueWithGoogle from "../components/Auth/BtnContinueWithGoogle";
 import DontHaveAnAccount from "../components/Auth/DontHaveAnAccount";
@@ -21,8 +24,6 @@ import SignupModal from "../components/Auth/SignupModal";
 import TitleBar from "../components/TitleBar";
 import {useLogin} from "../hooks/auth/useLogin";
 import {useSignupModal} from "../hooks/auth/useSignupModal";
-import React, {useState} from "react";
-import {eye, eyeOff} from "ionicons/icons";
 
 export default function Login() {
   const hst = useIonRouter();
@@ -42,6 +43,10 @@ export default function Login() {
 
   // login related functionalities
   const { handleLogin, register, handleSubmit, trigger, handleError, setValue, formState, loggingIn, getFieldState, getValues } = useLogin();
+
+  useIonViewWillEnter(() => {
+    document.title = "Login | Klasmeyt";
+  }, []);
 
   return (
     <IonPage ref={page}>

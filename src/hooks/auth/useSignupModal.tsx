@@ -15,7 +15,9 @@ export const useSignupModal = () => {
 
     if (showSignup) {
       modal.current?.dismiss();
+      document.title = "Login | Klasmeyt";
     } else {
+      document.title = "Sign Up | Klasmeyt";
       modal.current?.present();
     }
 

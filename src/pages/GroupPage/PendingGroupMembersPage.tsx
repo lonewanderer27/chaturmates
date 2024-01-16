@@ -14,12 +14,13 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import { chevronBack, peopleCircleOutline } from "ionicons/icons";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
-import useSelfStudent from "../../hooks/student/useSelfStudent";
-import { getGroupByVanityUrl } from "../../services/group";
-import { approveGroupMember } from "../../services/group/students";
+
 import PendingGroupMembers from "../../components/Group/PendingGroupMembers";
+import { approveGroupMember } from "../../services/group/students";
+import { getGroupByVanityUrl } from "../../services/group";
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useSelfStudent from "../../hooks/student/useSelfStudent";
 
 export default function PendingGroupMembersPage() {
   const rt = useIonRouter();
@@ -95,6 +96,7 @@ export default function PendingGroupMembersPage() {
             <PendingGroupMembers
               handleApprove={handleApprove}
               members={query.data?.students.pending!}
+              isLoading={query.isLoading}
             />
           </IonGrid>
         </IonCard>

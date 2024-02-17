@@ -12,6 +12,7 @@ import {
   IonText,
   useIonAlert,
   useIonRouter,
+  useIonViewDidEnter,
   useIonViewWillEnter,
 } from "@ionic/react";
 import {useEffect, useRef, useState} from "react";
@@ -50,7 +51,7 @@ export default function ForgotMyPassword() {
     setShowSignup((show) => !show);
   };
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     setPresentingElement(page.current);
     return () => {
       setPresentingElement(undefined);

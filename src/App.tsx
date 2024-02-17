@@ -37,8 +37,6 @@ import {chatboxEllipsesOutline, gridOutline, notificationsOutline, personCircleO
 import AuthWrapper from "./components/Auth/AuthWrapper";
 import CreateRoute from "./routes/CreateRoute";
 import DiscoverRoute from "./routes/DiscoverRoute";
-import ForgotMyPassConfirm from "./pages/ForgotMyPass/ForgotPassConfirm";
-import ForgotMyPassword from "./pages/ForgotMyPassword";
 import GroupRoute from "./routes/GroupRoute";
 import {IonReactRouter} from "@ionic/react-router";
 import Login from "./pages/Login";
@@ -47,6 +45,7 @@ import NotificationsRoute from "./routes/NotificationsRoute";
 import StudentRoute from "./routes/StudentRoute";
 import ThreadsRoute from "./routes/ThreadsRoute";
 import Verification from "./pages/Verification";
+import ForgotMyPassRoute from "./routes/ForgotMyPassRoute";
 
 setupIonicReact({
   mode: "ios",
@@ -80,16 +79,11 @@ function App() {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/forgotpass">
-              <ForgotMyPassword />
-            </Route>
-            <Route exact path="/forgotpass/confirm">
-              <ForgotMyPassConfirm />
-            </Route>
             <Route exact path="/verify">
               <Verification />
             </Route>
-            
+            <Route path="/forgotpass" render={() => <ForgotMyPassRoute/>}/>   
+
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="discover" href="/discover">

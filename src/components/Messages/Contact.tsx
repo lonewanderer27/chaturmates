@@ -17,7 +17,7 @@ export default function Contact(props: StudentType) {
       <IonAvatar>
         <IonIcon className="contactIcon" src={peopleCircleOutline}></IonIcon>
       </IonAvatar>
-      <p className="truncate mt-5 text-sm">{props.full_name}</p>
+      <p className="truncate mt-3 text-sm">{props.full_name}</p>
     </div>
   );
 }

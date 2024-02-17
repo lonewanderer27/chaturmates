@@ -50,7 +50,7 @@ export default function StudentCard(props: {
               <p className="studentName text-ellipsis line-clamp-1">
                 {props.student.full_name}
               </p>
-              <p className="studentType font-light mt-[-5px]">
+              <p className="font-light">
                 {S(props.student.type).capitalize().s}
               </p>
             </IonText>

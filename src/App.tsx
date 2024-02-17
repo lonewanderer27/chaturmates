@@ -46,6 +46,8 @@ import StudentRoute from "./routes/StudentRoute";
 import ThreadsRoute from "./routes/ThreadsRoute";
 import Verification from "./pages/Verification";
 import ForgotMyPassRoute from "./routes/ForgotMyPassRoute";
+import { Suspense } from "react";
+import GenericPage from "./loaders/GenericPage";
 
 setupIonicReact({
   mode: "ios",
@@ -79,8 +81,9 @@ function App() {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/verify">
+            <Route exact path="/verify" render={() => <Suspense fallback={<GenericPage/>}>
               <Verification />
+            </Suspense>}>
             </Route>
             <Route path="/forgotpass" render={() => <ForgotMyPassRoute/>}/>   
 

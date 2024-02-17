@@ -1,10 +1,12 @@
 import { IonContent, IonPage } from "@ionic/react"
 
-function GenericPage() {
+function GenericPage(props: {
+  children?: React.ReactNode
+}) {
   return (
     <IonPage>
       <IonContent fullscreen className="ion-padding">
-
+        {props.children}
       </IonContent>
     </IonPage>
   )

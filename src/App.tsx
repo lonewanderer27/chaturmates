@@ -30,15 +30,15 @@ import "./theme/typography.css"; // global text styles
 import "./theme/inputs.css"; // global input styles
 import "./theme/tabs.css"; // bottom tabs styles
 
-import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact,} from "@ionic/react";
-import {Redirect, Route} from "react-router";
-import {chatboxEllipsesOutline, gridOutline, notificationsOutline, personCircleOutline,} from "ionicons/icons";
+import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact, } from "@ionic/react";
+import { Redirect, Route } from "react-router";
+import { chatboxEllipsesOutline, gridOutline, notificationsOutline, personCircleOutline, } from "ionicons/icons";
 
 import AuthWrapper from "./components/Auth/AuthWrapper";
 import CreateRoute from "./routes/CreateRoute";
 import DiscoverRoute from "./routes/DiscoverRoute";
 import GroupRoute from "./routes/GroupRoute";
-import {IonReactRouter} from "@ionic/react-router";
+import { IonReactRouter } from "@ionic/react-router";
 import Login from "./pages/Login";
 import MeRoute from "./routes/MeRoute";
 import NotificationsRoute from "./routes/NotificationsRoute";
@@ -48,47 +48,45 @@ import Verification from "./pages/Verification";
 import ForgotMyPassRoute from "./routes/ForgotMyPassRoute";
 import { Suspense } from "react";
 import GenericPage from "./loaders/GenericPage";
+import TabBarButton from "./components/TabBarButton";
 
 setupIonicReact({
   mode: "ios",
 });
 
 function App() {
+
+
+
   return (
     <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet id="app">
 
-            <AuthWrapper> 
-              <Route path="/create" render={() => <CreateRoute />} />
+            <AuthWrapper>
+              <Route path="/" exact render={() => <Redirect to="/discover" />} />
               <Route path="/discover" render={() => <DiscoverRoute />} />
+              <Route path="/create" render={() => <CreateRoute />} />
               <Route path="/student" render={() => <StudentRoute />} />
               <Route path="/group" render={() => <GroupRoute />} />
               <Route path="/threads" render={() => <ThreadsRoute />} />
-              <Route
-                path="/notifications"
-                render={() => <NotificationsRoute />}
-              />
+              <Route path="/notifications" render={() => <NotificationsRoute />} />
               <Route path="/me" render={() => <MeRoute />} />
-              <Route
-                path="/"
-                exact
-                render={() => <Redirect to="/discover" />}
-              />
             </AuthWrapper>
 
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/verify" render={() => <Suspense fallback={<GenericPage/>}>
-              <Verification />
-            </Suspense>}>
+            <Route exact path="/verify" render={() =>
+              <Suspense fallback={<GenericPage />}>
+                <Verification />
+              </Suspense>}>
             </Route>
-            <Route path="/forgotpass" render={() => <ForgotMyPassRoute/>}/>   
+            <Route path="/forgotpass" render={() => <ForgotMyPassRoute />} />
 
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
+          <IonTabBar slot="bottom" className="font-poppins">
             <IonTabButton tab="discover" href="/discover">
               <IonIcon aria-hidden="true" icon={gridOutline} />
               <IonLabel>Discover</IonLabel>

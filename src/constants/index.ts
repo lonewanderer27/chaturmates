@@ -1,0 +1,1 @@
+export const android_package_name = "com.lonewanderer27.chaturmates";

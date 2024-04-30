@@ -34,6 +34,8 @@ import useSignup from "../../hooks/auth/useSignup";
 
 type IonModalProps = React.ComponentProps<typeof IonModal>;
 
+// TODO: Convert this to swipeable modal (Android version)
+
 export default function SignupModal(
   props: IonModalProps & {
     handleToggle: () => void;
@@ -74,7 +76,9 @@ export default function SignupModal(
   return (
     <IonModal
       id="signupModal"
-      presentingElement={props.presentingElementRef}
+      // presentingElement={props.presentingElementRef}
+      breakpoints={[0, 0.90, 1]}
+      initialBreakpoint={0.90}
       ref={props.modalRef}
     >
       <IonHeader>

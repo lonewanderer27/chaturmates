@@ -21,6 +21,9 @@ import useCreateGroupModal from "../../hooks/group/useCreateGroupModal";
 
 type IonModalProps = ComponentProps<typeof IonModal>;
 
+// TODO: Convert this to swipeable modal (Android version)
+// TODO: Use this instead of the group create pages
+
 export default function GroupCreateModal(
   props: IonModalProps & {
     handleToggle: () => void;

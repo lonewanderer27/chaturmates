@@ -315,6 +315,12 @@ export default function GroupPostPage() {
             >
               Group Rules
             </IonButton>
+
+            {/* 
+              TODO: Fill in the rules for now
+              TODO: Extract this component to separate file
+              TODO: Fetch rules of the group from database
+            */}
             <IonModal
               ref={modal}
               trigger="group_rules"

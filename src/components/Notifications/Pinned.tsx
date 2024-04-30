@@ -8,6 +8,8 @@ const ns = [
   notifications[8],
 ];
 
+// TODO: 3.8 Allow users to customize the order of pinned announcements as per their preferences.
+
 export default function Pinned() {
   const [nnns, setNotifications] = useState(() => ns);
 

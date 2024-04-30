@@ -26,6 +26,8 @@ enum passInputs {
   confirmPass = "confirmPass"
 }
 
+// TODO: Convert this to swipeable modal (Android version)
+
 export default function ChangePasswordModal(
     props: IonModalProps & {
       handleToggle: () => void;

@@ -2,6 +2,8 @@ import { OAuthResponse } from "@supabase/supabase-js";
 import { client } from "../../client";
 import { useIonRouter } from "@ionic/react";
 import { useState } from "react";
+import { Capacitor } from "@capacitor/core";
+import { android_package_name } from "../../constants";
 
 export default function useGoogle() {
   const rt = useIonRouter();
@@ -30,11 +32,24 @@ export default function useGoogle() {
   // };
 
   const handleGoogle = () => {
+
+    let redirectUrl;
+
+    // if we're in mobile app, prepend the android package name
+    if (Capacitor.isNativePlatform()) {
+      redirectUrl = `${android_package_name}://${rt.routeInfo.pathname}`;	
+    } else {
+      // if we're in web, just use the pathname
+      redirectUrl = rt.routeInfo.pathname;
+    }
+
+    console.log("redirectUrl", redirectUrl);
+
     client.auth
       .signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: rt.routeInfo.pathname,
+          redirectTo: redirectUrl, // use our constructed redirect url
           queryParams: {
             prompt: "select_account"
           }

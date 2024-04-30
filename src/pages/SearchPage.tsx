@@ -22,6 +22,9 @@ import { SEARCH_CATEGORY } from "../enums/search";
 import usePostSearch from "../hooks/post/usePostSearch";
 import PostsResults from "../components/Discover/PostsResults";
 
+// TODO: 3.4 Implement advanced filtering for groups based on courses, schedules, professors, and related academic communities.
+// TODO: 3.5 Use our recommendation system that suggests groups matching students' schedules, subjects, and professors, thereby increasing the likelihood for students, especially irregular ones, to connect with their block mates.
+
 export default function SearchPage() {
   const rt = useIonRouter();
   function handleCancel() {
